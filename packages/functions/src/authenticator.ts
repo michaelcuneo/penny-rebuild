@@ -1,6 +1,6 @@
 import { Config } from 'sst/node/config';
 import { AuthHandler, LinkAdapter } from 'sst/node/auth';
-import { create, fromEmail } from '@penny-rebuild/core/user';
+import { fromEmail } from '@penny-rebuild/core/user';
 import { mailer } from '@penny-rebuild/core/nodemailer';
 import jwt from 'jsonwebtoken';
 

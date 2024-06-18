@@ -28,7 +28,7 @@ export const actions = {
 		const user = await userResponse.json();
 
 		// If user does not exist, return an error response
-		if (!user) {
+		if (user === "User doesn't exist") {
 			return { success: false, error: 'User does not exist' };
 		}
 

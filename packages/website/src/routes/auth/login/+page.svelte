@@ -15,6 +15,9 @@
 		submitted = true;
 	};
 
+	$: !form?.success && setTimeout(() => { submitted = false }, 3000);
+		
+
 	$: disabled = focused || !value || !dirty || invalid;
 
 	/** @type {import('./$types').ActionData} */
@@ -54,6 +57,10 @@
 		<h3>
 			An email has been sent to {value}, click on the link in the email to sign in.
 		</h3>
+	</div>
+{:else if !form?.success}
+	<div class="wrapper">
+		<h3>{form?.error}</h3>
 	</div>
 {/if}
 
