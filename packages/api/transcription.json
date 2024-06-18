@@ -1,0 +1,12 @@
+{
+    "toxicity_results": {
+        "toxicity": 0.00429,
+        "severe_toxicity": 0.0,
+        "obscene": 6e-05,
+        "identity_attack": 0.00173,
+        "insult": 0.00054,
+        "threat": 7e-05,
+        "sexual_explicit": 3e-05
+    },
+    "censored_text": "And so, my fellow Americans ask not what your country can do for you ask what you can do for your country. "
+}

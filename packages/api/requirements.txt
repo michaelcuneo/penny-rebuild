@@ -1,0 +1,7 @@
+uvicorn
+fastapi
+pyaudio
+faster_whisper
+detoxify
+profanityfilter
+pandas
