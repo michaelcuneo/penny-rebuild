@@ -49,8 +49,8 @@ export const handler = AuthHandler({
 					headers: {
 						Location:
 							process.env.IS_LOCAL
-								? 'http://' + Config.DEV_DOMAIN_NAME + `/auth/callback?token=${token}`
-								: 'https://' + Config.PROD_DOMAIN_NAME + `/auth/callback?token=${token}`
+								? `http://localhbost:3000/auth/callback?token=${token}`
+								: `https://penny.soci.org.au/auth/callback?token=${token}`
 					},
 					body: JSON.stringify({
 						type: 'user',

@@ -11,7 +11,9 @@
 	let lastName = '';
 	let email = '';
 	let fileId = '';
+	let fileType = '';
 	let uploading = false;
+	let thanks = false;
 
 	const reset = () => {
 		firstName = '';
@@ -28,26 +30,38 @@
 	let pond: FilePond;
 
 	const handleInit = () => {
+		fileId = data.id;
 		// console.log('FilePond has initialised', pond);
 	};
 
-	const handleAddFile = (err: string, fileItem: any) => {
+	const handleAddFile = async (err: string, fileItem: any) => {
+		const file = fileItem.file as File;
+		const upload = await fetch (data.url, {
+			method: 'PUT',
+			body: file,
+			headers: {
+				'Content-Type': file.type,
+				'Content-Disposition': `attachment; filename=${file.name}`
+			}
+		})
+
+		if (upload.ok) {
+			fileType = fileItem.file.type;
+			submitDisabled = false;
+			return;
+		}
+
 		if (err) {
-			// console.log('FilePond has thrown an error', err, fileItem);
 			return;
 		}
 	};
 
-	const handleProcessFile = (err: string, fileItem: any) => {
-		if (err) {
-			// console.log('FilePond has thrown an error', err, fileItem);
-			return;
-		}
-		fileId = fileItem.file.name;
-		submitDisabled = false;
-	};
+	$: form?.success && setTimeout(() => { thanks = true }, 2000);
+
+	export let data, form;
 </script>
 
+{#if !thanks}
 <div class="page" in:fade>
 	<h1>Upload Content to Penny</h1>
 	<div class="questions">
@@ -82,15 +96,14 @@
 				label="Email"
 			/>
 			<input type="hidden" name="fileId" bind:value={fileId} />
+			<input type="hidden" name="fileType" bind:value={fileType} />
 			<div class="filepond">
 				<FilePond
 					bind:this={pond}
 					disabled={fileDisabled}
-					server="?/upload"
 					allowMultiple={false}
 					oninit={handleInit}
 					onaddfile={handleAddFile}
-					onprocessfile={handleProcessFile}
 				/>
 			</div>
 			<div style="display: flex; justify-content: flex-end;">
@@ -102,6 +115,11 @@
 		</form>
 	</div>
 </div>
+{:else}
+	<div class="page" in:fade>
+		<h1>Thanks for your submission! We will take a look and see if we can add it to the Pennies</h1>
+	</div>
+{/if}
 
 <style>
 	.page {

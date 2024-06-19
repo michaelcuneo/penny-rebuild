@@ -25,13 +25,14 @@ export function TableStack({ stack }: StackContext) {
     primaryIndex: { partitionKey: "id" },
   });
 
-  const contentTable = new Table(stack, "Content", {
+  const uploadsTable = new Table(stack, "Uploads", {
     fields: {
       id: "string",
       firstName: "string",
       lastName: "string",
       email: "string",
       uploadId: "string",
+      uploadType: "string",
       approved: "binary",
       likes: "number",
     },
@@ -47,5 +48,5 @@ export function TableStack({ stack }: StackContext) {
     primaryIndex: { partitionKey: "id" },
   })
 
-  return { usersTable, postcardTable, questionTable, contentTable, contactTable };
+  return { usersTable, postcardTable, questionTable, uploadsTable, contactTable };
 };

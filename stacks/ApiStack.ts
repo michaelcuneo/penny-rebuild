@@ -2,7 +2,7 @@ import { StackContext, Api, use } from "sst/constructs";
 import { TableStack } from "./TableStack";
 
 export function ApiStack({ stack }: StackContext) {
-  const { usersTable, contentTable, questionTable, postcardTable, contactTable } = use(TableStack);
+  const { usersTable, uploadsTable, questionTable, postcardTable, contactTable } = use(TableStack);
 
   const api = new Api(stack, "api", {
     cors: {
@@ -15,7 +15,7 @@ export function ApiStack({ stack }: StackContext) {
       function: {
         bind: [
           usersTable,
-          contentTable,
+          uploadsTable,
           questionTable,
           postcardTable,
           contactTable,
@@ -23,18 +23,18 @@ export function ApiStack({ stack }: StackContext) {
       }
     },
     routes: {
-      "GET /api": "packages/functions/src/main.handler",
-      "POST /api/user/create": "packages/functions/src/user.handler",
-      "GET /api/user/getUserByEmail/{email}": "packages/functions/src/userByEmail.handler",
-      "POST /api/question/create": "packages/functions/src/question.create",
-      "GET /api/question/list": "packages/functions/src/question.list",
-      "POST /api/postcard/create": "packages/functions/src/postcard.create",
-      "GET /api/postcard/list": "packages/functions/src/postcard.list",
-      "POST /api/upload/create": "packages/functions/src/upload.create",
-      "GET /api/upload/list": "packages/functions/src/upload.list",
-      "PUT /api/upload/update": "packages/functions/src/upload.update",
-      "POST /api/contact/create": "packages/functions/src/contact.create",
-      "GET /api/contact/list": "packages/functions/src/contact.list",
+      "GET /": "packages/functions/src/main.handler",
+      "POST /user/create": "packages/functions/src/userCreate.handler",
+      "GET /user/getUserByEmail/{email}": "packages/functions/src/userByEmail.handler",
+      "POST /question/create": "packages/functions/src/question.create",
+      "GET /question/list": "packages/functions/src/question.list",
+      "POST /postcard/create": "packages/functions/src/postcard.create",
+      "GET /postcard/list": "packages/functions/src/postcard.list",
+      "POST /upload/create": "packages/functions/src/upload.create",
+      "GET /upload/list": "packages/functions/src/upload.list",
+      "PUT /upload/update": "packages/functions/src/upload.update",
+      "POST /contact/create": "packages/functions/src/contact.create",
+      "GET /contact/list": "packages/functions/src/contact.list",
     },
   });
 

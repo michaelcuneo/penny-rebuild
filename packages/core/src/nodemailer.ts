@@ -1,6 +1,5 @@
 import nodemailer from 'nodemailer';
 import { email } from './email';
-
 import { Config } from 'sst/node/config';
 
 type Mailer = {
@@ -23,8 +22,8 @@ export const mailer = async (data: Mailer) => {
   const mailOptions = {
     from: Config.EMAIL_USER,
     to: data.email,
-    subject: `Hello, here is your Login Link for ${Config.PROJECT_NAME}`,
-    html: email(data.authUrl, Config.PROJECT_NAME)
+    subject: `Hello, here is your Login Link for Penny`,
+    html: email(data.authUrl, 'Penny')
   };
 
   return Transporter.sendMail(mailOptions)

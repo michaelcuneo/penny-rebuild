@@ -9,8 +9,9 @@ export const create: APIGatewayProxyHandlerV2 = async (event) => {
   const lastName = event?.queryStringParameters?.lastName as string;
   const email = event?.queryStringParameters?.email as string;
   const uploadId = event?.queryStringParameters?.uploadId as string;
+  const uploadType = event?.queryStringParameters?.uploadType as string;
 
-  await Upload.create(firstName, lastName, email, uploadId);
+  await Upload.create(firstName, lastName, email, uploadId, uploadType);
 
   return {
     statusCode: 200,
