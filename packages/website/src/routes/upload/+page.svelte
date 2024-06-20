@@ -119,6 +119,11 @@
 				>
 			</div>
 		</form>
+		<h2>Disclaimer</h2>
+		<span>Once you submit your content to Penny it will be reviewed and if approved you will be notified when it is published on Penny.</span>
+		<span>The best format for your content is portrait orientation and <span style="font-weight: bold;">1920 (height) x 1080 (width) pixels.</span></span>
+		<span>Maximum duration of video or sound based works is <span style="font-weight: bold;">1 minute length.</span></span>
+		<span style="font-weight: bold; font-style: italic;">Copyright remains with the creator of the content, Penny is simply a platform for displaying content to share with the local community.</span>
 	</div>
 </div>
 {:else if uploading}
@@ -130,8 +135,6 @@
 		<h1>Thanks for your submission! We will take a look and see if we can add it to the Pennies</h1>
 	</div>
 {/if}
-
-
 
 <style>
 	.page {
@@ -162,6 +165,10 @@
 	.filepond {
 		width: 100%;
 		padding: 1rem 0rem;
+	}
+	span {
+		padding: 0.2rem 0rem;
+		font-size: 0.9rem;
 	}
 	@media screen and (max-width: 1224px) {
 		.questions {

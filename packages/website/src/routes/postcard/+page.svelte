@@ -1,22 +1,19 @@
 <script lang="ts">
+  import { enhance } from '$app/forms';
 	import { fade } from 'svelte/transition';
 	import Penny from '$lib/Penny.svg';
-	import { postcards } from '$lib/Postcards';
+	import { postcards } from '$lib/utils/Postcards';
 	import Textfield from '@smui/textfield';
   import Button from '@smui/button';
   import invite from '$lib/Invite_graphic.svg';	
 
-  let postcardText = postcards[Math.floor(Math.random() * postcards.length)].postCard;
+  let postcard = postcards[Math.floor(Math.random() * postcards.length)];
 
   const changePostcard = () => {
-    postcardText = postcards[Math.floor(Math.random() * postcards.length)].postCard;
+    postcard = postcards[Math.floor(Math.random() * postcards.length)];
   };
 
-  const sendPostcard = () => {
-    alert(postcard);
-  };
-
-  let postcard = '';
+  let response = '';
 </script>
 
 <div class="postcard poetsen-one-regular" in:fade>
@@ -24,14 +21,17 @@
   <div class="postcard-area">
     <img class="postcard-image" src={Penny} alt="Penny Logo" />
     <div class="postcard-input">
-      <div class="postcard-text">
-        {postcardText}
-      </div>
-      <Textfield style="width: 100%; height: 360px;" textarea variant="filled" bind:value={postcard} />
-      <div>
-        <Button on:click={changePostcard}>New Postcard</Button>
-        <Button variant="raised" on:click={sendPostcard}>Send Postcard</Button>
-      </div>
+      <form action="?/save" method="POST" use:enhance>
+        <div class="postcard-text">
+          {postcard.postCard}
+        </div>
+        <Textfield input$name="response" style="width: 100%; height: 360px;" textarea variant="filled" bind:value={response} />
+        <input type="hidden" name="postcard" bind:value={postcard.id} />
+        <div>
+          <Button on:click={changePostcard}>New Postcard</Button>
+          <Button variant="raised">Send Postcard</Button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

@@ -1,6 +1,6 @@
 export * as Upload from "./upload";
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, GetCommand, PutCommand, ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { Table } from 'sst/node/table';
 import crypto from 'crypto';
 
@@ -59,7 +59,11 @@ export async function update() {
 }
 
 export async function list() {
-  const id = crypto.randomUUID();
-  // write to database
-  return id;
+  const command = new ScanCommand({
+    TableName: Table.Uploads.tableName,
+  });
+
+  const data = await documentClient.send(command);
+
+  return data && data.Items ? data.Items : JSON.stringify(undefined);
 }

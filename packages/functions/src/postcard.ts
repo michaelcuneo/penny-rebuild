@@ -1,22 +1,26 @@
+import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { ApiHandler } from "sst/node/api";
 import { Postcard } from "@penny-rebuild/core/postcard";
 
 // Try to add the Postcard to the DynamoDB Database.
 // Return 400 if it fails.
-export const create = ApiHandler(async (_evt) => {
-  await Postcard.create();
+export const create: APIGatewayProxyHandlerV2 = async (event) => {
+  const postcardId = event?.queryStringParameters?.postcardId as string;
+  const response = event?.queryStringParameters?.response as string;
+
+  await Postcard.create(postcardId, response);
 
   return {
     statusCode: 200,
-    body: "Postcard created",
+    body: "Upload created",
   };
-});
+};
 
 export const list = ApiHandler(async (_evt) => {
-  await Postcard.list();
+  const data = await Postcard.list();
 
   return {
     statusCode: 200,
-    body: "Postcards listed",
+    body: JSON.stringify(data),
   };
-})
+});

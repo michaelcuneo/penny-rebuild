@@ -27,8 +27,6 @@ export const handler = AuthHandler({
 					authUrl: link
 				});
 
-				console.log('Email sent');
-
 				return {
 					statusCode: 200,
 					body: 'Email sent'
@@ -36,8 +34,6 @@ export const handler = AuthHandler({
 			},
 			onSuccess: async (response) => {
 				const user: User = await fromEmail(response.email!) as User;
-
-				console.log(user);
 
 				if (user === undefined) {
 					return {
@@ -53,7 +49,7 @@ export const handler = AuthHandler({
 					headers: {
 						Location:
 							process.env.IS_LOCAL
-								? `http://localhbost:3000/auth/callback?token=${token}`
+								? `http://192.168.0.10:3000/auth/callback?token=${token}`
 								: `https://penny.soci.org.au/auth/callback?token=${token}`
 					},
 					body: JSON.stringify({

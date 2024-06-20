@@ -15,4 +15,8 @@ declare global {
 	}
 }
 
+declare module 'jsonwebtoken';
+declare module 'nodemailer';
+declare module 'svelte-filepond';
+
 export { };

@@ -1,20 +1,35 @@
 import { ApiHandler } from "sst/node/api";
+import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
 import { Question } from "@penny-rebuild/core/question";
 
 // Try to add the Question to the DynamoDB Database.
 // Return 400 if it fails.
-export const create = ApiHandler(async (_evt) => {
-  await Question.create();
+export const create: APIGatewayProxyHandlerV2 = async (event) => {
+  const q1 = event?.queryStringParameters?.q1 as string;
+  const q2 = event?.queryStringParameters?.q2 as string;
+  const q3 = event?.queryStringParameters?.q3 as string;
+  const q4 = event?.queryStringParameters?.q4 as string;
+  const q5 = event?.queryStringParameters?.q5 as string;
+  const q6 = event?.queryStringParameters?.q6 as string;
+  const q7 = event?.queryStringParameters?.q7 as string;
+  const q8 = event?.queryStringParameters?.q8 as string;
+  const q9 = event?.queryStringParameters?.q9 as string;
+  const q10 = event?.queryStringParameters?.q10 as string;
+  const q11 = event?.queryStringParameters?.q11 as string;
+
+  await Question.create(q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11);
 
   return {
     statusCode: 200,
     body: "Questionaire created",
   };
-});
+};
 
 export const list = ApiHandler(async (_evt) => {
+  const data = await Question.list();
+
   return {
     statusCode: 200,
-    body: "Questionaires listed",
+    body: JSON.stringify(data),
   };
-})
+});

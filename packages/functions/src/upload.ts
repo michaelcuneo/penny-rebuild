@@ -29,10 +29,12 @@ export const handler = ApiHandler(async (_evt) => {
 });
 
 export const list = ApiHandler(async (_evt) => {
-  await Upload.list();
+  const data = await Upload.list();
+
+  console.log(JSON.stringify(data));
 
   return {
     statusCode: 200,
-    body: "Uploads listed",
+    body: JSON.stringify(data),
   };
 });

@@ -14,9 +14,9 @@ export const mailer = async (data: ContactMailer) => {
   });
 
   const mailOptions = {
-    from: 'cassie@walkingwithu.com.au',
-    to: 'cassie@walkingwithu.com.au',
-    subject: `You have received an enquiry from someone on your website, walkingwithu.com.au.`,
+    from: 'me@michaelcuneo.com.au',
+    to: 'michael.cuneo@newcastle.edu.au, paul.egglestone@newcastle.edu.au, heidi.axelsen@newcastle.edu.au',
+    subject: `You have received an enquiry from someone on Penny, penny.soci.org.au.`,
     html: email(data),
   };
 
