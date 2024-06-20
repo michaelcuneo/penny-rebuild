@@ -11,6 +11,8 @@ origins = [
   "http://localhost",
   "http://localhost:3000",
   "http://localhost:8000",
+  "http://192.168.0.10:3000",
+  "http://192.168.0.10:8000",
 ]
 
 app.add_middleware(
@@ -29,10 +31,19 @@ async def root():
 async def record():
   before = time.time()
 
+  # Change Audiopath before uploading
   audioPath = "/root/NCC-Henges-New-Build/Audio/audioFiles/recorded_audio.wav"
+  devAudioPath = "/home/michael/penny-rebuild/packages/api/audioFiles/recorded_audio.wav"
+  noAudioPath = "/home/michael/penny-rebuild/packages/api/audioFiles/jfk.wav"
+  
+  rawTextPath = "/root/NCC-Henges-New-Build/Audio/rawText.txt"
+  devRawTextPath = "/home/michael/penny-rebuild/packages/api/rawText.txt"	
+
+  cleanTextPath = "/root/NCC-Henges-New-Build/Audio/cleanText.txt"
+  devCleanTextPath = "/home/michael/penny-rebuild/packages/api/cleanText.txt"
 
   model = WhisperModel("tiny.en", device="cpu", num_workers=4, cpu_threads=4, compute_type="int8")
-  segments, info  = model.transcribe(audioPath, word_timestamps=False, beam_size=1)
+  segments, info  = model.transcribe(noAudioPath, word_timestamps=False, beam_size=1)
   
   combined_text = " ".join([segment.text.strip() for segment in segments])
 
@@ -40,21 +51,19 @@ async def record():
   pf = ProfanityFilter()
   censored_text = pf.censor(combined_text)
 
-  print("Inital Speech2txt: ",censored_text)
+  print("Inital Speech2txt: ", censored_text)
 
   after = time.time()
   print(f"Time to output: {after - before:.3f}s")
   
   # Save the combined text to a file
-  with open('/root/NCC-Henges-New-Build/Audio/rawText.txt', 'w') as file:
+  with open(devRawTextPath, 'w') as file:
     file.write(combined_text)
 
   # Save the combined text to a file
-  with open('/root/NCC-Henges-New-Build/Audio/cleanText.txt', 'w') as file:
-    file.write(combined_text)
+  with open(devCleanTextPath, 'w') as file:
+    file.write(censored_text)
+
+  print(f"Clean Text: {combined_text}")
   
-  return {
-    "status": 200,
-    "message": "Success",
-    "text": combined_text
-  }
+  return combined_text

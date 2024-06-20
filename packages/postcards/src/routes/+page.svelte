@@ -28,16 +28,15 @@
 	  keepalive: 1,
 	  clean: false,
 	  connectTimeout: 4000,
-	  clientId: 'penny-3',
+	  clientId: 'penny-3-henge',
 	}
   
 	let client = writable<MqttClient | null>(null);
 
-	const startProcessing = () => {
+	const startProcessing = async () => {
 		processing.set(true);
 				
-		fetch('http://localhost:8000/transcribe', {
-			mode: 'no-cors',
+		await fetch('http://192.168.0.10:8000/transcribe', {
 			headers: {
 				'Content-Type': 'application/json',
 				'Accept': 'application/json',
@@ -45,17 +44,18 @@
 			}
 		})
 			.then((res) => res.json())
-			.then(res => {
-				whisperResponse = res.text;
+			.then(data => {
+				console.log(data);
+				whisperResponse = data;
 				answer.answerId = answerId;
-				answer.answer = res.text;
+				answer.answer = data;
 				$processing = false;
-				$button2 = false;	
+				$button2 = false;
 			})
 	}
 
 	if (browser) {
-	  $client = mqtt.connect('ws://localhost:8083', options);
+	  $client = mqtt.connect('ws://192.168.0.10:8083', options);
 	  $client.on('connect', () => {
 			$client?.subscribe(BUTTON_1_TOPIC, (err: Error | null, granted?: ISubscriptionGrant[]) => {
 				if (granted) {
@@ -157,9 +157,9 @@
 		<Typewriter cursor={false}>
     	{currentPostcard.postCard}
 		</Typewriter>
-		{#if $recording === false && $processing === false && whisperResponse}
-			{whisperResponse}
-		{/if}
+			{#if $recording === false && $processing === false && whisperResponse}
+				{whisperResponse}
+			{/if}
   </div>
 </div>
 
@@ -172,13 +172,12 @@
 
 <!-- Fix these colors to match the colors of the henge buttons -->
 <!-- Swap these button functionalities for what area of the page the user is on -->
-<!--
+
 <div class="instructions">
   <div class="instruction instruction1 poetsen-one-regular">INFO</div>
   <div class="instruction instruction2 poetsen-one-regular">RECORD</div>
   <div class="instruction instruction3 poetsen-one-regular">SUBMIT</div>
 </div>
--->
 
 <style>
   .postcard {
