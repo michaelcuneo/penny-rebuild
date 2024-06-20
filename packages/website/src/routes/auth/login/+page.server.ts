@@ -14,7 +14,6 @@ export const actions = {
 		const formData = await request.formData();
 		// Get the email from the form data
 		const email = formData.get('email')?.toString();
-		console.log(email);
 
 		// If email is not provided, return an error response
 		if (!email) {
@@ -22,7 +21,7 @@ export const actions = {
 		}
 
 		// Fetch the user using the email
-		const userResponse = await fetch(`${API_URL}/api/user/getUserByEmail/${email}`);
+		const userResponse = await fetch(`${API_URL}/user/getUserByEmail/${email}`);
 
 		// Parse the response to JSON
 		const user = await userResponse.json();

@@ -1,9 +1,9 @@
 import { StackContext, Auth, use } from "sst/constructs";
-// import { ApiStack } from "./ApiStack";
+import { ApiStack } from "./ApiStack";
 import { ConfigStack } from "./ConfigStack";
 
 export function AuthStack({ stack }: StackContext) {
-  // const { api } = use(ApiStack);
+  const { api } = use(ApiStack);
   const { jwtSecret } = use(ConfigStack);
 
   // Define authenticator
@@ -17,7 +17,7 @@ export function AuthStack({ stack }: StackContext) {
   });
 
   // Attach the authenticator to the stack
-  // auth.attach(stack, { api });
+  auth.attach(stack, { api });
 
   return { auth };
 }

@@ -27,6 +27,8 @@ export const handler = AuthHandler({
 					authUrl: link
 				});
 
+				console.log('Email sent');
+
 				return {
 					statusCode: 200,
 					body: 'Email sent'
@@ -34,6 +36,8 @@ export const handler = AuthHandler({
 			},
 			onSuccess: async (response) => {
 				const user: User = await fromEmail(response.email!) as User;
+
+				console.log(user);
 
 				if (user === undefined) {
 					return {

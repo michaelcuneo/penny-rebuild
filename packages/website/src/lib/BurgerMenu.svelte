@@ -82,21 +82,6 @@
 					</animated-link>
 				</Hoverable>
 			</a>
-			<a data-sveltekit-preload-data href="/statement" on:click={handleClick}>
-				<Hoverable let:hovering={active}>
-					<animated-link class:active>
-						{#if active}
-							<item>
-								Research Statement
-								<sub>Research Statement for Penny</sub>
-							</item>
-							<greaterthan>&gt;</greaterthan>
-						{:else}
-							<item> Research Statement </item>
-						{/if}
-					</animated-link>
-				</Hoverable>
-			</a>
 			<a data-sveltekit-preload-data href="/upload" on:click={handleClick}>
 				<Hoverable let:hovering={active}>
 					<animated-link class:active>

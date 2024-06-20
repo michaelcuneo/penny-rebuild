@@ -2,6 +2,7 @@ export * as Upload from "./upload";
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { Table } from 'sst/node/table';
+import crypto from 'crypto';
 
 type Content = {
   id: "string",

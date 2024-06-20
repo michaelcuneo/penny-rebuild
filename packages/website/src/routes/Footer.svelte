@@ -1,4 +1,9 @@
+<script>
+	import foot from '$lib/logos_penrith.jpg';
+</script>
+
 <footer>
+	<img src={foot} alt="Penrith Logos"/>
 	<ul>
 		<li><a href="https://fastlab.soci.org.au">&copy; FASTlab, 2024</a></li> |
 		<li><a href="/privacy">Privacy</a></li> |
@@ -10,8 +15,10 @@
 <style>
 	footer {
 		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
     margin-top: auto;
-		height: 50px;
 		font-size: 0.8rem;
 		background-color: #313639;
 		color: white;
@@ -29,6 +36,9 @@
 	li {
 		margin: 0rem 1rem 0rem 1rem;
 		list-style-type: none;
+	}
+	img {
+		width: 100%;
 	}
 	@media screen and (max-width: 1200px) {
 		footer {

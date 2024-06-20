@@ -3,6 +3,7 @@
 	import { fade } from 'svelte/transition';
 	import Textfield from '@smui/textfield';
 	import Button from '@smui/button';
+	import upload from '$lib/upload.svg';
 	import FilePond, { registerPlugin } from 'svelte-filepond';
 	import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 	import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
@@ -56,15 +57,20 @@
 		}
 	};
 
-	$: form?.success && setTimeout(() => { thanks = true }, 2000);
+	$: form?.success && setTimeout(() => {
+		thanks = true,
+		uploading = false,
+		reset();
+	}, 2000);
 
 	export let data, form;
 </script>
 
 {#if !thanks}
 <div class="page" in:fade>
-	<h1>Upload Content to Penny</h1>
+	<img class="upload-image" src={upload} alt="Penny Logo" />
 	<div class="questions">
+		<h1>Upload Content to Penny</h1>
 		<form action="?/save" method="POST" use:enhance>
 			<div class="field">
 				<Textfield
@@ -115,18 +121,25 @@
 		</form>
 	</div>
 </div>
+{:else if uploading}
+	<div class="page" in:fade>
+		<h1>Uploading...</h1>
+	</div>
 {:else}
 	<div class="page" in:fade>
 		<h1>Thanks for your submission! We will take a look and see if we can add it to the Pennies</h1>
 	</div>
 {/if}
 
+
+
 <style>
 	.page {
 		display: flex;
-		flex-direction: column;
+		flex-wrap: wrap;
+		flex-direction: row;
 		justify-content: center;
-		align-items: center;
+		align-items: flex-start;
 	}
 	.questions {
 		display: flex;
@@ -135,6 +148,9 @@
 		color: #f489a3;
 		padding: 2rem;
 		font-size: 1.6rem;
+	}
+	.upload-image {
+		height: 100vh;
 	}
 	.field {
 		display: flex;

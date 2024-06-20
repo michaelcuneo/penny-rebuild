@@ -1,10 +1,10 @@
 <script>
 	import { fade } from 'svelte/transition';
-	import pennyLanding from '$lib/pennyLanding.png';
+	import landing from '$lib/landing.svg';
 </script>
 
 <div class="page" in:fade>
-	<img width="100%" src={pennyLanding} alt="Stay, Connect, Reflect" />
+	<img width="100%" src={landing} alt="Stay, Connect, Reflect" />
 </div>
 
 <style>

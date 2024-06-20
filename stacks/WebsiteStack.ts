@@ -9,7 +9,7 @@ export function WebsiteStack({ stack }: StackContext) {
   const { bucket } = use(StorageStack);
   const { api } = use(ApiStack);
   const { auth } = use(AuthStack);
-  const { emailService, emailHost, emailPort, emailUser, emailAppPass } = use(ConfigStack);
+  const { emailService, emailHost, emailPort, emailUser, emailAppPass, jwtSecret } = use(ConfigStack);
   const { contactTable, postcardTable, uploadsTable, questionTable, usersTable } = use(TableStack);
 
   const contentsite = new SvelteKitSite(stack, "ContentSite", {
@@ -40,7 +40,7 @@ export function WebsiteStack({ stack }: StackContext) {
   });
 
   const website = new SvelteKitSite(stack, "Website", {
-    bind: [auth, usersTable, contactTable, emailService, emailHost, emailPort, emailUser, emailAppPass, bucket],
+    bind: [auth, usersTable, contactTable, emailService, emailHost, emailPort, emailUser, emailAppPass, jwtSecret, bucket],
     path: "packages/website",
     edge: false, // Set to false because we don't need this to be international.
     environment: {

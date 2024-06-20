@@ -1,7 +1,9 @@
 import { StackContext, Api, use } from "sst/constructs";
 import { TableStack } from "./TableStack";
+import { ConfigStack } from "./ConfigStack";
 
 export function ApiStack({ stack }: StackContext) {
+  const { emailService, emailHost, emailPort, emailUser, emailAppPass } = use(ConfigStack);
   const { usersTable, uploadsTable, questionTable, postcardTable, contactTable } = use(TableStack);
 
   const api = new Api(stack, "api", {
@@ -19,6 +21,11 @@ export function ApiStack({ stack }: StackContext) {
           questionTable,
           postcardTable,
           contactTable,
+          emailService,
+          emailHost,
+          emailPort,
+          emailUser,
+          emailAppPass
         ]
       }
     },
@@ -38,6 +45,10 @@ export function ApiStack({ stack }: StackContext) {
     },
   });
 
+  // API PERMISSIONS
+  api.attachPermissions("*");
+
+  // API OUTPUTS
   stack.addOutputs({
     ApiEndpoint: api.url,
   });
