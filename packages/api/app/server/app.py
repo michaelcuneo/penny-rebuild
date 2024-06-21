@@ -37,10 +37,12 @@ async def record():
   noAudioPath = "/home/michael/penny-rebuild/packages/api/audioFiles/jfk.wav"
   
   rawTextPath = "/root/NCC-Henges-New-Build/Audio/rawText.txt"
-  devRawTextPath = "/home/michael/penny-rebuild/packages/api/rawText.txt"	
+  devRawTextPath = "/home/michael/penny-rebuild/packages/api/rawText.txt"
+  laptopTextPath = "Users/mjc128/Documents/penny-rebuild/packages/api/rawText.txt"
 
   cleanTextPath = "/root/NCC-Henges-New-Build/Audio/cleanText.txt"
   devCleanTextPath = "/home/michael/penny-rebuild/packages/api/cleanText.txt"
+  laptopCleanTextPath = "Users/mjc128/Documents/penny-rebuild/packages/api/cleanText.txt"
 
   model = WhisperModel("tiny.en", device="cpu", num_workers=4, cpu_threads=4, compute_type="int8")
   segments, info  = model.transcribe(noAudioPath, word_timestamps=False, beam_size=1)
@@ -57,11 +59,11 @@ async def record():
   print(f"Time to output: {after - before:.3f}s")
   
   # Save the combined text to a file
-  with open(devRawTextPath, 'w') as file:
+  with open(laptopTextPath, 'w') as file:
     file.write(combined_text)
 
   # Save the combined text to a file
-  with open(devCleanTextPath, 'w') as file:
+  with open(laptopCleanTextPath, 'w') as file:
     file.write(censored_text)
 
   print(f"Clean Text: {combined_text}")
