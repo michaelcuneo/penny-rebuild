@@ -18,6 +18,10 @@ export function WebsiteStack({ stack }: StackContext) {
     edge: false, // Set to false because we don't need this to be international.
     environment: {
       API_URL: api.url,
+    },
+    customDomain: {
+      domainName: "pennycontent.soci.org.au",
+      hostedZone: "soci.org.au",
     }
   });
 
@@ -27,6 +31,10 @@ export function WebsiteStack({ stack }: StackContext) {
     edge: false, // Set to false because we don't need this to be international.
     environment: {
       API_URL: api.url,
+    },
+    customDomain: {
+      domainName: "pennyquestions.soci.org.au",
+      hostedZone: "soci.org.au",
     }
   });
 
@@ -36,6 +44,10 @@ export function WebsiteStack({ stack }: StackContext) {
     edge: false, // Set to false because we don't need this to be international.
     environment: {
       API_URL: api.url,
+    },
+    customDomain: {
+      domainName: "pennypostcards.soci.org.au",
+      hostedZone: "soci.org.au",
     }
   });
 

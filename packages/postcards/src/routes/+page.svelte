@@ -10,6 +10,7 @@
 	import { writable } from 'svelte/store';
 	import { button1, button2, button3, processing, recording } from '$lib/stores';
 	import CircularProgress from '@smui/circular-progress';
+	import type { PageData } from './$types';
   
 	const BUTTON_1_TOPIC = 'home/penny3/arduino/buttons-board/button-1';
 	const BUTTON_2_TOPIC = 'home/penny3/arduino/buttons-board/button-2';
@@ -33,11 +34,27 @@
   
 	let client = writable<MqttClient | null>(null);
 
+	const createResponse = async () => {
+    // Send a POST request to the create upload endpoint
+    const createPostcardResponse = await fetch(`${data.API_URL}/postcard/create?postcardId=${currentPostcard.id}&response=${whisperResponse}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+    });
+
+		console.log(createPostcardResponse);
+
+    // If the request was not successful, return an error response
+    if (!createPostcardResponse.ok) {
+      return { success: false, error: 'Failed to create upload.' };
+    }
+	}
+
 	const startProcessing = async () => {
 		processing.set(true);
 				
 		await fetch('http://192.168.0.10:8000/transcribe', {
 			headers: {
+				'no-cors': 'true',
 				'Content-Type': 'application/json',
 				'Accept': 'application/json',
 				'Access-Control-Allow-Origin': '*'
@@ -141,15 +158,20 @@
 						$button3 = false;
 					} else {
 						// Set button 2 to false here so it can't be pressed twice to record twice.
+						createResponse();
+						recording.set(false);
+						processing.set(false);
 						whisperResponse = '';
 						$button3 = false;
-						// Submit to database
+						
 					}
 
 				}
 			};
 		})
 	};
+	
+	export let data: PageData;
 </script>
   
 <div class="postcard poetsen-one-regular" style="background-image: url({Penny})">
