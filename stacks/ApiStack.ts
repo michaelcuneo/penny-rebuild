@@ -4,7 +4,7 @@ import { ConfigStack } from "./ConfigStack";
 
 export function ApiStack({ stack }: StackContext) {
   const { emailService, emailHost, emailPort, emailUser, emailAppPass } = use(ConfigStack);
-  const { usersTable, uploadsTable, questionTable, postcardTable, contactTable } = use(TableStack);
+  const { usersTable, uploadsTable, questionTable, postcardTable } = use(TableStack);
 
   const api = new Api(stack, "api", {
     cors: {
@@ -20,7 +20,6 @@ export function ApiStack({ stack }: StackContext) {
           uploadsTable,
           questionTable,
           postcardTable,
-          contactTable,
           emailService,
           emailHost,
           emailPort,
@@ -40,8 +39,6 @@ export function ApiStack({ stack }: StackContext) {
       "POST /upload/create": "packages/functions/src/upload.create",
       "GET /upload/list": "packages/functions/src/upload.list",
       "PUT /upload/update": "packages/functions/src/upload.update",
-      "POST /contact/create": "packages/functions/src/contact.create",
-      "GET /contact/list": "packages/functions/src/contact.list",
     },
   });
 

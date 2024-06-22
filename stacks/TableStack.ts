@@ -39,14 +39,5 @@ export function TableStack({ stack }: StackContext) {
     primaryIndex: { partitionKey: "id" },
   })
 
-  const contactTable = new Table(stack, "Contact", {
-    fields: {
-      id: "string",
-      contactId: "string",
-      responded: "binary",
-    },
-    primaryIndex: { partitionKey: "id" },
-  })
-
-  return { usersTable, postcardTable, questionTable, uploadsTable, contactTable };
+  return { usersTable, postcardTable, questionTable, uploadsTable };
 };

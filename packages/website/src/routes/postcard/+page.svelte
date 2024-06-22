@@ -1,11 +1,15 @@
 <script lang="ts">
   import { enhance } from '$app/forms';
+  import { page } from '$app/stores';
+  import CircularProgress from '@smui/circular-progress';
 	import { fade } from 'svelte/transition';
 	import Penny from '$lib/Penny.svg';
 	import { postcards } from '$lib/utils/Postcards';
 	import Textfield from '@smui/textfield';
   import Button from '@smui/button';
-  import invite from '$lib/Invite_graphic.svg';	
+  import invite from '$lib/Invite_graphic.svg';
+
+  let saving: boolean = false;
 
   let postcard = postcards[Math.floor(Math.random() * postcards.length)];
 
@@ -14,6 +18,16 @@
   };
 
   let response = '';
+
+  const useForm = () => {
+    return async ({ result, update }) => {
+      if (result.type === 'success') {
+        response = '';
+        saving = false;
+      }
+      update();
+    };
+  }
 </script>
 
 <div class="postcard poetsen-one-regular" in:fade>
@@ -21,20 +35,29 @@
   <div class="postcard-area">
     <img class="postcard-image" src={Penny} alt="Penny Logo" />
     <div class="postcard-input">
-      <form action="?/save" method="POST" use:enhance>
+      <form action="?/save" method="POST" on:submit={() => saving = true} use:enhance={useForm}>
         <div class="postcard-text">
           {postcard.postCard}
         </div>
         <Textfield input$name="response" style="width: 100%; height: 360px;" textarea variant="filled" bind:value={response} />
         <input type="hidden" name="postcard" bind:value={postcard.id} />
         <div>
-          <Button on:click={changePostcard}>New Postcard</Button>
-          <Button variant="raised">Send Postcard</Button>
+          <Button type="button" on:click={changePostcard}>New Postcard</Button>
+          <Button type="submit"variant="raised">Send Postcard</Button>
         </div>
       </form>
     </div>
   </div>
 </div>
+
+{#if saving === true}
+  <div class="processing-overlay" transition:fade>
+		<h4>
+			'Saving...'
+		</h4>
+    <CircularProgress style="height: 64px; width: 64px;" indeterminate />
+  </div>
+{/if}
 
 <style>
 	.postcard {
@@ -79,6 +102,18 @@
     left: 150px;
 		height: 80vh;
 	}
+  .processing-overlay {
+    position: fixed;
+    display: flex;
+		flex-direction: column;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
   @media screen and (max-width: 1224px) {
     .postcard-image {
       width: 800px;

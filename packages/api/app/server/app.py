@@ -10,6 +10,8 @@ app = FastAPI()
 origins = [
   "http://localhost",
   "http://localhost:3000",
+  "http://localhost:3001",
+  "http://localhost:4173",
   "http://localhost:8000",
   "http://192.168.0.10:3000",
   "http://192.168.0.10:8000",
@@ -34,15 +36,15 @@ async def record():
   # Change Audiopath before uploading
   audioPath = "/root/NCC-Henges-New-Build/Audio/audioFiles/recorded_audio.wav"
   devAudioPath = "/home/michael/penny-rebuild/packages/api/audioFiles/recorded_audio.wav"
-  noAudioPath = "/home/michael/penny-rebuild/packages/api/audioFiles/jfk.wav"
+  noAudioPath = "/Users/mjc128/Documents/penny-rebuild/packages/api/audioFiles/jfk.wav"
   
   rawTextPath = "/root/NCC-Henges-New-Build/Audio/rawText.txt"
   devRawTextPath = "/home/michael/penny-rebuild/packages/api/rawText.txt"
-  laptopTextPath = "Users/mjc128/Documents/penny-rebuild/packages/api/rawText.txt"
+  laptopTextPath = "/Users/mjc128/Documents/penny-rebuild/packages/api/rawText.txt"
 
   cleanTextPath = "/root/NCC-Henges-New-Build/Audio/cleanText.txt"
   devCleanTextPath = "/home/michael/penny-rebuild/packages/api/cleanText.txt"
-  laptopCleanTextPath = "Users/mjc128/Documents/penny-rebuild/packages/api/cleanText.txt"
+  laptopCleanTextPath = "/Users/mjc128/Documents/penny-rebuild/packages/api/cleanText.txt"
 
   model = WhisperModel("tiny.en", device="cpu", num_workers=4, cpu_threads=4, compute_type="int8")
   segments, info  = model.transcribe(noAudioPath, word_timestamps=False, beam_size=1)

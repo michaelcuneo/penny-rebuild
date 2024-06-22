@@ -1,4 +1,5 @@
 <script lang="ts">
+	import CircularProgress from '@smui/circular-progress';
 	import { enhance } from '$app/forms';
 	import { fade } from 'svelte/transition';
 	import Textfield from '@smui/textfield';
@@ -13,8 +14,7 @@
 	let email = '';
 	let fileId = '';
 	let fileType = '';
-	let uploading = false;
-	let thanks = false;
+	let saving = false;
 
 	const reset = () => {
 		firstName = '';
@@ -32,10 +32,10 @@
 
 	const handleInit = () => {
 		fileId = data.id;
-		// console.log('FilePond has initialised', pond);
 	};
 
 	const handleAddFile = async (err: string, fileItem: any) => {
+		saving = true;
 		const file = fileItem.file as File;
 		const upload = await fetch (data.url, {
 			method: 'PUT',
@@ -49,6 +49,7 @@
 		if (upload.ok) {
 			fileType = fileItem.file.type;
 			submitDisabled = false;
+			saving = false;
 			return;
 		}
 
@@ -57,21 +58,24 @@
 		}
 	};
 
-	$: form?.success && setTimeout(() => {
-		thanks = true,
-		uploading = false,
-		reset();
-	}, 2000);
+  const useForm = () => {
+    return async ({ result, update }) => {
+      if (result.type === 'success') {
+        reset();
+        saving = false;
+      }
+      update();
+    };
+  }
 
-	export let data, form;
+	export let data;
 </script>
 
-{#if !thanks}
 <div class="page" in:fade>
 	<img class="upload-image" src={upload} alt="Penny Logo" />
 	<div class="questions">
 		<h1>Upload Content to Penny</h1>
-		<form action="?/save" method="POST" use:enhance>
+		<form action="?/save" method="POST" use:enhance={useForm}>
 			<div class="field">
 				<Textfield
 					input$name="firstName"
@@ -106,6 +110,7 @@
 			<div class="filepond">
 				<FilePond
 					bind:this={pond}
+					acceptedFileTypes={['image/*', 'video/*', 'audio/*']}
 					disabled={fileDisabled}
 					allowMultiple={false}
 					oninit={handleInit}
@@ -114,7 +119,7 @@
 			</div>
 			<div style="display: flex; justify-content: flex-end;">
 				<Button variant="raised" on:click={reset}>Clear Values</Button>
-				<Button variant="raised" disabled={submitDisabled} on:submit={() => (uploading = true)}
+				<Button variant="raised" disabled={submitDisabled} on:submit={() => (saving = true)}
 					>Submit</Button
 				>
 			</div>
@@ -126,14 +131,14 @@
 		<span style="font-weight: bold; font-style: italic;">Copyright remains with the creator of the content, Penny is simply a platform for displaying content to share with the local community.</span>
 	</div>
 </div>
-{:else if uploading}
-	<div class="page" in:fade>
-		<h1>Uploading...</h1>
-	</div>
-{:else}
-	<div class="page" in:fade>
-		<h1>Thanks for your submission! We will take a look and see if we can add it to the Pennies</h1>
-	</div>
+
+{#if saving === true}
+  <div class="processing-overlay" transition:fade>
+		<h4>
+			'Saving...'
+		</h4>
+    <CircularProgress style="height: 64px; width: 64px;" indeterminate />
+  </div>
 {/if}
 
 <style>

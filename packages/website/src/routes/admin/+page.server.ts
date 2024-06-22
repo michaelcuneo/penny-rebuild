@@ -1,13 +1,15 @@
-import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { Bucket } from 'sst/node/bucket';
 import { API_URL } from '$env/static/private';
 import { groupBy } from '$lib/utils/helper';
 
 // Send user to Auth if the user is not logged in.
 export const load = (async ({ locals }) => {
+  /*
   if (!locals.session) {
     throw redirect(303, '/auth/login');
   }
+  */
 
   // Send a GET request to the list upload endpoint.
   const listUploads = await fetch(`${API_URL}/upload/list`, {
@@ -25,14 +27,14 @@ export const load = (async ({ locals }) => {
 
   const postcards = await listPostcards.json();
 
+  console.log(postcards);
+
   const listSurveys = await fetch(`${API_URL}/question/list`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });
 
   const surveys = await listSurveys.json();
-
-  console.log(surveys);
 
   let groupedSurveys = groupBy(surveys, (survey: any) => survey.questionId);
   let groupedEntries = Array.from(groupedSurveys.values());
@@ -41,6 +43,7 @@ export const load = (async ({ locals }) => {
     uploads: uploads,
     postcards: postcards,
     surveys: groupedEntries,
+    bucket: Bucket.public.bucketName
   };
 
   return { data };

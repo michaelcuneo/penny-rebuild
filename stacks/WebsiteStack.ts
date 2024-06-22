@@ -10,7 +10,7 @@ export function WebsiteStack({ stack }: StackContext) {
   const { api } = use(ApiStack);
   const { auth } = use(AuthStack);
   const { emailService, emailHost, emailPort, emailUser, emailAppPass, jwtSecret } = use(ConfigStack);
-  const { contactTable, postcardTable, uploadsTable, questionTable, usersTable } = use(TableStack);
+  const { postcardTable, uploadsTable, questionTable, usersTable } = use(TableStack);
 
   const contentsite = new SvelteKitSite(stack, "ContentSite", {
     bind: [uploadsTable, bucket],
@@ -19,10 +19,6 @@ export function WebsiteStack({ stack }: StackContext) {
     environment: {
       API_URL: api.url,
     },
-    customDomain: {
-      domainName: "pennycontent.soci.org.au",
-      hostedZone: "soci.org.au",
-    }
   });
 
   const questionSite = new SvelteKitSite(stack, "QuestionSite", {
@@ -32,10 +28,6 @@ export function WebsiteStack({ stack }: StackContext) {
     environment: {
       API_URL: api.url,
     },
-    customDomain: {
-      domainName: "pennyquestions.soci.org.au",
-      hostedZone: "soci.org.au",
-    }
   });
 
   const postcardsite = new SvelteKitSite(stack, "PostcardSite", {
@@ -45,14 +37,10 @@ export function WebsiteStack({ stack }: StackContext) {
     environment: {
       API_URL: api.url,
     },
-    customDomain: {
-      domainName: "pennypostcards.soci.org.au",
-      hostedZone: "soci.org.au",
-    }
   });
 
   const website = new SvelteKitSite(stack, "Website", {
-    bind: [auth, usersTable, contactTable, emailService, emailHost, emailPort, emailUser, emailAppPass, jwtSecret, bucket],
+    bind: [auth, usersTable, emailService, emailHost, emailPort, emailUser, emailAppPass, jwtSecret, bucket],
     path: "packages/website",
     edge: false, // Set to false because we don't need this to be international.
     environment: {

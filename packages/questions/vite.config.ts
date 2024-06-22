@@ -7,6 +7,9 @@ import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfil
 import rollupNodePolyFill from 'rollup-plugin-polyfill-node'
 
 export default defineConfig({
+	preview: {
+		port: 3001
+	},
 	server: {
 		port: 3000,
 		host: '0.0.0.0',

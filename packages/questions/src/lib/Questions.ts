@@ -1,74 +1,126 @@
 export const questions = [
   {
-    id: "43199411-1d38-4dd4-9f31-444b18caae03",
+    id: "1",
     question: "Who are you with?",
-    answerId: "",
-    answer: ""
+    options: [
+      "I am here alone",
+      "I am here with friends / colleagues",
+      "I am here with children and / or other family",
+    ],
+    answer: "",
   },
   {
-    id: "54bd238e-dd9f-462e-984b-9c4b45e37621",
+    id: "2",
     question: "Which of these best describes you?",
-    answerId: "",
-    answer: ""
+    options: ["Man", "Woman", "Non-binary", "Prefer not to say", "Decline to answer"],
+    answer: "",
   },
   {
-    id: "7aae171e-ac3b-479e-9bb6-0298721f4292",
+    id: "3",
     question: "What is your age?",
-    answerId: "",
-    answer: ""
+    options: [
+      "16-24 years",
+      "25-54 years",
+      "55-64 years",
+      "65 years and over"
+    ],
+    answer: "",
   },
   {
-    id: "9a8f7d8f-8b7b-4b0d-8b0e-0f0b0d8b0f0b",
+    id: "4",
     question: "Do any of the following apply to you? Select any that apply.",
-    answerId: "",
-    answer: ""
+    options: [
+      "I am a person with disability",
+      "I speak a language other than English at home",
+      "I was born overseas",
+      "I identify as Aboriginal and/ or Torres Strait Islander",
+      "I identify as LGBTIQA+",
+      "I have caring duties",
+      "Other",
+    ],
+    answer: "",
   },
   {
-    id: "43199411-1d38-4dd4-9f31-444b18caae03",
-    question: "I feel comfortable and safe here",
-    answerId: "",
-    answer: ""
+    id: "5",
+    question: "I feel comfortable and safe here?",
+    options: [
+      "Strongly disagree",
+      "Disagree",
+      "Neither agree nor disagree",
+      "Agree",
+      "Strongly agree",
+      "Prefer not to answer",
+    ],
+    answer: "",
   },
   {
-    id: "54bd238e-dd9f-462e-984b-9c4b45e37621",
-    question: "My favourite thing to do here is",
-    answerId: "",
-    answer: ""
+    id: "6",
+    question: "My favourite thing to do here is ...",
+    options: [
+      '',
+    ],
+    answer: "",
   },
   {
-    id: "54bd238e-dd9f-462e-984b-9c4b45e37621",
-    question: "I feel safe here in the daytime",
-    answerId: "",
-    answer: ""
+    id: "7",
+    question: "I feel safe here in the daytime ...",
+    options: [
+      "Strongly disagree",
+      "Disagree",
+      "Neither agree nor disagree",
+      "Agree",
+      "Strongly agree",
+      "Prefer not to answer",
+    ],
+    answer: "",
   },
   {
-    id: "54bd238e-dd9f-462e-984b-9c4b45e37621",
+    id: "8",
     question: "I'd spend more time here if ...",
-    answerId: "",
-    answer: ""
+    options: [
+      '',
+    ],
+    answer: "",
   },
   {
-    id: "54bd238e-dd9f-462e-984b-9c4b45e37621",
-    question: "I feel safe here after dark",
-    answerId: "",
-    answer: ""
+    id: "9",
+    question: "I feel safe here after dark ...",
+    options: [
+      "Strongly disagree",
+      "Disagree",
+      "Neither agree nor disagree",
+      "Agree",
+      "Strongly agree",
+      "Prefer not to answer",
+    ],
+    answer: "",
   },
   {
-    id: "43199411-1d38-4dd4-9f31-444b18caae03",
+    id: "10",
     question: "What do you see and hear right now ...",
-    answerId: "",
-    answer: ""
+    options: [
+      "",
+    ],
+    answer: "",
   },
   {
-    id: "",
+    id: "11",
     question: "How often do you come here?",
-    answerId: "",
-    answer: ""
+    options: [
+      "Daily",
+      "Once Weekly",
+      "Couple of times a week",
+      "Once a month",
+      "Never",
+    ],
+    answer: "",
   },
   {
-    id: "",
+    id: "12",
     question: "If safety was a colour it would be ...",
-    answerId: "",
-    answer: ""
+    options: [
+      "",
+    ],
+    answer: "",
   }
 ];

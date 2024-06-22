@@ -1,14 +1,14 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import { fade } from 'svelte/transition';
 	import Typewriter from 'svelte-typewriter';
-	import { v4 as uuidv4 } from 'uuid';
 	import Penny from '$lib/Penny.svg';
 	import { postcards } from '$lib/Postcards';
 	import mqtt from 'mqtt';
 	import type { ISubscriptionGrant, MqttClient } from 'mqtt';
   import { browser } from '$app/environment';
 	import { writable } from 'svelte/store';
-	import { button1, button2, button3, processing, recording } from '$lib/stores';
+	import { processing, recording, saving } from '$lib/stores';
 	import CircularProgress from '@smui/circular-progress';
 	import type { PageData } from './$types';
   
@@ -17,14 +17,10 @@
 	const BUTTON_3_TOPIC = 'home/penny3/arduino/buttons-board/button-3';
 	const MOSQUITTO_RECORDING_TOPIC = 'home/penny3/record';
   
+	let form: HTMLFormElement;
   let whisperResponse: string = '';
-
   let currentPostcard: Postcard = postcards[Math.floor(Math.random() * postcards.length)];
-  let answer: Postcard = currentPostcard;
-  
-  let answers = currentPostcard.answer;
-  let answerId = uuidv4();
-  
+    
 	const options = {
 	  keepalive: 1,
 	  clean: false,
@@ -35,24 +31,14 @@
 	let client = writable<MqttClient | null>(null);
 
 	const createResponse = async () => {
-    // Send a POST request to the create upload endpoint
-    const createPostcardResponse = await fetch(`${data.API_URL}/postcard/create?postcardId=${currentPostcard.id}&response=${whisperResponse}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-    });
-
-		console.log(createPostcardResponse);
-
-    // If the request was not successful, return an error response
-    if (!createPostcardResponse.ok) {
-      return { success: false, error: 'Failed to create upload.' };
-    }
+		saving.set(true);
+		form.requestSubmit();
 	}
 
 	const startProcessing = async () => {
 		processing.set(true);
 				
-		await fetch('http://192.168.0.10:8000/transcribe', {
+		await fetch('http://0.0.0.0:8000/transcribe', {
 			headers: {
 				'no-cors': 'true',
 				'Content-Type': 'application/json',
@@ -62,17 +48,13 @@
 		})
 			.then((res) => res.json())
 			.then(data => {
-				console.log(data);
 				whisperResponse = data;
-				answer.answerId = answerId;
-				answer.answer = data;
-				$processing = false;
-				$button2 = false;
+				processing.set(false);
 			})
 	}
 
 	if (browser) {
-	  $client = mqtt.connect('ws://192.168.0.10:8083', options);
+	  $client = mqtt.connect('ws://halide.michaelcuneo.com.au:8083', options);
 	  $client.on('connect', () => {
 			$client?.subscribe(BUTTON_1_TOPIC, (err: Error | null, granted?: ISubscriptionGrant[]) => {
 				if (granted) {
@@ -115,7 +97,6 @@
 			console.log('Topic: ' + _topic + ' Message: ' + message.toString());
 			if (_topic === BUTTON_2_TOPIC && message.toString() === "1") {
 
-				button2.set(true);
 				recording.set(true);
 				processing.set(false);
 
@@ -123,7 +104,6 @@
 			
 			} else if (_topic === BUTTON_2_TOPIC && message.toString() === "0") {
 
-				button2.set(false);
 				recording.set(false);
 				processing.set(false);
 
@@ -134,16 +114,11 @@
 			} else if (_topic === BUTTON_3_TOPIC && message.toString() === "1") {
 				if (whisperResponse === '') {
 
-					button1.set(true);
 					recording.set(false);
 					processing.set(false);
 					
 					currentPostcard = postcards[Math.floor(Math.random() * postcards.length)];
-					answers = currentPostcard.answer;
-					answerId = uuidv4();
 					whisperResponse = '';
-
-					button1.set(false);
 
 				} else {
 
@@ -155,17 +130,14 @@
 						new Promise(resolve => setTimeout(resolve, 10000))
 							.then(() => whisperResponse = '');
 
-						$button3 = false;
 					} else {
 						// Set button 2 to false here so it can't be pressed twice to record twice.
 						createResponse();
 						recording.set(false);
 						processing.set(false);
 						whisperResponse = '';
-						$button3 = false;
-						
-					}
 
+					}
 				}
 			};
 		})
@@ -185,16 +157,28 @@
   </div>
 </div>
 
-{#if $recording === true || $processing === true}
+{#if $recording === true || $processing === true || $saving === true}
   <div class="processing-overlay" transition:fade>
-    {$recording ? 'Recording...' : 'Processing...'}
-    <CircularProgress style="height: 64px; width: 64px;" indeterminate />
+		<h4>
+			{#if $recording}
+				'Recording...'
+			{:else if $processing}
+				'Transcribing...'
+			{:else if $saving}
+				'Saving...'
+			{/if}
+		</h4>
+    <CircularProgress style="height: 128px; width: 128px;" indeterminate />
   </div>
 {/if}
 
+<form bind:this={form} action="?/save" method="POST" use:enhance>
+	<input hidden name="postcardId" bind:value={currentPostcard.id} />
+	<input hidden name="response" bind:value={whisperResponse} />
+</form>
+
 <!-- Fix these colors to match the colors of the henge buttons -->
 <!-- Swap these button functionalities for what area of the page the user is on -->
-
 <div class="instructions">
   <div class="instruction instruction1 poetsen-one-regular">INFO</div>
   <div class="instruction instruction2 poetsen-one-regular">RECORD</div>
@@ -235,7 +219,7 @@
     position: fixed;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-around;
     width: 100vw;
     bottom: 0;
   }
@@ -247,8 +231,6 @@
     color: white;
     width: 180px;
     height: 90px;
-		margin-left: 100px;
-		padding-top: 30px;
     border-top-left-radius: 90px;
     border-top-right-radius: 90px;
     background-color: #f489a3;
@@ -257,10 +239,9 @@
     background-color: #e62d6b;
   }
   .instruction2 {
-    background-color: #4d28ee;		
+    background-color: #4d28ee;
   }
   .instruction3 {
-		margin-left: 400px;
     background-color: #108d40;
   }
 </style>

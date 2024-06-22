@@ -5,7 +5,7 @@ export function StorageStack({ stack }: StackContext) {
     cors: [
       {
         maxAge: "1 day",
-        allowedOrigins: ["http://192.168.0.10:3000", "https://penny.soci.org.au"],
+        allowedOrigins: ["*"],
         allowedHeaders: ["*"],
         allowedMethods: ["GET", "PUT", "POST", "DELETE", "HEAD"],
       },

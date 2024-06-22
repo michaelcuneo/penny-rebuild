@@ -1,9 +1,24 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import Tab, { Label } from '@smui/tab';
+  import Dialog, { Content, Actions } from '@smui/dialog';
+  import Button, { Icon } from '@smui/button';
   import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
   import TabBar from '@smui/tab-bar';
-
   import { postcards } from '$lib/utils/Postcards.js';
+	import type { PostcardType, ContentType, QuestionType } from '../../ambient.js';
+
+  let form: HTMLFormElement;
+
+  let dialogOpen = false;
+  let contentType = '';
+  let currentContent: ContentType | null;
+  let currentPostcard: PostcardType | null;
+  let currentSurvey: QuestionType | null;
+
+  $: currentContent = null;
+  $: currentPostcard = null;
+  $: currentSurvey = null;
 
   const getPostcard = (id: string) => {
     const postcard = postcards.filter((postcard) => postcard.id === id);
@@ -14,9 +29,28 @@
     return 'Postcard not found';
   }
 
-  let active = 'Content';
+  const openContentDialog = async (object: ContentType) => {
+    // Open the dialog
+    currentContent = object;
+    contentType = 'Content';
+    dialogOpen = true;
+  }
 
-  $: console.log(data.data.surveys);
+  const openPostcardDialog = async (object: PostcardType) => {
+    // Open the dialog
+    currentPostcard = object;
+    contentType = 'Postcard';
+    dialogOpen = true;
+  }
+
+  const openSurveyDialog = async (object: QuestionType) => {
+    // Open the dialog
+    currentSurvey = object;
+    contentType = 'Survey';
+    dialogOpen = true;
+  }
+
+  let active = 'Content';
   export let data;
 </script>
 
@@ -44,7 +78,7 @@
       <Body>
         {#if data.data.uploads.length > 0}
         {#each data.data.uploads as object}
-          <Row>
+          <Row on:click={() => openContentDialog(object)}>
             <Cell>{object.firstName} {object.lastName}</Cell>
             <Cell>{object.email}</Cell>
             <Cell numeric>{object.uploadId}</Cell>
@@ -67,7 +101,7 @@
       <Body>
         {#if data.data.postcards.length > 0}
           {#each data.data.postcards as object}
-            <Row>
+            <Row on:click={() => openPostcardDialog(object)}>
               <Cell>{getPostcard(object.postcardId)}</Cell>
               <Cell>{object.response}</Cell>
             </Row>
@@ -95,6 +129,46 @@
   {/if}
   </div>
 </div>
+
+{#if dialogOpen}
+<Dialog
+  bind:open={dialogOpen}
+  aria-labelledby="dialog-title"
+  aria-describedby="dialog-content"
+>
+  <Content id="dialog-content">
+    {#if currentContent && contentType === 'Content'}
+      <h4>Content Admin</h4>
+      <p>{currentContent.firstName} {currentContent.lastName}</p>
+      <p>{currentContent.email}</p>
+      {#if currentContent.uploadType === 'video/mp4' || currentContent.uploadType === 'video/webm' || currentContent.uploadType === 'video/ogg' || currentContent.uploadType === 'video/quicktime'}
+        <video src="https://{data.data.bucket}.s3.ap-southeast-2.amazonaws.com/{currentContent?.uploadId}" width="320" controls controlsList="nodownload" aria-placeholder="Video">
+          <track kind="captions" />
+        </video>
+      {:else if currentContent.uploadType === 'image/png' || currentContent.uploadType === 'image/jpeg' || currentContent.uploadType === 'image/gif' || currentContent.uploadType === 'image/webp'}
+        <img src="https://{data.data.bucket}.s3.ap-southeast-2.amazonaws.com/{currentContent?.uploadId}" alt={currentContent.uploadType} width="320" />
+      {:else}
+        <p>Content not able to be parsed, bad format</p>
+      {/if}
+    {/if}
+    {#if currentPostcard && contentType === 'Postcard'}
+      <h4>Postcard Admin</h4>
+      <p>{getPostcard(currentPostcard.postcardId)}</p>
+      <p>{currentPostcard.response}</p>
+    {/if}
+    {#if currentSurvey && contentType === 'Survey'}
+      <h4>Survey Admin</h4>
+      <p>{currentSurvey.id}</p>
+      <p>Reading Surveys coming in a future update</p>
+    {/if}
+  </Content>
+  <Actions>
+    <Button action="submit">
+      <Label>Close</Label>
+    </Button>
+  </Actions>
+</Dialog>
+{/if}
 
 <style>
   .admin {

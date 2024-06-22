@@ -33,9 +33,7 @@
 		}
 	}
 
-	$: console.log(strippedMultiselect);
-
-	// $: disabled = answers.some((answer) => !answer);
+	$: disabled = answers.some((answer) => !answer);
 </script>
 
 <div class="page" in:fade>
