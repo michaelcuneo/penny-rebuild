@@ -34,7 +34,7 @@
 	}
 
 	if (browser) {
-	  $client = mqtt.connect('ws://halide.michaelcuneo.com.au:8083', options);
+	  $client = mqtt.connect('ws://localhost:8083', options);
 	  $client.on('connect', () => {
 			$client?.subscribe(BUTTON_1_TOPIC, (err: Error | null, granted?: ISubscriptionGrant[]) => {
 				if (granted) {

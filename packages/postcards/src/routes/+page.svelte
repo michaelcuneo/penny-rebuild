@@ -38,7 +38,7 @@
 	const startProcessing = async () => {
 		processing.set(true);
 				
-		await fetch('http://0.0.0.0:8000/transcribe', {
+		await fetch('http://localhost:8000/transcribe', {
 			headers: {
 				'no-cors': 'true',
 				'Content-Type': 'application/json',
@@ -54,7 +54,7 @@
 	}
 
 	if (browser) {
-	  $client = mqtt.connect('ws://halide.michaelcuneo.com.au:8083', options);
+	  $client = mqtt.connect('ws://localhost:8083', options);
 	  $client.on('connect', () => {
 			$client?.subscribe(BUTTON_1_TOPIC, (err: Error | null, granted?: ISubscriptionGrant[]) => {
 				if (granted) {
