@@ -11,7 +11,7 @@ export function ApiStack({ stack }: StackContext) {
       allowCredentials: true,
       allowHeaders: ['content-type'],
       allowMethods: ['ANY'],
-      allowOrigins: [`http://localhost:3000`, `https://penny.soci.org.au`, '*'],
+      allowOrigins: [`http://localhost:3000`, `https://penny.soci.org.au`, 'http://localhost:3001', 'http://localhost:4172'],
     },
     defaults: {
       function: {
