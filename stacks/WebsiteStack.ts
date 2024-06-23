@@ -52,12 +52,23 @@ export function WebsiteStack({ stack }: StackContext) {
     }
   });
 
-  stack.addOutputs({
-    ContentsUrl: contentsite.url,
-    QuestionsUrl: questionSite.url,
-    PostcardsUrl: postcardsite.url,
-    WebsiteUrl: website.url
-  });
-
+  if (process.env.SITE === "website") {
+    stack.addOutputs({
+      WebsiteUrl: website.url
+    })
+  } else if (process.env.SITE === "content") {
+    stack.addOutputs({
+      ContentsUrl: contentsite.url
+    })
+  } else if (process.env.SITE === "questions") {
+    stack.addOutputs({
+      QuestionsUrl: questionSite.url
+    })
+  } else if (process.env.SITE === "postcards") {
+    stack.addOutputs({
+      PostcardsUrl: postcardsite.url
+    })
+  }
+  
   return { website }
 }
