@@ -52,10 +52,29 @@ export async function create(firstName: string, lastName: string, email: string,
   }
 }
 
-export async function update() {
-  const id = crypto.randomUUID();
-  // write to database
-  return id;
+export async function update(id: string, approved: string) {
+  const params = {
+    TableName: Table.Uploads.tableName,
+    Item: {
+      id: id,
+      approved: approved,
+    }
+  };
+
+  const data = await documentClient.send(new PutCommand(params));
+
+  if (data.$metadata.httpStatusCode === 200) {
+    const params = {
+      TableName: Table.Uploads.tableName,
+      Key: {
+        id: id,
+      }
+    }
+  
+    const content = await documentClient.send(new GetCommand(params));
+
+    return content && content.Item ? content.Item : JSON.stringify(undefined);
+  }
 }
 
 export async function list() {

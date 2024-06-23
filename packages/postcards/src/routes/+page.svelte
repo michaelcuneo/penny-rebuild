@@ -142,9 +142,7 @@
 			};
 		})
 	};
-	
-	export let data: PageData;
-</script>
+	</script>
   
 <div class="postcard poetsen-one-regular" style="background-image: url({Penny})">
   <div class="postcard-text" transition:fade>
@@ -179,11 +177,13 @@
 
 <!-- Fix these colors to match the colors of the henge buttons -->
 <!-- Swap these button functionalities for what area of the page the user is on -->
+<!--
 <div class="instructions">
   <div class="instruction instruction1 poetsen-one-regular">INFO</div>
   <div class="instruction instruction2 poetsen-one-regular">RECORD</div>
   <div class="instruction instruction3 poetsen-one-regular">SUBMIT</div>
 </div>
+-->
 
 <style>
   .postcard {
@@ -215,6 +215,7 @@
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
   }
+	/*
   .instructions {
     position: fixed;
     display: flex;
@@ -243,5 +244,5 @@
   }
   .instruction3 {
     background-color: #108d40;
-  }
+  }*/
 </style>

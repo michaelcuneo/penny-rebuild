@@ -19,14 +19,17 @@ export const create: APIGatewayProxyHandlerV2 = async (event) => {
   };
 };
 
-export const handler = ApiHandler(async (_evt) => {
-  await Upload.update();
+export const update: APIGatewayProxyHandlerV2 = async (event) => {
+  const id = event?.queryStringParameters?.id as string;
+  const approved = event?.queryStringParameters?.approved as string;
+  
+  await Upload.update(id, approved);
 
   return {
     statusCode: 200,
     body: "Upload updated",
   };
-});
+};
 
 export const list = ApiHandler(async (_evt) => {
   const data = await Upload.list();

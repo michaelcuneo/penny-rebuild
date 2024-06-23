@@ -59,7 +59,7 @@
 	};
 
   const useForm = () => {
-    return async ({ result, update }) => {
+    return async ({ result, update }: any) => {
       if (result.type === 'success') {
         reset();
         saving = false;

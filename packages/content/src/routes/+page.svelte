@@ -118,11 +118,13 @@
 
 <!-- Fix these colors to match the colors of the henge buttons -->
 <!-- Swap these button functionalities for what area of the page the user is on -->
+<!--
 <div class="instructions">
   <div class="instruction instruction1 poetsen-one-regular">MUSIC</div>
   <div class="instruction instruction2 poetsen-one-regular">VIDEO</div>
   <div class="instruction instruction3 poetsen-one-regular">LIKE</div>
 </div>
+-->
 
 <style>
   .content {
@@ -151,6 +153,7 @@
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
   }
+  /*
   .instructions {
     position: fixed;
     display: flex;
@@ -180,4 +183,5 @@
   .instruction3 {
     background-color: #108d40;
   }
+  */
 </style>

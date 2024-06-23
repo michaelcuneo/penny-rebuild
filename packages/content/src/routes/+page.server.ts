@@ -23,3 +23,27 @@ export const load = (async ({ locals }) => {
 
   return { data };
 }) satisfies PageServerLoad;
+
+export const actions = {
+  async save({ request }: { request: Request }) {
+    // Extract the form data from the request
+    const formData = await request.formData();
+
+    // Get the details from the form data
+    const id = formData.get('id')?.toString();
+
+    // Send a POST request to the create upload endpoint
+    const createUpdateResponse = await fetch(`${API_URL}/upload/update?id=${id}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    // If the request was not successful, return an error response
+    if (!createUpdateResponse.ok) {
+      return { success: false, error: 'Failed to create upload.' };
+    }
+
+    // Return a success response
+    return { success: true, error: null };
+  }
+}

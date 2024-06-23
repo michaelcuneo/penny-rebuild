@@ -163,6 +163,14 @@
     {/if}
   </Content>
   <Actions>
+    {#if currentContent && contentType === 'Content'}
+      <Button action="submit">
+        <Label>Deny</Label>
+      </Button>
+      <Button action="submit">
+        <Label>Approve</Label>
+      </Button>
+    {/if}
     <Button action="submit">
       <Label>Close</Label>
     </Button>

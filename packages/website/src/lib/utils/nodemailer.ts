@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import { email } from './email';
+import type { ContactMailer } from '../../ambient';
 
 export const mailer = async (data: ContactMailer) => {
   const Transporter = nodemailer.createTransport({
