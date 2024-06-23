@@ -44,6 +44,10 @@ type QuestionType = {
   answer: string;
 };
 
+declare module 'jsonwebtoken';
+declare module 'nodemailer';
+declare module 'svelte-filepond';
+
 export module 'jsonwebtoken';
 export module 'nodemailer';
 export module 'svelte-filepond';
