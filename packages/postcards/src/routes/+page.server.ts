@@ -1,5 +1,4 @@
 import type { Actions } from './$types';
-// import { API_URL } from '$env/static/private';
 
 export const actions = {
   /**

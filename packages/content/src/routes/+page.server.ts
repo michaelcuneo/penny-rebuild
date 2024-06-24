@@ -1,11 +1,10 @@
 import type { PageServerLoad } from './$types';
 import { Bucket } from 'sst/node/bucket';
-import { API_URL } from '$env/static/private';
 import { groupBy } from '$lib/utils/helper';
 
 export const load = (async ({ locals }) => {
   // Send a GET request to the list upload endpoint.
-  const listUploads = await fetch(`${API_URL}/upload/list`, {
+  const listUploads = await fetch(`https://1cwj4ysj5h.execute-api.ap-southeast-2.amazonaws.com/upload/list`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });
@@ -33,7 +32,7 @@ export const actions = {
     const id = formData.get('id')?.toString();
 
     // Send a POST request to the create upload endpoint
-    const createUpdateResponse = await fetch(`${API_URL}/upload/update?id=${id}`, {
+    const createUpdateResponse = await fetch(`https://1cwj4ysj5h.execute-api.ap-southeast-2.amazonaws.com/upload/update?id=${id}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
