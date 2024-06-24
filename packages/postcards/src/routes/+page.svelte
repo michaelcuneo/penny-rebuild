@@ -99,7 +99,9 @@
 				recording.set(true);
 				processing.set(false);
 
-				$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'START', { qos: 0, retain: false });
+				setTimeout(() => {
+					$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'START', { qos: 0, retain: false });					
+				}, 3000);
 			
 			} else if (_topic === BUTTON_2_TOPIC && message.toString() === "0") {
 
