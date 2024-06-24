@@ -10,7 +10,6 @@
 	import { writable } from 'svelte/store';
 	import { processing, recording, saving } from '$lib/stores';
 	import CircularProgress from '@smui/circular-progress';
-	import type { PageData } from './$types';
   
 	const BUTTON_1_TOPIC = 'home/penny3/arduino/buttons-board/button-1';
 	const BUTTON_2_TOPIC = 'home/penny3/arduino/buttons-board/button-2';
@@ -142,6 +141,16 @@
 			};
 		})
 	};
+
+  const useForm = () => {
+    return async ({ result, update }) => {
+      if (result.type === 'success') {
+        whisperResponse = '';
+        saving.set(false);
+      }
+    };
+  }
+	
 	</script>
   
 <div class="postcard poetsen-one-regular" style="background-image: url({Penny})">
@@ -170,7 +179,7 @@
   </div>
 {/if}
 
-<form bind:this={form} action="?/save" method="POST" use:enhance>
+<form bind:this={form} action="?/save" method="POST" use:enhance={useForm}>
 	<input hidden name="postcardId" bind:value={currentPostcard.id} />
 	<input hidden name="response" bind:value={whisperResponse} />
 </form>

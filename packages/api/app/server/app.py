@@ -47,7 +47,7 @@ async def record():
   laptopCleanTextPath = "/Users/mjc128/Documents/penny-rebuild/packages/api/cleanText.txt"
 
   model = WhisperModel("tiny.en", device="cpu", num_workers=4, cpu_threads=4, compute_type="int8")
-  segments, info  = model.transcribe(noAudioPath, word_timestamps=False, beam_size=1)
+  segments, info  = model.transcribe(audioPath, word_timestamps=False, beam_size=1)
   
   combined_text = " ".join([segment.text.strip() for segment in segments])
 
@@ -61,11 +61,11 @@ async def record():
   print(f"Time to output: {after - before:.3f}s")
   
   # Save the combined text to a file
-  with open(laptopTextPath, 'w') as file:
+  with open(rawTextPath, 'w') as file:
     file.write(combined_text)
 
   # Save the combined text to a file
-  with open(laptopCleanTextPath, 'w') as file:
+  with open(cleanTextPath, 'w') as file:
     file.write(censored_text)
 
   print(f"Clean Text: {combined_text}")
