@@ -171,6 +171,7 @@
 					processing.set(false);
 					whisperResponse = '';
 					accepted = false;
+					reset();
 				}
 			}
 		});

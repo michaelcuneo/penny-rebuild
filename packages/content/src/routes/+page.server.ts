@@ -17,7 +17,7 @@ export const load = (async ({ locals }) => {
 
   let data = {
     uploads: groupedEntries,
-    bucket: Bucket.public.bucketName
+    bucket: 'production-penny-rebuild-stor-publicbucket5c3dbab0-mmgromfvkfep',
   };
 
   return { data };
