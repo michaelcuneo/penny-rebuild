@@ -201,7 +201,7 @@
     display: flex;
     color: #f489a3;
     font-size: 3.2rem;
-    height: 100vh;
+    max-height: 100vh;
     justify-content: center;
     align-items: center;
     background-repeat: no-repeat;
@@ -210,7 +210,7 @@
   }
   .postcard-text {
     position: absolute;
-  	top: 6vh;
+  	top: 8vh;
     left: 8vw;
     width: 60vw;
   }

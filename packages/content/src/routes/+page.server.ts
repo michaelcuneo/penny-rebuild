@@ -1,5 +1,4 @@
 import type { PageServerLoad } from './$types';
-import { Bucket } from 'sst/node/bucket';
 import { groupBy } from '$lib/utils/helper';
 
 export const load = (async ({ locals }) => {

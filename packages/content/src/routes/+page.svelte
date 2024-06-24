@@ -16,6 +16,7 @@
   
   let currentUpload: Upload;
   let form: HTMLFormElement;
+  let video: HTMLVideoElement;
 
   $: currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
     
@@ -75,10 +76,10 @@
   
 		$client.on('message', (_topic, message) => {
       if (_topic === BUTTON_1_TOPIC && message.toString() === "1") {
-        // Random Audio
+        video.play();
       }
 			if (_topic === BUTTON_2_TOPIC && message.toString() === "1") {
-        // Random Video
+        video.play();
 			}
       if (_topic === BUTTON_3_TOPIC && message.toString() === "1") {
         createLike();
@@ -91,7 +92,7 @@
   
 <div class="content poetsen-one-regular">
   {#if currentUpload.uploadType === 'video/mp4' || currentUpload.uploadType === 'video/webm' || currentUpload.uploadType === 'video/ogg' || currentUpload.uploadType === 'video/quicktime'}
-    <video src="https://{data.data.bucket}.s3.ap-southeast-2.amazonaws.com/{currentUpload?.uploadId}" width="100%" autoplay>
+    <video bind:this={video} src="https://{data.data.bucket}.s3.ap-southeast-2.amazonaws.com/{currentUpload?.uploadId}" width="100%">
       <track kind="captions" />
     </video>
   {:else if currentUpload.uploadType === 'image/png' || currentUpload.uploadType === 'image/jpeg' || currentUpload.uploadType === 'image/gif' || currentUpload.uploadType === 'image/webp'}
@@ -100,7 +101,7 @@
   <form bind:this={form} action="?/save" method="POST" use:enhance>
     <input hidden name="currentUpload" bind:value={currentUpload.id} />
   </form>
-  <div class="like-text">{currentUpload.likes}</div>
+  <div class="like-text">{currentUpload.likes} likes.</div>
 </div>
 
 {#if $saving === true}
@@ -140,6 +141,7 @@
   	bottom: 6vh;
     left: 8vw;
     width: 60vw;
+    font-size: 4.5rem;
   }
   .processing-overlay {
     position: fixed;
