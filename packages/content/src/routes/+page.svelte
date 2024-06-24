@@ -9,9 +9,9 @@
 	import CircularProgress from '@smui/circular-progress';
 	import type { PageData } from './$types';
   
-	const BUTTON_1_TOPIC = 'home/penny3/arduino/buttons-board/button-1';
-	const BUTTON_2_TOPIC = 'home/penny3/arduino/buttons-board/button-2';
-	const BUTTON_3_TOPIC = 'home/penny3/arduino/buttons-board/button-3';
+	const BUTTON_1_TOPIC = 'home/penny4/arduino/buttons-board/button-1';
+	const BUTTON_2_TOPIC = 'home/penny4/arduino/buttons-board/button-2';
+	const BUTTON_3_TOPIC = 'home/penny4/arduino/buttons-board/button-3';
 	const MOSQUITTO_RECORDING_TOPIC = 'home/penny3/record';
   
   let currentUpload: Upload;

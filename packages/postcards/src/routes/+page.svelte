@@ -210,7 +210,7 @@
   }
   .postcard-text {
     position: absolute;
-  	top: 8vh;
+  	top: 6vh;
     left: 8vw;
     width: 60vw;
   }
