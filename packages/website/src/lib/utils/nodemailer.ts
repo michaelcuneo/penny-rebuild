@@ -1,6 +1,5 @@
 import nodemailer from 'nodemailer';
 import { email } from './email';
-import type { ContactMailer } from '../../ambient';
 
 export const mailer = async (data: ContactMailer) => {
   const Transporter = nodemailer.createTransport({
@@ -22,10 +21,10 @@ export const mailer = async (data: ContactMailer) => {
   };
 
   Transporter.sendMail(mailOptions)
-    .then((res) => {
+    .then((res: string) => {
       return res;
     })
-    .catch((err) => {
+    .catch((err: string) => {
       return err;
     });
 };

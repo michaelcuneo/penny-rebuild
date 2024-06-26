@@ -6,7 +6,6 @@
   import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
   import TabBar from '@smui/tab-bar';
   import { postcards } from '$lib/utils/Postcards.js';
-	import type { PostcardType, ContentType, QuestionType } from '../../ambient.js';
 
   let form: HTMLFormElement;
 

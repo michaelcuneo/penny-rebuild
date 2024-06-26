@@ -46,9 +46,10 @@ type QuestionType = {
 
 declare module 'jsonwebtoken';
 declare module 'nodemailer';
-declare module 'svelte-filepond';
-
-export module 'jsonwebtoken';
-export module 'nodemailer';
-export module 'svelte-filepond';
-export module 'svelte-filepond/types/index.d.ts'
+declare module 'svelte-filepond' {
+  export function registerPlugin(...plugins: any[]): void;
+  export default class FilePond {
+    removeFiles(): void;
+    // Add other methods you use from FilePond here
+  }
+}

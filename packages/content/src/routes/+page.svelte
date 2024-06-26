@@ -8,11 +8,11 @@
   import { saving } from '$lib/stores';
 	import CircularProgress from '@smui/circular-progress';
 	import type { PageData } from './$types';
+  import type { SubmitFunction } from '@sveltejs/kit';
   
 	const BUTTON_1_TOPIC = 'home/penny4/arduino/buttons-board/button-1';
 	const BUTTON_2_TOPIC = 'home/penny4/arduino/buttons-board/button-2';
 	const BUTTON_3_TOPIC = 'home/penny4/arduino/buttons-board/button-3';
-	const MOSQUITTO_RECORDING_TOPIC = 'home/penny3/record';
   
   let currentUpload: Upload;
   let form: HTMLFormElement;
@@ -63,15 +63,6 @@
 					console.log('Subscribed to ' + BUTTON_3_TOPIC);
 				}
 			});
-
-			$client?.subscribe(MOSQUITTO_RECORDING_TOPIC, (err: Error | null, granted?: ISubscriptionGrant[]) => {
-				if (granted) {
-					console.log('Granted:', granted);
-				}
-				if (!err) {
-					console.log('Subscribed to ' + MOSQUITTO_RECORDING_TOPIC);
-				}
-			})
 	  });
   
 		$client.on('message', (_topic, message) => {
@@ -86,7 +77,18 @@
       };
 		})
 	};
-	
+
+  const useForm: SubmitFunction = ({ formData, formElement, action, controller, submitter}) => {
+    return async ({ result }) => {
+			if (result.type === 'error') {
+				saving.set(false);
+			}
+      if (result.type === 'success') {
+        saving.set(false);
+      }
+    };
+  }
+		
 	export let data: PageData;
 </script>
   
@@ -113,7 +115,7 @@
   </div>
 {/if}
 
-<form bind:this={form} action="?/save" method="POST" use:enhance>
+<form bind:this={form} action="?/save" method="POST" use:enhance={useForm}>
 	<input hidden name="contentId" bind:value={currentUpload.id} />
 </form>
 

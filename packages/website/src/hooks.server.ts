@@ -2,15 +2,6 @@ import { validateSession } from '$lib/utils/auth';
 import { SESSION_COOKIE_NAME } from '$lib/utils/constants';
 import type { Handle } from '@sveltejs/kit';
 
-/**
- * A SvelteKit handle function that adds the user session to the event locals
- * and resolves the request.
- *
- * @param {object} options - The handle options.
- * @param {import('@sveltejs/kit').RequestEvent} options.event - The request event.
- * @param {import('@sveltejs/kit').ResolveOptions['resolve']} options.resolve - The resolve function.
- * @return {Promise<import('@sveltejs/kit').Response>} The response promise.
- */
 export const handle: Handle = async ({ event, resolve }) => {
   // Retrieve the session cookie from the request cookies
   const sessionCookie = event.cookies.get(SESSION_COOKIE_NAME);

@@ -9,9 +9,9 @@
 	import type { ISubscriptionGrant, MqttClient } from 'mqtt';
 	import { browser } from '$app/environment';
 	import { writable } from 'svelte/store';
-	import { button2, processing, recording, saving } from '$lib/stores';
+	import { processing, recording, saving } from '$lib/stores';
 	import CircularProgress from '@smui/circular-progress';
-	import type { PageData } from './$types';
+	import type { SubmitFunction } from '@sveltejs/kit';
 
 	const BUTTON_1_TOPIC = 'home/penny1/arduino/buttons-board/button-1';
 	const BUTTON_2_TOPIC = 'home/penny1/arduino/buttons-board/button-2';
@@ -177,6 +177,19 @@
 		});
 	}
 
+	const useForm: SubmitFunction = ({ formData, formElement, action, controller, submitter}) => {
+    return async ({ result }) => {
+			if (result.type === 'error') {
+				whisperResponse = '';
+				saving.set(false);
+			}
+      if (result.type === 'success') {
+        whisperResponse = '';
+        saving.set(false);
+      }
+    };
+  }
+	
 	$: submitReady = answers.some((answer) => !answer);
 </script>
 
@@ -248,7 +261,7 @@
 	</div>
 {/if}
 
-<form bind:this={form} action="?/save" method="POST" use:enhance>
+<form bind:this={form} action="?/save" method="POST" use:enhance={useForm}>
 	<input hidden name="q1" value={answers[0]} />
 	<input hidden name="q2" value={answers[1]} />
 	<input hidden name="q3" value={answers[2]} />

@@ -10,6 +10,7 @@
 	import { writable } from 'svelte/store';
 	import { processing, recording, saving } from '$lib/stores';
 	import CircularProgress from '@smui/circular-progress';
+	import type { SubmitFunction } from '@sveltejs/kit';
   
 	const BUTTON_1_TOPIC = 'home/penny3/arduino/buttons-board/button-1';
 	const BUTTON_2_TOPIC = 'home/penny3/arduino/buttons-board/button-2';
@@ -144,8 +145,12 @@
 		})
 	};
 
-  const useForm = () => {
-    return async ({ result, update }) => {
+  const useForm: SubmitFunction = ({ formData, formElement, action, controller, submitter}) => {
+    return async ({ result }) => {
+			if (result.type === 'error') {
+				whisperResponse = '';
+				saving.set(false);
+			}
       if (result.type === 'success') {
         whisperResponse = '';
         saving.set(false);

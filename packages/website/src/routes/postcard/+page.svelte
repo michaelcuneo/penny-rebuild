@@ -8,6 +8,7 @@
 	import Textfield from '@smui/textfield';
   import Button from '@smui/button';
   import invite from '$lib/Invite_graphic.svg';
+  import type { SubmitFunction } from '@sveltejs/kit';
 
   let saving: boolean = false;
 
@@ -19,13 +20,14 @@
 
   let response = '';
 
-  const useForm = () => {
-    return async ({ result, update }) => {
+	const useForm: SubmitFunction = ({ formData, formElement, action, controller, submitter}) => {
+    return async ({ result }) => {
+			if (result.type === 'error') {
+				saving = false;
+			}
       if (result.type === 'success') {
-        response = '';
         saving = false;
       }
-      update();
     };
   }
 </script>

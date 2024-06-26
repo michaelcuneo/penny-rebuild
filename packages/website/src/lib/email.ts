@@ -1,5 +1,3 @@
-import type { ContactMailer } from "../ambient";
-
 export const email = (data: ContactMailer) => {
   return `
   <div>
