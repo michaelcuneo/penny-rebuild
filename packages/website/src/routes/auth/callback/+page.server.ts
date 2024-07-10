@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 import { redirect } from '@sveltejs/kit';
 import { SESSION_COOKIE_NAME } from '$lib/utils/constants.js';
 import { createSessionForUser } from '$lib/utils/auth.js';
-import type { UserToken } from 'types';
 
 /**
  * Page load function for the callback authentication route.

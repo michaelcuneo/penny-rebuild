@@ -41,6 +41,8 @@
 	"type": "module",
 	"dependencies": {
 		"buffer": "^6.0.3",
+		"esbuild": "^0.21.5",
+		"esbuild-plugin-polyfill-node": "^0.3.0",
 		"mqtt": "^5.7.2",
 		"process": "^0.11.10"
 	}

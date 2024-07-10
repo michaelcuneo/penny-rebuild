@@ -16,7 +16,7 @@
     "@types/jsonwebtoken": "^9.0.6",
     "aws-cdk-lib": "2.142.1",
     "constructs": "10.3.0",
-    "sst": "2.43.2",
+    "sst": "2.43.3",
     "typescript": "^5.4.5"
   },
   "workspaces": [
