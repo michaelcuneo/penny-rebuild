@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const id = uuidv4();
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageServerLoad = async () => {
   const command = new PutObjectCommand({
     ACL: "public-read",
     Key: id,

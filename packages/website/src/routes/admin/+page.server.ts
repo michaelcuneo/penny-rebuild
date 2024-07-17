@@ -33,10 +33,10 @@ export const load = (async ({ locals }) => {
 
   const surveys = await listSurveys.json();
 
-  let groupedSurveys = groupBy(surveys, (survey: any) => survey.questionId);
-  let groupedEntries = Array.from(groupedSurveys.values());
+  const groupedSurveys = groupBy(surveys, (survey: { questionId: string }) => survey.questionId);
+  const groupedEntries = Array.from(groupedSurveys.values());
 
-  let data = {
+  const data = {
     uploads: uploads,
     postcards: postcards,
     surveys: groupedEntries,
