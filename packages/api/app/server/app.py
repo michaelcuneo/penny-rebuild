@@ -1,4 +1,4 @@
-from faster_whisper import WhisperModel, decode_audio
+from faster_whisper import WhisperModel
 import time
 from profanityfilter import ProfanityFilter
 
@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+# Set origins for dev mode from laptop, dev mode from desktop, and prod mode when live.
 origins = [
   "http://localhost:3000",
   "http://localhost:3001",
@@ -46,7 +47,7 @@ async def record():
   laptopCleanTextPath = "/Users/mjc128/Documents/penny-rebuild/packages/api/cleanText.txt"
 
   model = WhisperModel("tiny.en", device="cpu", num_workers=4, cpu_threads=4, compute_type="int8")
-  segments, info  = model.transcribe(audioPath, word_timestamps=False, beam_size=1)
+  segments  = model.transcribe(audioPath, word_timestamps=False, beam_size=1)
   
   combined_text = " ".join([segment.text.strip() for segment in segments])
 
