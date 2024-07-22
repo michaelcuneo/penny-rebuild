@@ -21,7 +21,7 @@ export const create: APIGatewayProxyHandlerV2 = async (event) => {
 
 export const update: APIGatewayProxyHandlerV2 = async (event) => {
   const id = event?.queryStringParameters?.id as string;
-  const approved = event?.queryStringParameters?.approved as string;
+  const approved = event?.queryStringParameters?.aprooved as string;
   
   await Upload.update(id, approved);
 
@@ -30,18 +30,6 @@ export const update: APIGatewayProxyHandlerV2 = async (event) => {
     body: "Upload updated",
   };
 };
-
-export const updateLikes: APIGatewayProxyHandlerV2 = async (event) => {
-  const id = event?.queryStringParameters?.id as string;
-  const likes = event?.queryStringParameters?.likes as string;
-
-  await Upload.update(id, likes);
-
-  return {
-    statusCode: 200,
-    body: "Upload likes updated",
-  };
-}
 
 export const list = ApiHandler(async (_evt) => {
   const data = await Upload.list();

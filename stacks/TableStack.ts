@@ -3,13 +3,20 @@ import { StackContext, Table } from "sst/constructs";
 export function TableStack({ stack }: StackContext) {
   // Define users table
   const usersTable = new Table(stack, 'Users', {
-    fields: { id: 'string', email: 'string' },
+    fields: {
+      id: "string",
+      createdAt: "string",
+      updatedAt: "string",
+      email: "string"
+    },
     primaryIndex: { partitionKey: 'email' }
   });
 
   const postcardTable = new Table(stack, "Postcard", {
     fields: {
       id: "string",
+      createdAt: "string",
+      updatedAt: "string",
       postcardId: "string",
       response: "string",
     },
@@ -19,6 +26,8 @@ export function TableStack({ stack }: StackContext) {
   const questionTable = new Table(stack, "Question", {
     fields: {
       id: "string",
+      createdAt: "string",
+      updatedAt: "string",
       questionId: "string",
       response: "string",
     },
@@ -28,6 +37,8 @@ export function TableStack({ stack }: StackContext) {
   const uploadsTable = new Table(stack, "Uploads", {
     fields: {
       id: "string",
+      createdAt: "string",
+      updatedAt: "string",
       firstName: "string",
       lastName: "string",
       email: "string",

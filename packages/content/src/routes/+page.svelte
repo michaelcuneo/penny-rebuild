@@ -102,6 +102,7 @@
   {/if}
   <form bind:this={form} action="?/save" method="POST" use:enhance>
     <input hidden name="currentUpload" bind:value={currentUpload.id} />
+    <input hidden name="currentUploadLikes" bind:value={currentUpload.likes} />
   </form>
   <div class="like-text">{currentUpload.likes} likes.</div>
 </div>

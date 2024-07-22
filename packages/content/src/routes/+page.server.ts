@@ -1,7 +1,7 @@
 import type { PageServerLoad } from './$types';
 import { groupBy } from '$lib/utils/helper';
 
-export const load = (async ({ locals }) => {
+export const load = (async () => {
   // Send a GET request to the list upload endpoint.
   const listUploads = await fetch(`https://1cwj4ysj5h.execute-api.ap-southeast-2.amazonaws.com/upload/list`, {
     method: 'GET',
@@ -11,10 +11,10 @@ export const load = (async ({ locals }) => {
   const uploads = await listUploads.json();
 
   // Group uploads by email
-  let groupedUploads = groupBy(uploads, (upload: any) => upload.uploadType);
-  let groupedEntries = Array.from(groupedUploads.values());
+  const groupedUploads = groupBy(uploads, (upload: { uploadType: string }) => upload.uploadType);
+  const groupedEntries = Array.from(groupedUploads.values());
 
-  let data = {
+  const data = {
     uploads: groupedEntries,
     bucket: 'production-penny-rebuild-stor-publicbucket5c3dbab0-mmgromfvkfep',
   };
@@ -28,7 +28,8 @@ export const actions = {
     const formData = await request.formData();
 
     // Get the details from the form data
-    const id = formData.get('id')?.toString();
+    const id = formData.get('currentUpload')?.toString();
+    const likes = formData.get('currentUploadLikes')?.toString();
 
     // Send a POST request to the create upload endpoint
     const createUpdateResponse = await fetch(`https://1cwj4ysj5h.execute-api.ap-southeast-2.amazonaws.com/upload/update?id=${id}`, {
