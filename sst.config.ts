@@ -4,7 +4,11 @@ import { ConfigStack } from "./stacks/ConfigStack";
 import { ApiStack } from "./stacks/ApiStack";
 import { StorageStack } from "./stacks/StorageStack";
 import { TableStack } from "./stacks/TableStack";
+import { ContentSiteStack } from "./stacks/ContentSiteStack";
+import { QuestionSiteStack } from "./stacks/QuestionSiteStack";
+import { PostcardSiteStack } from "./stacks/PostcardSiteStack";
 import { WebsiteStack } from "./stacks/WebsiteStack";
+
 
 export default {
   config(_input) {
@@ -21,6 +25,9 @@ export default {
       .stack(ApiStack)
       .stack(StorageStack)
       .stack(AuthStack)
+      .stack(ContentSiteStack)
+      .stack(QuestionSiteStack)
+      .stack(PostcardSiteStack)
       .stack(WebsiteStack);
   }
 } satisfies SSTConfig;

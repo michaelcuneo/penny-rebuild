@@ -10,34 +10,7 @@ export function WebsiteStack({ stack }: StackContext) {
   const { api } = use(ApiStack);
   const { auth } = use(AuthStack);
   const { emailService, emailHost, emailPort, emailUser, emailAppPass, jwtSecret } = use(ConfigStack);
-  const { postcardTable, uploadsTable, questionTable, usersTable } = use(TableStack);
-
-  const contentsite = new SvelteKitSite(stack, "ContentSite", {
-    bind: [uploadsTable, bucket],
-    path: "packages/content",
-    edge: false, // Set to false because we don't need this to be international.
-    environment: {
-      API_URL: api.url,
-    },
-  });
-
-  const questionSite = new SvelteKitSite(stack, "QuestionSite", {
-    bind: [questionTable],
-    path: "packages/questions",
-    edge: false, // Set to false because we don't need this to be international.
-    environment: {
-      API_URL: api.url,
-    },
-  });
-
-  const postcardsite = new SvelteKitSite(stack, "PostcardSite", {
-    bind: [postcardTable],
-    path: "packages/postcards",
-    edge: false, // Set to false because we don't need this to be international.
-    environment: {
-      API_URL: api.url,
-    },
-  });
+  const { usersTable } = use(TableStack);
 
   const website = new SvelteKitSite(stack, "Website", {
     bind: [auth, usersTable, emailService, emailHost, emailPort, emailUser, emailAppPass, jwtSecret, bucket],
@@ -53,9 +26,6 @@ export function WebsiteStack({ stack }: StackContext) {
   });
 
   stack.addOutputs({
-    ContentsUrl: contentsite.url,
-    QuestionsUrl: questionSite.url,
-    PostcardsUrl: postcardsite.url,
     WebsiteUrl: website.url
   });
 }
