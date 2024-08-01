@@ -9,7 +9,7 @@
 	import type { ISubscriptionGrant, MqttClient } from 'mqtt';
 	import { browser } from '$app/environment';
 	import { writable } from 'svelte/store';
-	import { processing, recording, saving } from '$lib/stores';
+	import { processing, recording, saving, button1, button2, button3 } from '$lib/stores';
 	import CircularProgress from '@smui/circular-progress';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
@@ -37,10 +37,6 @@
 		'', // 10
 		'' // 11
 	] as string[] | number[] | null[] | undefined[];
-
-	let button1Text = 'INFO';
-	let button2Text = '';
-	let button3Text = 'ACCEPT';
 
 	let accepted = false;
 
@@ -85,7 +81,6 @@
 			.then((data) => {
 				whisperResponse = data;
 				answers[currentQuestionId - 1] = whisperResponse;
-				button2Text = 'Next';
 				processing.set(false);
 			});
 	};
@@ -135,49 +130,67 @@
 
 		$client.on('message', (_topic, message) => {
 			if (_topic === BUTTON_1_TOPIC && message.toString() === '1') {
+
 				reset();
+
 			}
 			if (_topic === BUTTON_2_TOPIC && message.toString() === '1') {
+
 				recording.set(true);
 				processing.set(false);
 
-				setTimeout(() => {
-					$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'START', { qos: 0, retain: false });					
-				}, 3000);
-			
+				if (!recording && !processing) {
+					setTimeout(() => {
+						$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'START', { qos: 0, retain: false });					
+					}, 3000);
+				}
+
 			} else if (_topic === BUTTON_2_TOPIC && message.toString() === '0') {
+
+				if (recording) {
+					$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'STOP', { qos: 0, retain: false });
+				}
 				recording.set(false);
-				$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'STOP', { qos: 0, retain: false });
 
 				startProcessing();
+
 			} else if (_topic === BUTTON_3_TOPIC && message.toString() === '1') {
 				if (!accepted) {
-					accepted = true;				}
+
+					accepted = true;
+
+				}
 				if (answers[currentQuestionId - 1] === '') {
+
 					recording.set(false);
 					processing.set(false);
 					whisperResponse = 'Please record an answer first.';
 
 					new Promise((resolve) => setTimeout(resolve, 10000)).then(() => (whisperResponse = ''));
+
 				} else if (answers[currentQuestionId - 1] !== '') {
+
 					// Set button 2 to false here so it can't be pressed twice to record twice.
 					currentQuestionId++;
 					recording.set(false);
 					processing.set(false);
 					whisperResponse = '';
+
 				} else if (submitReady) {
+
 					createResponse();
 					recording.set(false);
 					processing.set(false);
 					whisperResponse = '';
 					accepted = false;
 					reset();
+
 				}
 			}
 		});
 	}
 
-	const useForm: SubmitFunction = ({ formData, formElement, action, controller, submitter}) => {
+	const useForm: SubmitFunction = () => {
     return async ({ result }) => {
 			if (result.type === 'error') {
 				whisperResponse = '';
@@ -211,7 +224,6 @@
 			{/if}
 		</div>
 	</div>
-
 	{#if $recording === true || $processing === true || $saving === true}
 		<div class="processing-overlay" transition:fade>
 			<h4>

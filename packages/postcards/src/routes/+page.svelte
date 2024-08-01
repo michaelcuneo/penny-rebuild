@@ -30,6 +30,12 @@
   
 	let client = writable<MqttClient | null>(null);
 
+	const reset = () => {
+		recording.set(false);
+		processing.set(false);
+		whisperResponse = '';
+	}
+
 	const createResponse = async () => {
 		saving.set(true);
 		form.requestSubmit();
@@ -94,22 +100,29 @@
 	  });
   
 		$client.on('message', (_topic, message) => {
-			console.log('Topic: ' + _topic + ' Message: ' + message.toString());
+			if (_topic === BUTTON_1_TOPIC && message.toString() === "1") {
+
+				reset();
+
+			} else
 			if (_topic === BUTTON_2_TOPIC && message.toString() === "1") {
 
 				recording.set(true);
 				processing.set(false);
 
-				setTimeout(() => {
-					$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'START', { qos: 0, retain: false });					
-				}, 3000);
-			
+				if (!recording && !processing) {
+					setTimeout(() => {
+						$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'START', { qos: 0, retain: false });					
+					}, 3000);
+				}
+		
 			} else if (_topic === BUTTON_2_TOPIC && message.toString() === "0") {
 
-				recording.set(false);
-				processing.set(false);
+				if (recording) {
+					$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'STOP', { qos: 0, retain: false });
+				}
 
-				$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'STOP', { qos: 0, retain: false });
+				recording.set(false);
 
 				startProcessing();
 
@@ -138,6 +151,7 @@
 						recording.set(false);
 						processing.set(false);
 						whisperResponse = '';
+						reset();
 
 					}
 				}

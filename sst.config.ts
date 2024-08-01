@@ -11,7 +11,7 @@ export default {
     return {
       name: "penny-rebuild",
       region: "ap-southeast-2",
-      profile: "default", // WORK OR PENNY
+      profile: "work", // WORK OR PENNY
     };
   },
   stacks(app) {
