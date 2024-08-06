@@ -9,7 +9,6 @@ import { QuestionSiteStack } from "./stacks/QuestionSiteStack";
 import { PostcardSiteStack } from "./stacks/PostcardSiteStack";
 import { WebsiteStack } from "./stacks/WebsiteStack";
 
-
 export default {
   config(_input) {
     return {

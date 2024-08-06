@@ -15,5 +15,9 @@ export function StorageStack({ stack }: StackContext) {
 
   bucket.cdk.bucket.grantPublicAccess();
 
+  stack.addOutputs({
+    bucketName: bucket.bucketName,
+  });
+
   return { bucket };
 }

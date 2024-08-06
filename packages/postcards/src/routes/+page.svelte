@@ -118,7 +118,7 @@
 		
 			} else if (_topic === BUTTON_2_TOPIC && message.toString() === "0") {
 
-				if (recording) {
+				if ($recording) {
 					$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'STOP', { qos: 0, retain: false });
 				}
 
@@ -218,7 +218,7 @@
 <style>
   .postcard {
     display: flex;
-    color: #f489a3;
+    color: white;
     font-size: 3.2rem;
     max-height: 100vh;
     justify-content: center;

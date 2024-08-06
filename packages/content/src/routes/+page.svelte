@@ -78,7 +78,7 @@
 		})
 	};
 
-  const useForm: SubmitFunction = ({ formData, formElement, action, controller, submitter}) => {
+  const useForm: SubmitFunction = () => {
     return async ({ result }) => {
 			if (result.type === 'error') {
 				saving.set(false);

@@ -9,7 +9,7 @@
 	import type { ISubscriptionGrant, MqttClient } from 'mqtt';
 	import { browser } from '$app/environment';
 	import { writable } from 'svelte/store';
-	import { processing, recording, saving, button1, button2, button3 } from '$lib/stores';
+	import { processing, recording, saving } from '$lib/stores';
 	import CircularProgress from '@smui/circular-progress';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
@@ -18,13 +18,15 @@
 	const BUTTON_3_TOPIC = 'home/penny1/arduino/buttons-board/button-3';
 	const MOSQUITTO_RECORDING_TOPIC = 'home/penny1/record';
 
-	let whisperResponse: string = '';
+	let whisperResponse: string;
 	let form: HTMLFormElement;
 
+	$: whisperResponse = '';
 	$: currentQuestionId = 0;
-	$: currentQuestion = questions[currentQuestionId - 1];
+	$: currentQuestion = questions[currentQuestionId];
 
 	let answers = [
+		'', // 0
 		'', // 1
 		'', // 2
 		'', // 3
@@ -35,13 +37,13 @@
 		'', // 8
 		'', // 9
 		'', // 10
-		'' // 11
+		'', // 11
 	] as string[] | number[] | null[] | undefined[];
 
 	let accepted = false;
 
 	const reset = () => {
-		currentQuestionId = 1;
+		currentQuestionId = 0;
 		recording.set(false);
 		processing.set(false);
 		accepted = false;
@@ -56,7 +58,7 @@
 		keepalive: 1,
 		clean: false,
 		connectTimeout: 4000,
-		clientId: 'penny-3-henge'
+		clientId: 'penny-1-henge'
 	};
 
 	let client = writable<MqttClient | null>(null);
@@ -80,7 +82,7 @@
 			.then((res) => res.json())
 			.then((data) => {
 				whisperResponse = data;
-				answers[currentQuestionId - 1] = whisperResponse;
+				answers[currentQuestionId] = whisperResponse;
 				processing.set(false);
 			});
 	};
@@ -160,7 +162,7 @@
 					accepted = true;
 
 				}
-				if (answers[currentQuestionId - 1] === '') {
+				if (answers[currentQuestionId] === '') {
 
 					recording.set(false);
 					processing.set(false);
@@ -168,13 +170,13 @@
 
 					new Promise((resolve) => setTimeout(resolve, 10000)).then(() => (whisperResponse = ''));
 
-				} else if (answers[currentQuestionId - 1] !== '') {
+				} else if (answers[currentQuestionId] !== '') {
 
 					// Set button 2 to false here so it can't be pressed twice to record twice.
 					currentQuestionId++;
+					whisperResponse = '';
 					recording.set(false);
 					processing.set(false);
-					whisperResponse = '';
 
 				} else if (submitReady) {
 
@@ -215,12 +217,14 @@
 			{#each currentQuestion.options as option, i}
 				<div class="option" transition:fade>{i + 1} : {option}</div>
 			{/each}
-			<div>
-				Respond by speaking the numbers that correspond to your answer, or just freeform it and say
-				anything you like.
-			</div>
 			{#if $recording === false && $processing === false}
+				<h4>You have responded with: </h4>
 				{whisperResponse}
+			{:else}
+				<div>
+					Respond by speaking the numbers that correspond to your answer, or just freeform it and say
+					anything you like.
+				</div>
 			{/if}
 		</div>
 	</div>
