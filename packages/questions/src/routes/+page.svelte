@@ -19,7 +19,9 @@
 	const MOSQUITTO_RECORDING_TOPIC = 'home/penny1/record';
 
 	let whisperResponse: string;
+	let accepted: boolean;
 	let form: HTMLFormElement;
+	let timeLeft = 3;
 
 	$: whisperResponse = '';
 	$: currentQuestionId = 0;
@@ -40,7 +42,15 @@
 		'', // 11
 	] as string[] | number[] | null[] | undefined[];
 
-	let accepted = false;
+	$: accepted = false;
+
+	const delayTimer = setInterval(() => {
+		if (timeLeft > 0) {
+			timeLeft--;
+		} else {
+			clearInterval(delayTimer);
+		}
+	}, 1000);
 
 	const reset = () => {
 		currentQuestionId = 0;
@@ -88,7 +98,12 @@
 	};
 
 	if (browser) {
-		$client = mqtt.connect('ws://localhost:8083', options);
+		// PRODUCTION
+		// let endpoint = 'ws://localhost:8083';
+		// DEVELOPMENT
+		let endpoint = 'ws://halide.michaelcuneo.com.au:8083';
+		$client = mqtt.connect(endpoint, options);
+		// DEVELOPMENT
 		$client.on('connect', () => {
 			$client?.subscribe(BUTTON_1_TOPIC, (err: Error | null, granted?: ISubscriptionGrant[]) => {
 				if (granted) {
@@ -161,8 +176,7 @@
 
 					accepted = true;
 
-				}
-				if (answers[currentQuestionId] === '') {
+				} else if (answers[currentQuestionId] === '') {
 
 					recording.set(false);
 					processing.set(false);
@@ -211,18 +225,19 @@
 {#if accepted}
 	<div class="question poetsen-one-regular">
 		<div class="question-text" transition:fade>
-			<h4>
-				Question {currentQuestionId} : {currentQuestion.question}
-			</h4>
+			<h5>
+				Question {currentQuestionId + 1} : {currentQuestion.question}
+			</h5>
 			{#each currentQuestion.options as option, i}
 				<div class="option" transition:fade>{i + 1} : {option}</div>
 			{/each}
-			{#if $recording === false && $processing === false}
-				<h4>You have responded with: </h4>
+			{#if whisperResponse}
+				<h5>You have responded with: </h5>
 				{whisperResponse}
 			{:else}
 				<div>
-					Respond by speaking the numbers that correspond to your answer, or just freeform it and say
+				<br />
+					If this question is multiple choice, you can respond by just speaking the number that correspond to your answer, or feel free to just freeform it and say
 					anything you like.
 				</div>
 			{/if}
@@ -230,15 +245,19 @@
 	</div>
 	{#if $recording === true || $processing === true || $saving === true}
 		<div class="processing-overlay" transition:fade>
-			<h4>
+			<h2>
 				{#if $recording}
-					'Recording...'
+					{#if timeLeft === 0}
+						Recording...
+					{:else}
+						Recording in {timeLeft}
+					{/if}
 				{:else if $processing}
-					'Transcribing...'
+					Transcribing...
 				{:else if $saving}
-					'Saving...'
+					Saving your response...
 				{/if}
-			</h4>
+			</h2>
 			<CircularProgress style="height: 128px; width: 128px;" indeterminate />
 		</div>
 	{/if}
@@ -306,7 +325,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		color: #f489a3;
+		color: white;
 		width: 100vw;
 		font-size: 3rem;
 		height: 100vh;
@@ -318,6 +337,7 @@
 		position: fixed;
 		display: flex;
 		flex-direction: column;
+		width: 100vw;
 		top: 0;
 		bottom: 0;
 		left: 0;
@@ -327,8 +347,23 @@
 		background-color: rgba(0, 0, 0, 0.5);
 	}
 	h4 {
-		width: 100%;
 		font-size: 3.2rem;
+		letter-spacing: 5px;
+		text-shadow:
+			-1px -1px 0px #313639,
+			2px 2px 0px #f489a355,
+			4px 4px 0px #00000055;
+	}
+	h5 {
+		font-size: 4.6rem;
+		letter-spacing: 5px;
+		text-shadow:
+			-1px -1px 0px #313639,
+			2px 2px 0px #f489a355,
+			4px 4px 0px #00000055;
+	}
+	h2 {
+		font-size: 5rem;
 		letter-spacing: 5px;
 		text-shadow:
 			-1px -1px 0px #313639,

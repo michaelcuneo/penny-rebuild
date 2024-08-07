@@ -1,7 +1,7 @@
-uvicorn
-fastapi
-pyaudio
-faster_whisper
-detoxify
-profanityfilter
-pandas
+uvicorn==0.30.5
+fastapi==0.112.0
+pyaudio==0.2.14
+faster_whisper==1.0.2
+detoxify==0.5.2
+profanityfilter==2.0.6
+pandas==2.2.2

@@ -34,17 +34,26 @@ async def record():
   before = time.time()
 
   # Change Audiopath before uploading
-  audioPath = "/root/NCC-Henges-New-Build/Audio/audioFiles/recorded_audio.wav"
-  devAudioPath = "/home/michael/penny-rebuild/packages/api/audioFiles/recorded_audio.wav"
-  noAudioPath = "/Users/mjc128/Documents/penny-rebuild/packages/api/audioFiles/jfk.wav"
+  # PRODUCTION
+  # audioPath = "/root/NCC-Henges-New-Build/Audio/audioFiles/recorded_audio.wav"
+  # HALIDE
+  audioPath = "/home/michael/penny-rebuild/packages/api/audioFiles/jfk.wav"
+  # LAPTOP
+  # audioPath = "/Users/mjc128/Documents/penny-rebuild/packages/api/audioFiles/jfk.wav"
   
-  rawTextPath = "/root/NCC-Henges-New-Build/Audio/rawText.txt"
-  devRawTextPath = "/home/michael/penny-rebuild/packages/api/rawText.txt"
-  laptopTextPath = "/Users/mjc128/Documents/penny-rebuild/packages/api/rawText.txt"
+  # PRODUCTION
+  # rawTextPath = "/root/NCC-Henges-New-Build/Audio/rawText.txt"
+  # HALIDE
+  rawTextPath = "/home/michael/penny-rebuild/packages/api/rawText.txt"
+  # LAPTOP
+  # rawTextPath = "/Users/mjc128/Documents/penny-rebuild/packages/api/rawText.txt"
 
-  cleanTextPath = "/root/NCC-Henges-New-Build/Audio/cleanText.txt"
-  devCleanTextPath = "/home/michael/penny-rebuild/packages/api/cleanText.txt"
-  laptopCleanTextPath = "/Users/mjc128/Documents/penny-rebuild/packages/api/cleanText.txt"
+  # PRODUCTION
+  # cleanTextPath = "/root/NCC-Henges-New-Build/Audio/cleanText.txt"
+  # HALIDE
+  cleanTextPath = "/home/michael/penny-rebuild/packages/api/cleanText.txt"
+  # LAPTOP
+  # cleanTextPath = "/Users/mjc128/Documents/penny-rebuild/packages/api/cleanText.txt"
 
   model = WhisperModel("tiny.en", device="cpu", num_workers=4, cpu_threads=4, compute_type="int8")
   segments  = model.transcribe(audioPath, word_timestamps=False, beam_size=1)
