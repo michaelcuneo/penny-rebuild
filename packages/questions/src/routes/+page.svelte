@@ -154,7 +154,7 @@
 			}
 			if (_topic === BUTTON_2_TOPIC && message.toString() === '1') {
 
-				if (!recording) {
+				if (!$recording) {
 					setTimeout(() => {
 						$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'START', { qos: 0, retain: false });					
 						recording.set(true);
@@ -163,7 +163,7 @@
 
 			} else if (_topic === BUTTON_2_TOPIC && message.toString() === '0') {
 
-				if (recording) {
+				if ($recording) {
 					$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'STOP', { qos: 0, retain: false });
 					startProcessing();
 					recording.set(false);
