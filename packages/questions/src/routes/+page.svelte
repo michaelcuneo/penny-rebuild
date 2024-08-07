@@ -12,6 +12,8 @@
 	import { processing, recording, saving } from '$lib/stores';
 	import CircularProgress from '@smui/circular-progress';
 	import type { SubmitFunction } from '@sveltejs/kit';
+	
+	let dev = true;
 
 	const BUTTON_1_TOPIC = 'home/penny1/arduino/buttons-board/button-1';
 	const BUTTON_2_TOPIC = 'home/penny1/arduino/buttons-board/button-2';
@@ -99,9 +101,7 @@
 
 	if (browser) {
 		// PRODUCTION
-		let endpoint = 'ws://localhost:8083';
-		// DEVELOPMENT
-		// let endpoint = 'ws://halide.michaelcuneo.com.au:8083';
+		let endpoint = dev ? 'ws://halide.michaelcuneo.com.au:8083' : 'ws://localhost:8083';
 		$client = mqtt.connect(endpoint, options);
 		// DEVELOPMENT
 		$client.on('connect', () => {
