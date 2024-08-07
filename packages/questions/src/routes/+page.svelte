@@ -58,6 +58,7 @@
 		currentQuestionId = 0;
 		recording.set(false);
 		processing.set(false);
+		whisperResponse = '';
 		accepted = false;
 		answers = ['', '', '', '', '', '', '', '', '', '', ''] as
 			| string[]
@@ -153,12 +154,10 @@
 			}
 			if (_topic === BUTTON_2_TOPIC && message.toString() === '1') {
 
-				recording.set(true);
-				processing.set(false);
-
-				if (!recording && !processing) {
+				if (!recording) {
 					setTimeout(() => {
 						$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'START', { qos: 0, retain: false });					
+						recording.set(true);
 					}, 3000);
 				}
 
@@ -166,10 +165,9 @@
 
 				if (recording) {
 					$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'STOP', { qos: 0, retain: false });
+					startProcessing();
+					recording.set(false);
 				}
-				recording.set(false);
-
-				startProcessing();
 
 			} else if (_topic === BUTTON_3_TOPIC && message.toString() === '1') {
 				if (!accepted) {
@@ -195,10 +193,6 @@
 				} else if (submitReady) {
 
 					createResponse();
-					recording.set(false);
-					processing.set(false);
-					whisperResponse = '';
-					accepted = false;
 					reset();
 
 				}
