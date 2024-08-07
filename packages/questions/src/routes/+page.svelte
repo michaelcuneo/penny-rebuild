@@ -99,9 +99,9 @@
 
 	if (browser) {
 		// PRODUCTION
-		// let endpoint = 'ws://localhost:8083';
+		let endpoint = 'ws://localhost:8083';
 		// DEVELOPMENT
-		let endpoint = 'ws://halide.michaelcuneo.com.au:8083';
+		// let endpoint = 'ws://halide.michaelcuneo.com.au:8083';
 		$client = mqtt.connect(endpoint, options);
 		// DEVELOPMENT
 		$client.on('connect', () => {
@@ -237,7 +237,7 @@
 			{:else}
 				<div>
 				<br />
-					If this question is multiple choice, you can respond by just speaking the number that correspond to your answer, or feel free to just freeform it and say
+					If this question is multiple choice, you can respond by just speaking the number that corresponds to your answer, or feel free to just freeform it and say
 					anything you like.
 				</div>
 			{/if}
