@@ -81,10 +81,8 @@
   const useForm: SubmitFunction = () => {
     return async ({ result }) => {
 			if (result.type === 'error') {
-				saving.set(false);
 			}
       if (result.type === 'success') {
-        saving.set(false);
       }
     };
   }
