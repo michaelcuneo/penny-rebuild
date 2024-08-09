@@ -13,7 +13,7 @@
 	import CircularProgress from '@smui/circular-progress';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	
-	let dev = false;
+	let dev = true;
 
 	const BUTTON_1_TOPIC = 'home/penny1/arduino/buttons-board/button-1';
 	const BUTTON_2_TOPIC = 'home/penny1/arduino/buttons-board/button-2';
@@ -23,13 +23,19 @@
 	let whisperResponse: string;
 	let accepted: boolean;
 	let form: HTMLFormElement;
-	let timeLeft = 3;
+	let answers: string[] | number[] | null[] | undefined[];
 
+	let timeLeft: number;
+	let timeLeftInterval: NodeJS.Timeout;
+	let recordingTimeLeft: number;
+	let recordingTimeLeftInterval: NodeJS.Timeout;
+
+	$: timeLeft = 3;
+	$: recordingTimeLeft = 20;
 	$: whisperResponse = '';
 	$: currentQuestionId = 0;
 	$: currentQuestion = questions[currentQuestionId];
-
-	let answers = [
+	$: answers = [
 		'', // 0
 		'', // 1
 		'', // 2
@@ -42,17 +48,8 @@
 		'', // 9
 		'', // 10
 		'', // 11
-	] as string[] | number[] | null[] | undefined[];
-
+	];
 	$: accepted = false;
-
-	const delayTimer = setInterval(() => {
-		if (timeLeft > 0) {
-			timeLeft--;
-		} else {
-			clearInterval(delayTimer);
-		}
-	}, 1000);
 
 	const reset = () => {
 		currentQuestionId = 0;
@@ -79,10 +76,14 @@
 	const createResponse = async () => {
 		saving.set(true);
 		form.requestSubmit();
+
+		new Promise((resolve) => setTimeout(resolve, 10000)).then(() => reset());
 	};
 
 	const startProcessing = async () => {
 		processing.set(true);
+		clearInterval(timeLeftInterval);
+		timeLeft = 3;
 
 		await fetch('http://localhost:8000/transcribe', {
 			headers: {
@@ -94,9 +95,11 @@
 		})
 			.then((res) => res.json())
 			.then((data) => {
+
 				whisperResponse = data;
 				answers[currentQuestionId] = whisperResponse;
 				processing.set(false);
+
 			});
 	};
 
@@ -149,32 +152,49 @@
 		$client.on('message', (_topic, message) => {
 			if (_topic === BUTTON_1_TOPIC && message.toString() === '1') {
 
+				// Reset the survey and start again.
 				reset();
 
 			}
 			if (_topic === BUTTON_2_TOPIC && message.toString() === '1') {
 
 				if (!$recording) {
+
+					// Set 3 second delay
+					timeLeftInterval = setInterval(() => {
+						if (timeLeft > 0) {
+							
+							timeLeft--;
+
+						}
+					}, 1000);
+
+					// Set recording to false after 20 seconds.
 					setTimeout(() => {
-						$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'START', { qos: 0, retain: false });					
-						recording.set(true);
+						$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'START', { qos: 0, retain: false });
 					}, 3000);
+
+					// Set recording to true because 3 seconds have passed, we are now recording.
+					recording.set(true);
+
 				}
 
 			} else if (_topic === BUTTON_2_TOPIC && message.toString() === '0') {
 
 				if ($recording) {
+
 					$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'STOP', { qos: 0, retain: false });
-					startProcessing();
 					recording.set(false);
+
+					startProcessing();
 				}
 
 			} else if (_topic === BUTTON_3_TOPIC && message.toString() === '1') {
-				if (!accepted) {
+				if (!accepted && !submitReady) {
 
 					accepted = true;
 
-				} else if (answers[currentQuestionId] === '') {
+				} else if (answers[currentQuestionId] === '' && !submitReady) {
 
 					recording.set(false);
 					processing.set(false);
@@ -182,7 +202,7 @@
 
 					new Promise((resolve) => setTimeout(resolve, 10000)).then(() => (whisperResponse = ''));
 
-				} else if (answers[currentQuestionId] !== '') {
+				} else if (answers[currentQuestionId] !== '' && !submitReady) {
 
 					// Set button 2 to false here so it can't be pressed twice to record twice.
 					currentQuestionId++;
@@ -193,7 +213,6 @@
 				} else if (submitReady) {
 
 					createResponse();
-					reset();
 
 				}
 			}
@@ -212,32 +231,71 @@
       }
     };
   }
+
+	$: console.log("Recording: ", $recording);
+	$: console.log("Processing: ", $processing);
+	$: console.log("Saving: ", $saving);
+	$: console.log("Whisper Response: ", whisperResponse);
+	$: console.log("Accepted: ", accepted);
+	$: console.log("Current Question ID: ", currentQuestionId);
+	$: console.log("Current Question: ", currentQuestion);
+	$: console.log("Answers: ", answers);
+	$: console.log("Submit Ready: ", submitReady);
+	$: console.log("Time Left: ", timeLeft);
+	$: console.log("Recording Time Left: ", recordingTimeLeft);
 	
-	$: submitReady = answers.some((answer) => !answer);
+	$: submitReady = !answers.some((answer) => answer === '');
 </script>
 
 {#if accepted}
-	<div class="question poetsen-one-regular">
-		<div class="question-text" transition:fade>
-			<h5>
-				Question {currentQuestionId + 1} : {currentQuestion.question}
-			</h5>
-			{#each currentQuestion.options as option, i}
-				<div class="option" transition:fade>{i + 1} : {option}</div>
-			{/each}
-			{#if whisperResponse}
-				<h5>You have responded with: </h5>
-				{whisperResponse}
-			{:else}
+	{#if $saving}
+		<div class="question poetsen-one-regular">
+			<div class="question-text" transition:fade>
+				<h5>
+					Questionaire Complete!
+				</h5>
+				<h5>
+					Saving your responses...
+				</h5>
 				<div>
-				<br />
-					If this question is multiple choice, you can respond by just speaking the number that corresponds to your answer, or feel free to just freeform it and say
-					anything you like.
+					<br />
+					Thank you for completing our questionnaire.
 				</div>
-			{/if}
+			</div>
 		</div>
-	</div>
-	{#if $recording === true || $processing === true || $saving === true}
+	{:else}
+		<div class="question poetsen-one-regular">
+			<div class="question-text" transition:fade>
+				<h5>
+					Question {currentQuestionId + 1} : {currentQuestion.question}
+				</h5>
+				{#each currentQuestion.options as option, i}
+					<div class="option" transition:fade>{i + 1} : {option}</div>
+				{/each}
+				{#if whisperResponse}
+					{#if whisperResponse === 'Please record an answer first.'}
+						<h5>PLEASE RECORD AN ANSWER FIRST</h5>
+						<h5>To re-record your response hold the middle button.</h5>
+						<h5>To submit your response push the right button.</h5>
+					{:else}
+						<h5>You have responded with: </h5>
+						<p>"{whisperResponse}"</p>
+						<h5>To re-record your response hold the middle button.</h5>
+						<h5>To submit your response push the right button.</h5>
+					{/if}
+				{:else}
+					<div>
+					<br />
+						If this question is multiple choice, you can respond by just speaking the number that corresponds to your answer, or feel free to just freeform it and say
+						anything you like.
+						<h5>To cancel the survey push the left button.</h5>
+						<h5>To record your response hold down the middle button.</h5>
+					</div>
+				{/if}
+			</div>
+		</div>
+	{/if}
+	{#if $recording === true || $processing === true}
 		<div class="processing-overlay" transition:fade>
 			<h2>
 				{#if $recording}
@@ -248,8 +306,6 @@
 					{/if}
 				{:else if $processing}
 					Transcribing...
-				{:else if $saving}
-					Saving your response...
 				{/if}
 			</h2>
 			<CircularProgress style="height: 128px; width: 128px;" indeterminate />
@@ -273,7 +329,7 @@
 				<h4>Scan 'Research Statement' to read about the research before participating.</h4>
 				<h4>Scan 'Private Survey' to participate in the survey online.</h4>
 				<h4>
-					To participate here using this henge, proceed with the button corresponding to the tick.
+					To participate in this survey, proceed by hitting the tick.
 				</h4>
 			</Typewriter>
 		</div>
@@ -338,7 +394,7 @@
 		right: 0;
 		justify-content: center;
 		align-items: center;
-		background-color: rgba(0, 0, 0, 0.5);
+		background-color: rgba(0, 0, 0, 0.9);
 	}
 	h4 {
 		font-size: 3.2rem;

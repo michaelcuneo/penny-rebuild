@@ -147,18 +147,12 @@
 {/if}
 
 <menu-button role="button" tabindex="0" on:click={handleClick} on:keydown={handleClick}>
-<svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56">
-  <defs>
-    <style>
-      .cls-1 {
-        fill: #f389a3;
-        stroke-width: 0px;
-      }
-    </style>
-  </defs>
-  <path class="cls-1" d="M38.34,40.14h-7.59v-7.59c0-.08-.02-.16-.03-.23,7.68-1.3,13.54-8,13.54-16.04,0-8.97-7.3-16.28-16.28-16.28S11.72,7.3,11.72,16.28c0,8.04,5.87,14.74,13.54,16.04,0,.08-.02.15-.02.23v7.59h-7.59c-1.52,0-2.76,1.24-2.76,2.76s1.23,2.76,2.76,2.76h7.59v7.59c0,1.52,1.24,2.76,2.76,2.76s2.76-1.24,2.76-2.76v-7.59h7.59c1.52,0,2.76-1.24,2.76-2.76s-1.23-2.76-2.76-2.76ZM17.24,16.28c0-5.93,4.83-10.76,10.76-10.76s10.76,4.83,10.76,10.76-4.83,10.76-10.76,10.76c-5.93,0-10.76-4.83-10.76-10.76Z"/>
-</svg></menu-button
->
+	<svg width="56px" height="56px" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path d="M4 18L20 18" stroke="white" stroke-width="2" stroke-linecap="round"/>
+		<path d="M4 12L20 12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+		<path d="M4 6L20 6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+	</svg>
+</menu-button>
 
 <style>
 	menu-overlay {

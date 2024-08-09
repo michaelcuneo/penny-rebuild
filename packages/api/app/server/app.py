@@ -35,23 +35,23 @@ async def record():
 
   # Change Audiopath before uploading
   # PRODUCTION
-  audioPath = "/root/NCC-Henges-New-Build/Audio/audioFiles/recorded_audio.wav"
+  # audioPath = "/root/NCC-Henges-New-Build/Audio/audioFiles/recorded_audio.wav"
   # HALIDE
-  # audioPath = "/home/michael/penny-rebuild/packages/api/audioFiles/jfk.wav"
+  audioPath = "/home/michael/penny-rebuild/packages/api/audioFiles/jfk.wav"
   # LAPTOP
   # audioPath = "/Users/mjc128/Documents/penny-rebuild/packages/api/audioFiles/jfk.wav"
   
   # PRODUCTION
-  rawTextPath = "/root/NCC-Henges-New-Build/Audio/rawText.txt"
+  # rawTextPath = "/root/NCC-Henges-New-Build/Audio/rawText.txt"
   # HALIDE
-  # rawTextPath = "/home/michael/penny-rebuild/packages/api/rawText.txt"
+  rawTextPath = "/home/michael/penny-rebuild/packages/api/rawText.txt"
   # LAPTOP
   # rawTextPath = "/Users/mjc128/Documents/penny-rebuild/packages/api/rawText.txt"
 
   # PRODUCTION
-  cleanTextPath = "/root/NCC-Henges-New-Build/Audio/cleanText.txt"
+  # cleanTextPath = "/root/NCC-Henges-New-Build/Audio/cleanText.txt"
   # HALIDE
-  # cleanTextPath = "/home/michael/penny-rebuild/packages/api/cleanText.txt"
+  cleanTextPath = "/home/michael/penny-rebuild/packages/api/cleanText.txt"
   # LAPTOP
   # cleanTextPath = "/Users/mjc128/Documents/penny-rebuild/packages/api/cleanText.txt"
 

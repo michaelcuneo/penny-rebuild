@@ -110,9 +110,11 @@
 				recording.set(true);
 				processing.set(false);
 
-				if (!recording && !processing) {
+				if (!$recording && !$processing) {
 					setTimeout(() => {
-						$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'START', { qos: 0, retain: false });					
+						$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'START', { qos: 0, retain: false });
+						recording.set(false);
+						startProcessing();
 					}, 3000);
 				}
 		
@@ -122,9 +124,6 @@
 					$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'STOP', { qos: 0, retain: false });
 				}
 
-				recording.set(false);
-
-				startProcessing();
 
 			} else if (_topic === BUTTON_3_TOPIC && message.toString() === "1") {
 				if (whisperResponse === '') {
@@ -159,7 +158,7 @@
 		})
 	};
 
-  const useForm: SubmitFunction = ({ formData, formElement, action, controller, submitter}) => {
+  const useForm: SubmitFunction = () => {
     return async ({ result }) => {
 			if (result.type === 'error') {
 				whisperResponse = '';
