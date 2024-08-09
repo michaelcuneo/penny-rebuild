@@ -56,9 +56,7 @@ export const questions = [
   {
     id: "6",
     question: "My favourite thing to do here is ...",
-    options: [
-      '',
-    ],
+    options: [],
     answer: "",
   },
   {
@@ -77,9 +75,7 @@ export const questions = [
   {
     id: "8",
     question: "I'd spend more time here if ...",
-    options: [
-      '',
-    ],
+    options: [],
     answer: "",
   },
   {
@@ -98,9 +94,7 @@ export const questions = [
   {
     id: "10",
     question: "What do you see and hear right now ...",
-    options: [
-      "",
-    ],
+    options: [],
     answer: "",
   },
   {
@@ -118,9 +112,7 @@ export const questions = [
   {
     id: "12",
     question: "If safety was a colour it would be ...",
-    options: [
-      "",
-    ],
+    options: [],
     answer: "",
   }
 ];

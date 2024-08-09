@@ -204,16 +204,6 @@
 	<input hidden name="response" bind:value={whisperResponse} />
 </form>
 
-<!-- Fix these colors to match the colors of the henge buttons -->
-<!-- Swap these button functionalities for what area of the page the user is on -->
-<!--
-<div class="instructions">
-  <div class="instruction instruction1 poetsen-one-regular">INFO</div>
-  <div class="instruction instruction2 poetsen-one-regular">RECORD</div>
-  <div class="instruction instruction3 poetsen-one-regular">SUBMIT</div>
-</div>
--->
-
 <style>
   .postcard {
     display: flex;
@@ -242,7 +232,7 @@
     right: 0;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.9);
   }
 	/*
   .instructions {

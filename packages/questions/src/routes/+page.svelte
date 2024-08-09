@@ -47,7 +47,7 @@
 		'', // 8
 		'', // 9
 		'', // 10
-		'', // 11
+		'' // 11
 	];
 	$: accepted = false;
 
@@ -57,11 +57,20 @@
 		processing.set(false);
 		whisperResponse = '';
 		accepted = false;
-		answers = ['', '', '', '', '', '', '', '', '', '', ''] as
-			| string[]
-			| number[]
-			| null[]
-			| undefined[];
+		answers = [
+			'', // 0
+			'', // 1
+			'', // 2
+			'', // 3
+			'', // 4
+			'', // 5
+			'', // 6
+			'', // 7
+			'', // 8
+			'', // 9
+			'', // 10
+			'' // 11
+		];
 	};
 
 	const options = {
@@ -243,7 +252,6 @@
 	$: console.log("Submit Ready: ", submitReady);
 	$: console.log("Time Left: ", timeLeft);
 	$: console.log("Recording Time Left: ", recordingTimeLeft);
-	
 	$: submitReady = !answers.some((answer) => answer === '');
 </script>
 
@@ -270,7 +278,9 @@
 					Question {currentQuestionId + 1} : {currentQuestion.question}
 				</h5>
 				{#each currentQuestion.options as option, i}
-					<div class="option" transition:fade>{i + 1} : {option}</div>
+					{#if option !== ""}
+						<div class="option" transition:fade>{i + 1} : {option}</div>
+					{/if}
 				{/each}
 				{#if whisperResponse}
 					{#if whisperResponse === 'Please record an answer first.'}
