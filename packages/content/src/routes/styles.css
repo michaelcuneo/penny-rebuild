@@ -1,3 +1,6 @@
+* {
+	cursor: none;
+}
 html {
 	font-size: 14px;
 }
@@ -12,14 +15,15 @@ body {
 	font-family: 'Montserrat', sans-serif;
 	font-weight: 500;
 	font-style: normal;
-	color: #313639;
+	color: white;
+		background-color: #131414;
 	scrollbar-width: none;
 	-ms-overflow-style: none;
 	-webkit-user-drag: none;
 }
-	
+
 ::-webkit-scrollbar {
-		display: none;
+	display: none;
 }
 
 h1,
@@ -31,5 +35,5 @@ h6 {
 	font-family: 'Barlow Condensed', sans-serif;
 	font-weight: 700;
 	font-style: italic;
-	color: #313639;
+	color: white;
 }

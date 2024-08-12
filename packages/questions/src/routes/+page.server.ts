@@ -48,6 +48,8 @@ export const actions = {
       headers: { 'Content-Type': 'application/json' },
     });
 
+    console.log(createReportResponse);
+
     if (!createReportResponse.ok) {
       return { success: false, error: 'Failed to create report.' };
     }

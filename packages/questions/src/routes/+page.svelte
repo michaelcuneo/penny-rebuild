@@ -116,10 +116,10 @@
 	};
 
 	if (browser) {
-		// PRODUCTION
 		let endpoint = dev ? 'ws://halide.michaelcuneo.com.au:8083' : 'ws://localhost:8083';
+
 		$client = mqtt.connect(endpoint, options);
-		// DEVELOPMENT
+
 		$client.on('connect', () => {
 			$client?.subscribe(BUTTON_1_TOPIC, (err: Error | null, granted?: ISubscriptionGrant[]) => {
 				if (granted) {
@@ -244,6 +244,7 @@
     };
   }
 
+	// Report that we're alive.
 	setInterval(() => {
 		if (statusForm) {
 			statusForm.requestSubmit();

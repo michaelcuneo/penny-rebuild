@@ -44,5 +44,23 @@ export const actions = {
 
     // Return a success response
     return { success: true, error: null };
+  },
+  async report({ request }: { request: Request }) {
+    const formData = await request.formData();
+    const hengeId = formData.get('hengeId')?.toString();
+
+    const createReportResponse = await fetch(
+      `https://1cwj4ysj5h.execute-api.ap-southeast-2.amazonaws.com/live/create?hengeId=${hengeId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    console.log(createReportResponse);
+
+    if (!createReportResponse.ok) {
+      return { success: false, error: 'Failed to create report.' };
+    }
+
+    return { success: true, error: null };
   }
 }

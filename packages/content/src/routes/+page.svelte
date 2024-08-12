@@ -1,16 +1,18 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
+	import { enhance } from '$app/forms';
+	import Typewriter from 'svelte-typewriter';
 	import mqtt from 'mqtt';
+	import researchQr from '$lib/research-code.png';
+  import uploadQr from '$lib/upload-code.svg';
 	import type { ISubscriptionGrant, MqttClient } from 'mqtt';
   import { browser } from '$app/environment';
 	import { writable } from 'svelte/store';
   import { saving } from '$lib/stores';
-  import Typewriter from 'svelte-typewriter';
-  import researchQr from '$lib/research-code.png';
-	import surveyQr from '$lib/survey-code.png';
-  import uploadQr from '$lib/upload-code.png';
 	import type { PageData } from './$types';
   import type { SubmitFunction } from '@sveltejs/kit';
+
+	let dev = false;
   
 	const BUTTON_1_TOPIC = 'home/penny4/arduino/buttons-board/button-1';
 	const BUTTON_2_TOPIC = 'home/penny4/arduino/buttons-board/button-2';
@@ -19,6 +21,7 @@
   let accepted: boolean;
   let currentUpload: Upload;
   let form: HTMLFormElement;
+	let statusForm: HTMLFormElement;
   let video: HTMLVideoElement;
 
   $: currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
@@ -35,12 +38,16 @@
 
 	const createLike = async () => {
 		saving.set(true);
-		form.requestSubmit();
+		if (form) {
+			form.requestSubmit();
+		}
 	}
 
 	if (browser) {
-	  $client = mqtt.connect('ws://halide.michaelcuneo.com.au:8083', options);
-	  $client.on('connect', () => {
+		let endpoint = dev ? 'ws://halide.michaelcuneo.com.au:8083' : 'ws://localhost:8083';
+		$client = mqtt.connect(endpoint, options);
+
+		$client.on('connect', () => {
 			$client?.subscribe(BUTTON_1_TOPIC, (err: Error | null, granted?: ISubscriptionGrant[]) => {
 				if (granted) {
 					console.log('Granted:', granted);
@@ -90,6 +97,13 @@
       }
     };
   }
+
+	// Report that we're alive.
+	setInterval(() => {
+		if (statusForm) {
+			statusForm.requestSubmit();
+		}
+	}, 30000);
 		
 	export let data: PageData;
 </script>
@@ -131,18 +145,13 @@
       <p>
         You can upload your own creative content or community notices to this Penny!
       </p>
-      <p>Go to this website to fill out the form</p>
-      <h4>Privacy statement.</h4>
+      <p>Scan the uploads code to go to our website to upload content.</p>
+      <h4>Copyright statement.</h4>
       <p>
-        All responses are anonymous. Voice recordings will be automatically converted to text and
-        the audio will not be stored.
+        Copyright remains with the creator of the content, Penny is simply a platform for displaying content to share with the local community.
       </p>
       <h4>Scan 'Uploads' to upload content to this Penny.</h4>
       <h4>Scan 'Research Statement' to read about the research before participating.</h4>
-      <h4>Scan 'Private Survey' to participate in the survey online.</h4>
-      <h4>
-        To participate in this survey, proceed by hitting the tick.
-      </h4>
     </Typewriter>
   </div>
   <div class="qr-codes">
@@ -154,13 +163,12 @@
       <h4>Research Statement</h4>
       <img src={researchQr} alt="Research QR" />
     </div>
-    <div class="row">
-      <h4>Private Survey</h4>
-      <img src={surveyQr} alt="Survey QR" />
-    </div>
   </div>
 </div>
 
+<form bind:this={statusForm} action="?/report" method="POST" use:enhance={useForm}>
+	<input hidden name="hengeId" value="henge4" />
+</form>
 
 <style>
   /*
@@ -179,7 +187,6 @@
     width: 60vw;
     font-size: 4.5rem;
   }
-  */
   .processing-overlay {
     position: fixed;
     display: flex;
@@ -192,4 +199,43 @@
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
   }
+  */
+  .question {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		color: white;
+		width: 100vw;
+		font-size: 3rem;
+		height: 100vh;
+	}
+	.question-text {
+		width: 90vw;
+	}
+	h4 {
+		font-size: 3.2rem;
+		letter-spacing: 5px;
+		text-shadow:
+			-1px -1px 0px #313639,
+			2px 2px 0px #f489a355,
+			4px 4px 0px #00000055;
+	}
+	.qr-codes {
+		display: flex;
+		flex-direction: row;
+		position: fixed;
+		justify-content: space-around;
+		width: 100vw;
+		left: 0;
+		bottom: 160px;
+	}
+	.row {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+	}
+	img {
+		width: 300px;
+		height: 300px;
+	}
 </style>
