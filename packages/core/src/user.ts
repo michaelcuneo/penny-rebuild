@@ -25,6 +25,8 @@ export async function create(email: string) {
     TableName: Table.Users.tableName,
     Item: {
       id: randomUUID().toString(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
       email: email,
     }
   };

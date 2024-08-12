@@ -22,6 +22,8 @@ export async function create(q1: string, q2: string, q3: string, q4: string, q5:
       Item: {
         id: uuid,
         questionnaireId: questionSetID,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
         questionId: i,
         response: answers[i]
       }

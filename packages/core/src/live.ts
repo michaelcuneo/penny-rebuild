@@ -16,6 +16,8 @@ export async function create(hengeId: string) {
     TableName: Table.Live.tableName,
     Item: {
       id: uuid,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
       hengeId: hengeId,
       status: "active"
     }

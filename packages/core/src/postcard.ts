@@ -16,6 +16,8 @@ export async function create(postcardId: string, response: string) {
     Item: {
       id: id,
       postcardId: postcardId,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
       response: response,
     }
   };

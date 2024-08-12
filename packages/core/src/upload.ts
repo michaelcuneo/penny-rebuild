@@ -28,6 +28,8 @@ export async function create(firstName: string, lastName: string, email: string,
       id: id,
       firstName: firstName,
       lastName: lastName,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
       email: email,
       uploadId: uploadId,
       uploadType: uploadType,
@@ -57,6 +59,7 @@ export async function update(id: string, approved: string) {
     TableName: Table.Uploads.tableName,
     Item: {
       id: id,
+      updatedAt: new Date().toISOString(),
       approved: approved,
     }
   };
