@@ -11,24 +11,38 @@ export const create: APIGatewayProxyHandlerV2 = async (event) => {
   const uploadId = event?.queryStringParameters?.uploadId as string;
   const uploadType = event?.queryStringParameters?.uploadType as string;
 
-  await Upload.create(firstName, lastName, email, uploadId, uploadType);
+  try {
+    const uploadCreate = await Upload.create(firstName, lastName, email, uploadId, uploadType);
 
-  return {
-    statusCode: 200,
-    body: "Upload created",
-  };
+    return {
+      statusCode: 200,
+      body: uploadCreate ? JSON.stringify(uploadCreate) : JSON.stringify("Upload created"),
+    };
+  } catch (err) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify(err),
+    };
+  }
 };
 
 export const update: APIGatewayProxyHandlerV2 = async (event) => {
   const id = event?.queryStringParameters?.id as string;
   const approved = event?.queryStringParameters?.aprooved as string;
   
-  await Upload.update(id, approved);
+  try {
+    const uploadUpdated = await Upload.update(id, approved);
 
-  return {
-    statusCode: 200,
-    body: "Upload updated",
-  };
+    return {
+      statusCode: 200,
+      body: uploadUpdated ? JSON.stringify(uploadUpdated) : JSON.stringify("Upload updated"),
+    };
+  } catch (err) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify(err),
+    };
+  }
 };
 
 export const list = ApiHandler(async (_evt) => {

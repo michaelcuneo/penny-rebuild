@@ -28,6 +28,7 @@ export function TableStack({ stack }: StackContext) {
       id: "string",
       createdAt: "string",
       updatedAt: "string",
+      questionnaireId: "string",
       questionId: "string",
       response: "string",
     },
@@ -50,5 +51,16 @@ export function TableStack({ stack }: StackContext) {
     primaryIndex: { partitionKey: "id" },
   })
 
-  return { usersTable, postcardTable, questionTable, uploadsTable };
+  const liveTable = new Table(stack, "Live", {
+    fields: {
+      id: "string",
+      hengeId: "string",
+      createdAt: "string",
+      updatedAt: "string",
+      status: "string",
+    },
+    primaryIndex: { partitionKey: "hengeId" },
+  })
+
+  return { usersTable, postcardTable, questionTable, uploadsTable, liveTable };
 };

@@ -23,6 +23,7 @@
 	let whisperResponse: string;
 	let accepted: boolean;
 	let form: HTMLFormElement;
+	let statusForm: HTMLFormElement;
 	let answers: string[] | number[] | null[] | undefined[];
 
 	let timeLeft: number;
@@ -84,7 +85,9 @@
 
 	const createResponse = async () => {
 		saving.set(true);
-		form.requestSubmit();
+		if (form) {
+			form.requestSubmit();
+		}
 
 		new Promise((resolve) => setTimeout(resolve, 10000)).then(() => reset());
 	};
@@ -167,7 +170,7 @@
 			}
 			if (_topic === BUTTON_2_TOPIC && message.toString() === '1') {
 
-				if (!$recording) {
+				if (!$recording && !$saving) {
 
 					// Set 3 second delay
 					timeLeftInterval = setInterval(() => {
@@ -190,7 +193,7 @@
 
 			} else if (_topic === BUTTON_2_TOPIC && message.toString() === '0') {
 
-				if ($recording) {
+				if ($recording && !$saving) {
 
 					$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'STOP', { qos: 0, retain: false });
 					recording.set(false);
@@ -241,17 +244,12 @@
     };
   }
 
-	$: console.log("Recording: ", $recording);
-	$: console.log("Processing: ", $processing);
-	$: console.log("Saving: ", $saving);
-	$: console.log("Whisper Response: ", whisperResponse);
-	$: console.log("Accepted: ", accepted);
-	$: console.log("Current Question ID: ", currentQuestionId);
-	$: console.log("Current Question: ", currentQuestion);
-	$: console.log("Answers: ", answers);
-	$: console.log("Submit Ready: ", submitReady);
-	$: console.log("Time Left: ", timeLeft);
-	$: console.log("Recording Time Left: ", recordingTimeLeft);
+	setInterval(() => {
+		if (statusForm) {
+			statusForm.requestSubmit();
+		}
+	}, 30000);
+
 	$: submitReady = !answers.some((answer) => answer === '');
 </script>
 
@@ -370,15 +368,9 @@
 	<input hidden name="q11" value={answers[10]} />
 </form>
 
-<!-- Fix these colors to match the colors of the henge buttons -->
-<!-- Swap these button functionalities for what area of the page the user is on -->
-<!--
-<div class="instructions">
-	<div class="instruction instruction1 poetsen-one-regular">{button1Text}</div>
-	<div class="instruction instruction2 poetsen-one-regular">{button2Text}</div>
-	<div class="instruction instruction3 poetsen-one-regular">{button3Text}</div>
-</div>
--->
+<form bind:this={statusForm} action="?/report" method="POST" use:enhance={useForm}>
+	<input hidden name="hengeId" value="henge1" />
+</form>
 
 <style>
 	.question {
@@ -448,36 +440,4 @@
 		width: 300px;
 		height: 300px;
 	}
-	/*
-	.instructions {
-		position: fixed;
-		display: flex;
-		flex-direction: row;
-		justify-content: space-around;
-		width: 100vw;
-		bottom: 0;
-	}
-	.instruction {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 2rem;
-		color: white;
-		width: 180px;
-		height: 90px;
-		border-top-left-radius: 90px;
-		border-top-right-radius: 90px;
-		background-color: #f489a3;
-	}
-
-	.instruction1 {
-		background-color: #e62d6b;
-	}
-	.instruction2 {
-		background-color: #4d28ee;
-	}
-	.instruction3 {
-		background-color: #108d40;
-	}
-	*/
 </style>

@@ -1,13 +1,6 @@
 import type { Actions } from './$types';
 
 export const actions = {
-  /**
-   * Asynchronously handles the 'magicLinks' action.
-   * 
-   * @param {Object} param - An object containing the request.
-   * @param {Request} param.request - The request object.
-   * @returns {Promise<Object>} - An object with success and error properties.
-  */
   async save({ request }: { request: Request }) {
     // Extract the form data from the request
     const formData = await request.formData();

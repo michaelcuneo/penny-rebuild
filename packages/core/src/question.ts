@@ -9,7 +9,7 @@ const documentClient = DynamoDBDocumentClient.from(client);
 
 // Add the Question to the DynamoDB Database.
 export async function create(q1: string, q2: string, q3: string, q4: string, q5: string, q6: string, q7: string, q8: string, q9: string, q10: string, q11: string) {
-  let content: any = {};
+  let data: any = {};
 
   const answers = [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11];
   const questionSetID = crypto.randomUUID();
@@ -21,12 +21,13 @@ export async function create(q1: string, q2: string, q3: string, q4: string, q5:
       TableName: Table.Question.tableName,
       Item: {
         id: uuid,
-        questionId: questionSetID,
+        questionnaireId: questionSetID,
+        questionId: i,
         response: answers[i]
       }
     };
 
-    const data = await documentClient.send(new PutCommand(params));
+    data = await documentClient.send(new PutCommand(params));
 
     if (data.$metadata.httpStatusCode === 200) {
       const params = {
@@ -41,7 +42,7 @@ export async function create(q1: string, q2: string, q3: string, q4: string, q5:
 
     setTimeout(() => { }, 1000); // So we don't spam DynamoDB
   }
-  return content && content.Item ? content.Item : JSON.stringify(undefined);
+  return data && data.Item ? data.Item : JSON.stringify(undefined);
 }
 
 export async function list() {

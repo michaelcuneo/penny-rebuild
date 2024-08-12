@@ -1,12 +1,14 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import { fade } from 'svelte/transition';
 	import mqtt from 'mqtt';
 	import type { ISubscriptionGrant, MqttClient } from 'mqtt';
   import { browser } from '$app/environment';
 	import { writable } from 'svelte/store';
   import { saving } from '$lib/stores';
-	import CircularProgress from '@smui/circular-progress';
+  import Typewriter from 'svelte-typewriter';
+  import researchQr from '$lib/research-code.png';
+	import surveyQr from '$lib/survey-code.png';
+  import uploadQr from '$lib/upload-code.png';
 	import type { PageData } from './$types';
   import type { SubmitFunction } from '@sveltejs/kit';
   
@@ -14,11 +16,13 @@
 	const BUTTON_2_TOPIC = 'home/penny4/arduino/buttons-board/button-2';
 	const BUTTON_3_TOPIC = 'home/penny4/arduino/buttons-board/button-3';
   
+  let accepted: boolean;
   let currentUpload: Upload;
   let form: HTMLFormElement;
   let video: HTMLVideoElement;
 
   $: currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
+  $: accepted = false;
     
 	const options = {
 	  keepalive: 1,
@@ -89,7 +93,8 @@
 		
 	export let data: PageData;
 </script>
-  
+
+<!--
 <div class="content poetsen-one-regular">
   {#if currentUpload.uploadType === 'video/mp4' || currentUpload.uploadType === 'video/webm' || currentUpload.uploadType === 'video/ogg' || currentUpload.uploadType === 'video/quicktime'}
     <video bind:this={video} src="https://{data.data.bucket}.s3.ap-southeast-2.amazonaws.com/{currentUpload?.uploadId}" width="100%">
@@ -117,18 +122,48 @@
 <form bind:this={form} action="?/save" method="POST" use:enhance={useForm}>
 	<input hidden name="contentId" bind:value={currentUpload.id} />
 </form>
-
-<!-- Fix these colors to match the colors of the henge buttons -->
-<!-- Swap these button functionalities for what area of the page the user is on -->
-<!--
-<div class="instructions">
-  <div class="instruction instruction1 poetsen-one-regular">MUSIC</div>
-  <div class="instruction instruction2 poetsen-one-regular">VIDEO</div>
-  <div class="instruction instruction3 poetsen-one-regular">LIKE</div>
-</div>
 -->
 
+<div class="question poetsen-one-regular">
+  <div class="question-text" transition:fade>
+    <Typewriter cursor={false} mode="cascade">
+      <h4>Coming Soon.</h4>
+      <p>
+        You can upload your own creative content or community notices to this Penny!
+      </p>
+      <p>Go to this website to fill out the form</p>
+      <h4>Privacy statement.</h4>
+      <p>
+        All responses are anonymous. Voice recordings will be automatically converted to text and
+        the audio will not be stored.
+      </p>
+      <h4>Scan 'Uploads' to upload content to this Penny.</h4>
+      <h4>Scan 'Research Statement' to read about the research before participating.</h4>
+      <h4>Scan 'Private Survey' to participate in the survey online.</h4>
+      <h4>
+        To participate in this survey, proceed by hitting the tick.
+      </h4>
+    </Typewriter>
+  </div>
+  <div class="qr-codes">
+    <div class="row">
+      <h4>Uploads</h4>
+      <img src={uploadQr} alt="Uploads QR" />
+    </div>
+    <div class="row">
+      <h4>Research Statement</h4>
+      <img src={researchQr} alt="Research QR" />
+    </div>
+    <div class="row">
+      <h4>Private Survey</h4>
+      <img src={surveyQr} alt="Survey QR" />
+    </div>
+  </div>
+</div>
+
+
 <style>
+  /*
   .content {
     display: flex;
     color: #f489a3;
@@ -144,6 +179,7 @@
     width: 60vw;
     font-size: 4.5rem;
   }
+  */
   .processing-overlay {
     position: fixed;
     display: flex;
@@ -156,35 +192,4 @@
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
   }
-  /*
-  .instructions {
-    position: fixed;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    width: 100vw;
-    bottom: 0;
-  }
-  .instruction {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-		font-size: 2rem;
-    color: white;
-    width: 180px;
-    height: 90px;
-    border-top-left-radius: 90px;
-    border-top-right-radius: 90px;
-    background-color: #f489a3;
-  }
-  .instruction1 {
-    background-color: #e62d6b;
-  }
-  .instruction2 {
-    background-color: #4d28ee;
-  }
-  .instruction3 {
-    background-color: #108d40;
-  }
-  */
 </style>

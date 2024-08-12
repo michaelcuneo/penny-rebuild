@@ -21,8 +21,5 @@
   },
   "workspaces": [
     "packages/*"
-  ],
-  "dependencies": {
-    "svelte-filepond": "^0.2.2"
-  }
+  ]
 }

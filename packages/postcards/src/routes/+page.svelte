@@ -234,34 +234,4 @@
     align-items: center;
     background-color: rgba(0, 0, 0, 0.9);
   }
-	/*
-  .instructions {
-    position: fixed;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    width: 100vw;
-    bottom: 0;
-  }
-  .instruction {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-		font-size: 2rem;
-    color: white;
-    width: 180px;
-    height: 90px;
-    border-top-left-radius: 90px;
-    border-top-right-radius: 90px;
-    background-color: #f489a3;
-  }
-  .instruction1 {
-    background-color: #e62d6b;
-  }
-  .instruction2 {
-    background-color: #4d28ee;
-  }
-  .instruction3 {
-    background-color: #108d40;
-  }*/
 </style>
