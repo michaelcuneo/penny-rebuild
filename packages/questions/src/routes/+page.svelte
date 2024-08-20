@@ -117,7 +117,6 @@
 
 	if (browser) {
 		let endpoint = dev ? 'ws://halide.michaelcuneo.com.au:8083' : 'ws://localhost:8083';
-
 		$client = mqtt.connect(endpoint, options);
 
 		$client.on('connect', () => {
@@ -170,7 +169,7 @@
 			}
 			if (_topic === BUTTON_2_TOPIC && message.toString() === '1') {
 
-				if (!$recording && !$saving) {
+				if (!$recording && !$processing) {
 
 					// Set 3 second delay
 					timeLeftInterval = setInterval(() => {
@@ -193,7 +192,7 @@
 
 			} else if (_topic === BUTTON_2_TOPIC && message.toString() === '0') {
 
-				if ($recording && !$saving) {
+				if ($recording && !$processing) {
 
 					$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'STOP', { qos: 0, retain: false });
 					recording.set(false);
@@ -212,7 +211,8 @@
 					processing.set(false);
 					whisperResponse = 'Please record an answer first.';
 
-					new Promise((resolve) => setTimeout(resolve, 10000)).then(() => (whisperResponse = ''));
+					new Promise((resolve) => setTimeout(resolve, 10000))
+						.then(() => (whisperResponse = ''));
 
 				} else if (answers[currentQuestionId] !== '' && !submitReady) {
 

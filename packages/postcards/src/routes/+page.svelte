@@ -51,7 +51,6 @@
 		}
 		
 		new Promise((resolve) => setTimeout(resolve, 10000)).then(() => reset());
-		
 	}
 
 	const startProcessing = async () => {
@@ -79,6 +78,7 @@
 	if (browser) {
 		let endpoint = dev ? 'ws://halide.michaelcuneo.com.au:8083' : 'ws://localhost:8083';
 	  $client = mqtt.connect(endpoint, options);
+
 	  $client.on('connect', () => {
 			$client?.subscribe(BUTTON_1_TOPIC, (err: Error | null, granted?: ISubscriptionGrant[]) => {
 				if (granted) {
@@ -141,6 +141,7 @@
 					}, 3000);
 
 					recording.set(true);
+
 				}
 		
 			} else if (_topic === BUTTON_2_TOPIC && message.toString() === "0") {
@@ -155,7 +156,6 @@
 
 
 			} else if (_topic === BUTTON_3_TOPIC && message.toString() === "1") {
-				console.log(whisperResponse);
 				if (whisperResponse === '') {
 
 					recording.set(false);
@@ -216,7 +216,7 @@
 	</div>
 {/if}
 
-{#if $recording === true || $processing === true || $saving === true}
+{#if $recording === true || $processing === true}
 	<div class="processing-overlay" transition:fade>
 		<h2>
 			{#if $recording}
