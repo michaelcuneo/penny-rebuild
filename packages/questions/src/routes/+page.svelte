@@ -20,9 +20,9 @@
 	const BUTTON_3_TOPIC = 'home/penny1/arduino/buttons-board/button-3';
 	const MOSQUITTO_RECORDING_TOPIC = 'home/penny1/record';
 
+	let form: HTMLFormElement;
 	let whisperResponse: string;
 	let accepted: boolean;
-	let form: HTMLFormElement;
 	let statusForm: HTMLFormElement;
 	let answers: string[] | number[] | null[] | undefined[];
 

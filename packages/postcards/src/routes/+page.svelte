@@ -22,7 +22,19 @@
 	let form: HTMLFormElement;
   let whisperResponse: string = '';
   let currentPostcard: Postcard = postcards[Math.floor(Math.random() * postcards.length)];
-    
+	let timeLeft: number;
+	let timeLeftInterval: NodeJS.Timeout;
+
+	$: timeLeft = 3;
+	$: whisperResponse = '';
+
+	const reset = () => {
+		currentPostcard = postcards[Math.floor(Math.random() * postcards.length)];
+		recording.set(false);
+		processing.set(false);
+		whisperResponse = '';
+	}
+
 	const options = {
 	  keepalive: 1,
 	  clean: false,
@@ -32,19 +44,20 @@
   
 	let client = writable<MqttClient | null>(null);
 
-	const reset = () => {
-		recording.set(false);
-		processing.set(false);
-		whisperResponse = '';
-	}
-
 	const createResponse = async () => {
 		saving.set(true);
-		form.requestSubmit();
+		if (form) {
+			form.requestSubmit();
+		}
+		
+		new Promise((resolve) => setTimeout(resolve, 10000)).then(() => reset());
+		
 	}
 
 	const startProcessing = async () => {
 		processing.set(true);
+		clearInterval(timeLeftInterval);
+		timeLeft = 3;
 				
 		await fetch('http://localhost:8000/transcribe', {
 			headers: {
@@ -56,13 +69,16 @@
 		})
 			.then((res) => res.json())
 			.then(data => {
+
 				whisperResponse = data;
 				processing.set(false);
+			
 			})
 	}
 
 	if (browser) {
-	  $client = mqtt.connect('ws://localhost:8083', options);
+		let endpoint = dev ? 'ws://halide.michaelcuneo.com.au:8083' : 'ws://localhost:8083';
+	  $client = mqtt.connect(endpoint, options);
 	  $client.on('connect', () => {
 			$client?.subscribe(BUTTON_1_TOPIC, (err: Error | null, granted?: ISubscriptionGrant[]) => {
 				if (granted) {
@@ -104,59 +120,61 @@
 		$client.on('message', (_topic, message) => {
 			if (_topic === BUTTON_1_TOPIC && message.toString() === "1") {
 
+				// Reset the postcard and the recording state.
 				reset();
 
 			} else
 			if (_topic === BUTTON_2_TOPIC && message.toString() === "1") {
 
-				recording.set(true);
-				processing.set(false);
-
 				if (!$recording && !$processing) {
+
+					// Set 3 second delay
+					timeLeftInterval = setInterval(() => {
+						if (timeLeft > 0) {
+							timeLeft--;
+
+						}
+					}, 1000);
+
 					setTimeout(() => {
 						$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'START', { qos: 0, retain: false });
-						recording.set(false);
-						startProcessing();
 					}, 3000);
+
+					recording.set(true);
 				}
 		
 			} else if (_topic === BUTTON_2_TOPIC && message.toString() === "0") {
 
-				if ($recording) {
+				if ($recording && !$processing) {
+
 					$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'STOP', { qos: 0, retain: false });
+					recording.set(false);
+
+					startProcessing();
 				}
 
 
 			} else if (_topic === BUTTON_3_TOPIC && message.toString() === "1") {
+				console.log(whisperResponse);
 				if (whisperResponse === '') {
 
 					recording.set(false);
 					processing.set(false);
-					
-					currentPostcard = postcards[Math.floor(Math.random() * postcards.length)];
-					whisperResponse = '';
+					whisperResponse = 'Please record an answer first.';
+
+					new Promise(resolve => setTimeout(resolve, 10000))
+						.then(() => whisperResponse = '');
 
 				} else {
+					// Set button 2 to false here so it can't be pressed twice to record twice.
+					createResponse();
+					recording.set(false);
+					processing.set(false);
+					whisperResponse = '';
+					reset();
 
-					if (whisperResponse === '') {
-						recording.set(false);
-						processing.set(false);
-						whisperResponse = 'Please record an answer first.';
-
-						new Promise(resolve => setTimeout(resolve, 10000))
-							.then(() => whisperResponse = '');
-
-					} else {
-						// Set button 2 to false here so it can't be pressed twice to record twice.
-						createResponse();
-						recording.set(false);
-						processing.set(false);
-						whisperResponse = '';
-						reset();
-
-					}
 				}
-			};
+			}
 		})
 	};
 
@@ -171,9 +189,8 @@
         saving.set(false);
       }
     };
-  }
-	
-	</script>
+  }	
+</script>
   
 <div class="postcard poetsen-one-regular" style="background-image: url({Penny})">
   <div class="postcard-text" transition:fade>
