@@ -7,11 +7,8 @@ import { Live } from "@penny-rebuild/core/live";
 export const create: APIGatewayProxyHandlerV2 = async (event) => {
   const hengeId = event?.queryStringParameters?.hengeId as string;
 
-  console.log('WHAT THE FUCK', hengeId);
-
   try {
     const statusCreated = await Live.create(hengeId);
-    console.log(statusCreated);
 
     return {
       statusCode: 200,

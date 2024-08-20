@@ -1,6 +1,8 @@
 import type { PageServerLoad } from './$types';
 import { groupBy } from '$lib/utils/helper';
 
+let dev = true;
+
 export const load = (async () => {
   // Send a GET request to the list upload endpoint.
   const listUploads = await fetch(`https://1cwj4ysj5h.execute-api.ap-southeast-2.amazonaws.com/upload/list`, {
