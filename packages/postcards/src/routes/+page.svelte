@@ -131,6 +131,7 @@
 					// Set 3 second delay
 					timeLeftInterval = setInterval(() => {
 						if (timeLeft > 0) {
+							
 							timeLeft--;
 
 						}
@@ -140,6 +141,7 @@
 						$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'START', { qos: 0, retain: false });
 					}, 3000);
 
+					// Set recording to true because 3 seconds have passed, we are now recording.
 					recording.set(true);
 
 				}
@@ -154,7 +156,6 @@
 					startProcessing();
 				}
 
-
 			} else if (_topic === BUTTON_3_TOPIC && message.toString() === "1") {
 				if (whisperResponse === '') {
 
@@ -166,12 +167,8 @@
 						.then(() => whisperResponse = '');
 
 				} else {
-					// Set button 2 to false here so it can't be pressed twice to record twice.
+
 					createResponse();
-					recording.set(false);
-					processing.set(false);
-					whisperResponse = '';
-					reset();
 
 				}
 			}
@@ -215,7 +212,6 @@
 		</div>
 	</div>
 {/if}
-
 {#if $recording === true || $processing === true}
 	<div class="processing-overlay" transition:fade>
 		<h2>

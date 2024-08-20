@@ -23,7 +23,6 @@
 	let form: HTMLFormElement;
 	let whisperResponse: string;
 	let accepted: boolean;
-	let statusForm: HTMLFormElement;
 	let answers: string[] | number[] | null[] | undefined[];
 
 	let timeLeft: number;
@@ -244,13 +243,6 @@
     };
   }
 
-	// Report that we're alive.
-	setInterval(() => {
-		if (statusForm) {
-			statusForm.requestSubmit();
-		}
-	}, 30000);
-
 	$: submitReady = !answers.some((answer) => answer === '');
 </script>
 
@@ -367,10 +359,6 @@
 	<input hidden name="q9" value={answers[8]} />
 	<input hidden name="q10" value={answers[9]} />
 	<input hidden name="q11" value={answers[10]} />
-</form>
-
-<form bind:this={statusForm} action="?/report" method="POST" use:enhance={useForm}>
-	<input hidden name="hengeId" value="henge1" />
 </form>
 
 <style>
