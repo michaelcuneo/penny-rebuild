@@ -191,31 +191,46 @@
     };
   }	
 </script>
-  
-<div class="postcard poetsen-one-regular" style="background-image: url({Penny})">
-  <div class="postcard-text" transition:fade>
-		<Typewriter cursor={false}>
-    	{currentPostcard.postCard}
-		</Typewriter>
-			{#if $recording === false && $processing === false && whisperResponse}
-				{whisperResponse}
-			{/if}
-  </div>
-</div>
+
+{#if $saving}
+	<div class="question poetsen-one-regular">
+		<div class="question-text" transition:fade>
+			<h5>
+				Postcard Submitted!
+			</h5>
+			<div>
+				Thank you for submitting a postcard.
+			</div>
+		</div>
+	</div>
+{:else}
+	<div class="postcard poetsen-one-regular" style="background-image: url({Penny})">
+		<div class="postcard-text" transition:fade>
+			<Typewriter cursor={false}>
+				{currentPostcard.postCard}
+			</Typewriter>
+				{#if $recording === false && $processing === false && whisperResponse}
+					{whisperResponse}
+				{/if}
+		</div>
+	</div>
+{/if}
 
 {#if $recording === true || $processing === true || $saving === true}
-  <div class="processing-overlay" transition:fade>
-		<h4>
+	<div class="processing-overlay" transition:fade>
+		<h2>
 			{#if $recording}
-				'Recording...'
+				{#if timeLeft === 0}
+					Recording...
+				{:else}
+					Recording in {timeLeft}
+				{/if}
 			{:else if $processing}
-				'Transcribing...'
-			{:else if $saving}
-				'Saving...'
+				Transcribing...
 			{/if}
-		</h4>
-    <CircularProgress style="height: 128px; width: 128px;" indeterminate />
-  </div>
+		</h2>
+		<CircularProgress style="height: 128px; width: 128px;" indeterminate />
+	</div>
 {/if}
 
 <form bind:this={form} action="?/save" method="POST" use:enhance={useForm}>
