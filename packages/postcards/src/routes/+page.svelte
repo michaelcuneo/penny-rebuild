@@ -12,7 +12,7 @@
 	import CircularProgress from '@smui/circular-progress';
 	import type { SubmitFunction } from '@sveltejs/kit';
   
-	let dev = false;
+	let dev = true;
 	
 	const BUTTON_1_TOPIC = 'home/penny3/arduino/buttons-board/button-1';
 	const BUTTON_2_TOPIC = 'home/penny3/arduino/buttons-board/button-2';
@@ -245,7 +245,20 @@
     background-repeat: no-repeat;
     background-position: right;
     background-size: contain;
+		letter-spacing: 5px;
+		text-shadow:
+			-1px -1px 0px #313639,
+			2px 2px 0px #f489a355,
+			4px 4px 0px #00000055;
   }
+	h5 {
+		font-size: 4.6rem;
+		letter-spacing: 5px;
+		text-shadow:
+			-1px -1px 0px #313639,
+			2px 2px 0px #f489a355,
+			4px 4px 0px #00000055;
+	}
   .postcard-text {
     position: absolute;
   	top: 6vh;

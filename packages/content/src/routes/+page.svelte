@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import { enhance } from '$app/forms';
-	import CircularProgress from '@smui/circular-progress';
+	// import CircularProgress from '@smui/circular-progress';
 	import Typewriter from 'svelte-typewriter';
 	import mqtt from 'mqtt';
 	import researchQr from '$lib/research-code.png';
@@ -22,7 +22,6 @@
   let accepted: boolean;
   let currentUpload: Upload;
   let form: HTMLFormElement;
-	let statusForm: HTMLFormElement;
   let video: HTMLVideoElement;
 
   $: currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
@@ -102,17 +101,11 @@
 	setInterval(() => {
   	currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
 	}, 60000);
-
-	// Report that we're alive.
-	setInterval(() => {
-		if (statusForm) {
-			statusForm.requestSubmit();
-		}
-	}, 30000);
 		
 	export let data: PageData;
 </script>
 
+<!--
 <div class="content poetsen-one-regular">
   {#if currentUpload.uploadType === 'video/mp4' || currentUpload.uploadType === 'video/webm' || currentUpload.uploadType === 'video/ogg' || currentUpload.uploadType === 'video/quicktime'}
     <video bind:this={video} src="https://{data.data.bucket}.s3.ap-southeast-2.amazonaws.com/{currentUpload?.uploadId}" width="100%">
@@ -136,12 +129,12 @@
     <CircularProgress style="height: 128px; width: 128px;" indeterminate />
   </div>
 {/if}
+-->
 
 <form bind:this={form} action="?/save" method="POST" use:enhance={useForm}>
 	<input hidden name="contentId" bind:value={currentUpload.id} />
 </form>
 
-<!--
 <div class="question poetsen-one-regular">
   <div class="question-text" transition:fade>
     <Typewriter cursor={false} mode="cascade">
@@ -169,13 +162,9 @@
     </div>
   </div>
 </div>
--->
-
-<form bind:this={statusForm} action="?/report" method="POST" use:enhance={useForm}>
-	<input hidden name="hengeId" value="henge4" />
-</form>
 
 <style>
+	/*
   .content {
     display: flex;
     color: #f489a3;
@@ -203,6 +192,7 @@
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
   }
+	*/
   .question {
 		display: flex;
 		flex-direction: column;

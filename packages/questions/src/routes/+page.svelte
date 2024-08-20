@@ -2,10 +2,10 @@
 	import { fade } from 'svelte/transition';
 	import { enhance } from '$app/forms';
 	import Typewriter from 'svelte-typewriter';
-	import mqtt from 'mqtt';
 	import { questions } from '$lib/Questions';
 	import researchQr from '$lib/research-code.png';
 	import surveyQr from '$lib/survey-code.png';
+	import mqtt from 'mqtt';
 	import type { ISubscriptionGrant, MqttClient } from 'mqtt';
 	import { browser } from '$app/environment';
 	import { writable } from 'svelte/store';
