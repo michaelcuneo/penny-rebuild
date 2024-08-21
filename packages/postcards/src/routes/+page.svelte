@@ -188,14 +188,14 @@
 </script>
 
 {#if $saving}
-	<div class="question poetsen-one-regular">
-		<div class="question-text" transition:fade>
+	<div class="postcard poetsen-one-regular">
+		<div class="postcard-text" transition:fade>
 			<h5>
 				Postcard Submitted!
 			</h5>
-			<div>
+			<h5>
 				Thank you for submitting a postcard.
-			</div>
+			</h5>
 		</div>
 	</div>
 {:else}
@@ -234,7 +234,7 @@
   .postcard {
     display: flex;
     color: white;
-    font-size: 3.2rem;
+    font-size: 4.6rem;
     max-height: 100vh;
     justify-content: center;
     align-items: center;
