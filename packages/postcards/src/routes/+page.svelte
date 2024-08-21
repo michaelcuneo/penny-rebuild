@@ -214,7 +214,7 @@
 {/if}
 {#if $recording === true || $processing === true}
 	<div class="processing-overlay" transition:fade>
-		<h2>
+		<h5>
 			{#if $recording}
 				{#if timeLeft === 0}
 					Recording...
@@ -224,7 +224,7 @@
 			{:else if $processing}
 				Transcribing...
 			{/if}
-		</h2>
+		</h5>
 		<CircularProgress style="height: 128px; width: 128px;" indeterminate />
 	</div>
 {/if}
