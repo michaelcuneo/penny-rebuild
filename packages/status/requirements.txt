@@ -1,0 +1,8 @@
+openmeteo-requests
+requests-cache
+retry-requests
+numpy
+pandas
+schedule
+paho-mqtt<2.0.0
+boto3

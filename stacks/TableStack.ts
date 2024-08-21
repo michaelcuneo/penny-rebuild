@@ -51,16 +51,22 @@ export function TableStack({ stack }: StackContext) {
     primaryIndex: { partitionKey: "id" },
   })
 
-  const liveTable = new Table(stack, "Live", {
+  const statusTable = new Table(stack, "Status", {
     fields: {
       id: "string",
       hengeId: "string",
       createdAt: "string",
       updatedAt: "string",
       status: "string",
+      voltage: "string",
+      cloud: "string",
+      updated: "string",
+      condition: "string",
+      uv: "string",
+      temperature: "string",
     },
-    primaryIndex: { partitionKey: "hengeId" },
+    primaryIndex: { partitionKey: "id", sortKey: "hengeId" },
   })
 
-  return { usersTable, postcardTable, questionTable, uploadsTable, liveTable };
+  return { usersTable, postcardTable, questionTable, uploadsTable, statusTable };
 };

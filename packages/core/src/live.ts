@@ -3,6 +3,7 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, GetCommand, PutCommand, ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { Table } from 'sst/node/table';
 import crypto from 'crypto';
+import { debug } from "console";
 
 const client = new DynamoDBClient();
 const documentClient = DynamoDBDocumentClient.from(client);
@@ -13,7 +14,7 @@ export async function create(hengeId: string) {
   let data: any = {};
 
   const params = {
-    TableName: Table.Live.tableName,
+    TableName: Table.Status.tableName,
     Item: {
       id: uuid,
       createdAt: new Date().toISOString(),
@@ -27,7 +28,7 @@ export async function create(hengeId: string) {
 
   if (data.$metadata.httpStatusCode === 200) {
     const params = {
-      TableName: Table.Live.tableName,
+      TableName: Table.Status.tableName,
       Key: {
         hengeId: hengeId,
       }
@@ -40,8 +41,9 @@ export async function create(hengeId: string) {
 }
 
 export async function list() {
+  console.error("Listing all statuses");
   const command = new ScanCommand({
-    TableName: Table.Question.tableName
+    TableName: Table.Status.tableName
   });
 
   const data = await documentClient.send(command);

@@ -23,6 +23,7 @@ export const create: APIGatewayProxyHandlerV2 = async (event) => {
 };
 
 export const list = ApiHandler(async (_evt) => {
+  console.log("Listing all statuses");
   const data = await Live.list();
 
   return {
