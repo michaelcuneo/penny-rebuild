@@ -55,6 +55,7 @@
 		currentQuestionId = 0;
 		recording.set(false);
 		processing.set(false);
+		saving.set(false);
 		whisperResponse = '';
 		accepted = false;
 		answers = [
@@ -234,11 +235,9 @@
     return async ({ result }) => {
 			if (result.type === 'error') {
 				whisperResponse = '';
-				saving.set(false);
 			}
       if (result.type === 'success') {
         whisperResponse = '';
-        saving.set(false);
       }
     };
   }

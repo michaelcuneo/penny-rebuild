@@ -31,6 +31,7 @@
 		currentPostcard = postcards[Math.floor(Math.random() * postcards.length)];
 		recording.set(false);
 		processing.set(false);
+		saving.set(false);
 		whisperResponse = '';
 	}
 
@@ -178,11 +179,9 @@
     return async ({ result }) => {
 			if (result.type === 'error') {
 				whisperResponse = '';
-				saving.set(false);
 			}
       if (result.type === 'success') {
         whisperResponse = '';
-        saving.set(false);
       }
     };
   }	
@@ -258,7 +257,7 @@
 	}
   .postcard-text {
     position: absolute;
-  	top: 6vh;
+  	top: 12vh;
     left: 8vw;
     width: 60vw;
   }
