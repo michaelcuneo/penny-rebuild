@@ -12,7 +12,7 @@
 	import CircularProgress from '@smui/circular-progress';
 	import type { SubmitFunction } from '@sveltejs/kit';
   
-	let dev = true;
+	let dev = false;
 	
 	const BUTTON_1_TOPIC = 'home/penny3/arduino/buttons-board/button-1';
 	const BUTTON_2_TOPIC = 'home/penny3/arduino/buttons-board/button-2';

@@ -48,4 +48,3 @@ hourly_data["sunshine_duration"] = hourly_sunshine_duration
 
 hourly_dataframe = pd.DataFrame(data = hourly_data)
 print(hourly_dataframe)
-
