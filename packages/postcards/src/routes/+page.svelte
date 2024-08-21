@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { fade } from 'svelte/transition';
-	import Typewriter from 'svelte-typewriter';
 	import Penny from '$lib/Penny.svg';
 	import { postcards } from '$lib/Postcards';
 	import mqtt from 'mqtt';
@@ -203,9 +202,7 @@
 {:else}
 	<div class="postcard poetsen-one-regular" style="background-image: url({Penny})">
 		<div class="postcard-text" transition:fade>
-			<Typewriter cursor={false}>
 				{currentPostcard.postCard}
-			</Typewriter>
 				{#if $recording === false && $processing === false && whisperResponse}
 					{whisperResponse}
 				{/if}
