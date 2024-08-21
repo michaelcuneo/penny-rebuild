@@ -2,7 +2,6 @@
 	import { fade } from 'svelte/transition';
 	import { enhance } from '$app/forms';
 	// import CircularProgress from '@smui/circular-progress';
-	import Typewriter from 'svelte-typewriter';
 	import mqtt from 'mqtt';
 	import researchQr from '$lib/research-code.png';
   import uploadQr from '$lib/upload-code.svg';
@@ -129,27 +128,25 @@
     <CircularProgress style="height: 128px; width: 128px;" indeterminate />
   </div>
 {/if}
--->
 
 <form bind:this={form} action="?/save" method="POST" use:enhance={useForm}>
 	<input hidden name="contentId" bind:value={currentUpload.id} />
 </form>
+-->
 
 <div class="question poetsen-one-regular">
   <div class="question-text" transition:fade>
-    <Typewriter cursor={false} mode="cascade">
-      <h4>Coming Soon.</h4>
-      <p>
-        You can upload your own creative content or community notices to this Penny!
-      </p>
-      <p>Scan the uploads code to go to our website to upload content.</p>
-      <h4>Copyright statement.</h4>
-      <p>
-        Copyright remains with the creator of the content, Penny is simply a platform for displaying content to share with the local community.
-      </p>
-      <h4>Scan 'Uploads' to upload content to this Penny.</h4>
-      <h4>Scan 'Research Statement' to read about the research before participating.</h4>
-    </Typewriter>
+		<h4>Coming Soon.</h4>
+		<p>
+			You can upload your own creative content or community notices to this Penny!
+		</p>
+		<p>Scan the uploads code to go to our website to upload content.</p>
+		<h4>Copyright statement.</h4>
+		<p>
+			Copyright remains with the creator of the content, Penny is simply a platform for displaying content to share with the local community.
+		</p>
+		<h4>Scan 'Uploads' to upload content to this Penny.</h4>
+		<h4>Scan 'Research Statement' to read about the research before participating.</h4>
   </div>
   <div class="qr-codes">
     <div class="row">
