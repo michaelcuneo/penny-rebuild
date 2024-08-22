@@ -3,7 +3,6 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, GetCommand, PutCommand, ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { Table } from 'sst/node/table';
 import crypto from 'crypto';
-import { debug } from "console";
 
 const client = new DynamoDBClient();
 const documentClient = DynamoDBDocumentClient.from(client);
@@ -40,10 +39,10 @@ export async function create(hengeId: string) {
   return data && data.Item ? data.Item : JSON.stringify(undefined);
 }
 
-export async function list() {
-  console.error("Listing all statuses");
+export async function list(limit: string) {
   const command = new ScanCommand({
-    TableName: Table.Status.tableName
+    TableName: Table.Status.tableName,
+    Limit: limit ? parseInt(limit) : undefined,
   });
 
   const data = await documentClient.send(command);

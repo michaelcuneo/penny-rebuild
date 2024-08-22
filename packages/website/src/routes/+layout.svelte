@@ -21,6 +21,6 @@
 	.wrap {
 		display: flex;
 		flex-direction: column;
-		min-height: calc(100vh - 50px);
+		min-height: calc(100vh - 309px);
 	}
 </style>

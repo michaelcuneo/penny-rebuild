@@ -1,9 +1,19 @@
 <script>
+	import { Icon, Label } from '@smui/common';
+	import Fab from '@smui/fab';
 	import foot from '$lib/logos_penrith.jpg';
 </script>
 
 <footer>
-	<img src={foot} alt="Penrith Logos"/>
+	<div class="container">
+		<img src={foot} alt="Penrith Logos"/>
+		<ul>
+			<li><Fab extended color="primary"><Label>Henge 1 Questionnaire</Label><Icon class="material-icons">check_circle</Icon></Fab></li>
+			<li><Fab extended color="primary"><Label>Henge 2 Flipdots</Label><Icon class="material-icons">check_circle</Icon></Fab></li>
+			<li><Fab extended color="primary"><Label>Henge 3 Postcards</Label><Icon class="material-icons">check_circle</Icon></Fab></li>
+			<li><Fab extended color="primary"><Label>Henge 4 Content</Label><Icon class="material-icons">check_circle</Icon></Fab></li>
+		</ul>
+	</div>
 	<ul>
 		<li><a href="https://fastlab.soci.org.au">&copy; FASTlab, 2024</a></li> |
 		<li><a href="/privacy">Privacy</a></li> |
@@ -31,14 +41,31 @@
 		font-style: italic;
 	}
 	ul {
-		display: inline-flex;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		list-style: none;
+		margin: 2rem 0 2rem 0;
+		padding: 0;
+		flex: 1;
+		justify-content: flex-end;
 	}
 	li {
-		margin: 0rem 1rem 0rem 1rem;
-		list-style-type: none;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		margin: 0 10px;
+	}
+	.container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		width: 100%;
+		background: white;
 	}
 	img {
-		width: 100%;
+		width: 60vw;
 	}
 	@media screen and (max-width: 1200px) {
 		footer {

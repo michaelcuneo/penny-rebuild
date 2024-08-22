@@ -2,7 +2,9 @@
   import { browser } from '$app/environment';
   import { Chart, registerables } from 'chart.js';
   import { onMount } from 'svelte';
+  import LayoutGrid, { Cell } from '@smui/layout-grid';
 	import type { PageData } from '../$types';
+  import Paper from '@smui/paper';
 
   Chart.register(...registerables);
 
@@ -14,7 +16,7 @@
 
   onMount(() => {
     const onlineData = {
-      labels: data.map(({ updated }) => updated),
+      labels: data.map(({ updated }) => updated.slice(-5)),
       datasets: [
         {
           label: 'Online Status',
@@ -51,10 +53,10 @@
     }
 
     const temperatureData = {
-      labels: data.map(({ updated }) => updated),
+      labels: data.map(({ updated }) => updated.slice(-5)),
       datasets: [
         {
-          label: 'Temperature',
+          label: 'Temperature @ 2 Meters',
           data: data.map(({ temperature }) => temperature),
           borderRadius: 4,
           borderWidth: 2,
@@ -78,7 +80,7 @@
     }
 
     const cloudData = {
-      labels: data.map(({ updated }) => updated),
+      labels: data.map(({ updated }) => updated.slice(-5)),
       datasets: [
         {
           label: 'Cloud Cover',
@@ -105,7 +107,7 @@
     }
 
     const voltageData = {
-      labels: data.map(({ updated }) => updated),
+      labels: data.map(({ updated }) => updated.slice(-5)),
       datasets: [
         {
           label: 'Voltage',
@@ -132,7 +134,7 @@
     }
 
     const uvData = {
-      labels: data.map(({ updated }) => updated),
+      labels: data.map(({ updated }) => updated.slice(-5)),
       datasets: [
         {
           label: 'UV Index',
@@ -168,26 +170,43 @@
 
 <main class="main-container">
   <div class="graph-content">
-    <h1>Online Status</h1>
-    <section>
-      <canvas bind:this={onlineLineChartElement} />
-    </section>
-    <h1>Temperature</h1>
-    <section>
-      <canvas bind:this={temperatureLineChartElement} />
-    </section>
-    <h1>Cloud</h1>
-    <section>
-      <canvas bind:this={cloudLineChartElement} />
-    </section>
-    <h1>Voltage</h1>
-    <section>
-      <canvas bind:this={voltageLineChartElement} />
-    </section>
-    <h1>UV Index</h1>
-    <section>
-      <canvas bind:this={uvLineChartElement} />
-    </section>
+    <LayoutGrid>
+      <Cell>
+        <Paper>
+          <section>
+            <canvas bind:this={onlineLineChartElement} />
+          </section>
+        </Paper>
+      </Cell>
+      <Cell>
+        <Paper>
+          <section>
+            <canvas bind:this={temperatureLineChartElement} />
+          </section>
+        </Paper>
+      </Cell>
+      <Cell>
+        <Paper>
+          <section>
+            <canvas bind:this={cloudLineChartElement} />
+          </section>
+        </Paper>
+      </Cell>
+      <Cell>
+        <Paper>
+          <section>
+            <canvas bind:this={voltageLineChartElement} />
+          </section>
+        </Paper>
+      </Cell>
+      <Cell>
+        <Paper>
+          <section>
+            <canvas bind:this={uvLineChartElement} />
+          </section>
+        </Paper>
+      </Cell>
+    </LayoutGrid>
   </div>
 </main>
 
@@ -197,8 +216,5 @@
     width: 100%;
     margin: 0 auto;
     flex-direction: column;
-  }
-  h1 {
-    margin: 1rem 2rem;
   }
 </style>

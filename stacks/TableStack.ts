@@ -12,6 +12,17 @@ export function TableStack({ stack }: StackContext) {
     primaryIndex: { partitionKey: 'email' }
   });
 
+  const postCardsTable = new Table(stack, 'PostCards', {
+    fields: {
+      id: "string",
+      createdAt: "string",
+      updatedAt: "string",
+      postcards: "string",
+      options: "string",
+    },
+    primaryIndex: { partitionKey: "id" },
+  })
+
   const postcardTable = new Table(stack, "Postcard", {
     fields: {
       id: "string",
@@ -19,6 +30,17 @@ export function TableStack({ stack }: StackContext) {
       updatedAt: "string",
       postcardId: "string",
       response: "string",
+    },
+    primaryIndex: { partitionKey: "id" },
+  });
+
+  const questionsTable = new Table(stack, "Questions", {
+    fields: {
+      id: "string",
+      createdAt: "string",
+      updatedAt: "string",
+      question: "string",
+      options: "string",
     },
     primaryIndex: { partitionKey: "id" },
   });
@@ -57,7 +79,6 @@ export function TableStack({ stack }: StackContext) {
       hengeId: "string",
       createdAt: "string",
       updatedAt: "string",
-      status: "string",
       voltage: "string",
       cloud: "string",
       updated: "string",
@@ -66,6 +87,26 @@ export function TableStack({ stack }: StackContext) {
       temperature: "string",
     },
     primaryIndex: { partitionKey: "id", sortKey: "hengeId" },
+  })
+
+  const hengeStatusTable = new Table(stack, "HengeStatus", {
+    fields: {
+      id: "string",
+      hengeId: "string",
+      statusId: "string",
+    },
+    primaryIndex: { partitionKey: "id", sortKey: "statusId" },
+  })
+
+  const hengeTable = new Table(stack, "Henge", {
+    fields: {
+      id: "string",
+      title: "string",
+      createdAt: "string",
+      updatedAt: "string",
+    },
+
+    primaryIndex: { partitionKey: "id" },
   })
 
   return { usersTable, postcardTable, questionTable, uploadsTable, statusTable };

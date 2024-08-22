@@ -9,24 +9,35 @@
 	import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 	import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 
-	let firstName = '';
-	let lastName = '';
-	let email = '';
-	let fileId = '';
-	let fileType = '';
-	let saving = false;
+	let firstName: string = '';
+	let lastName: string = '';
+	let email: string = '';
+	let fileId: string = '';
+	let fileType: string = '';
+	let formSubmitDisabled: boolean;
+	let fileSubmitDisabled: boolean;
+	let saving: boolean = false;
+	let submissionStarted: boolean = false;
+	let uploadingFile: boolean = false;
+	let formFilled: boolean = false;
 
 	const reset = () => {
 		firstName = '';
 		lastName = '';
 		email = '';
+		fileId = '';
+		fileType = '';
+		saving = false;
+		submissionStarted = false;
+		uploadingFile = false;
+		formFilled = false;
+		formSubmitDisabled = false;
+		fileSubmitDisabled = false;
+
 		pond.removeFiles();
 	};
 
 	registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
-
-	$: fileDisabled = !firstName || !lastName || !email;
-	$: submitDisabled = true;
 
 	let pond: FilePond;
 
@@ -48,7 +59,6 @@
 
 		if (upload.ok) {
 			fileType = fileItem.file.type;
-			submitDisabled = false;
 			saving = false;
 			return;
 		}
@@ -59,23 +69,38 @@
 	};
 
   const useForm = () => {
+		uploadingFile = true;
     return async ({ result, update }: any) => {
       if (result.type === 'success') {
-        reset();
-        saving = false;
+				setTimeout(() => {
+					reset();
+				}, 10000);
       }
       update();
     };
   }
 
+	$: formSubmitDisabled = email === '';
+	$: fileSubmitDisabled = fileType === '' || fileId === '';
 	export let data;
 </script>
 
 <div class="page" in:fade>
-	<img class="upload-image" src={upload} alt="Penny Logo" />
-	<div class="questions">
-		<h1>Upload Content to Penny</h1>
-		<form action="?/save" method="POST" use:enhance={useForm}>
+	{#if !submissionStarted}
+	<div class="upload">
+		<img class="upload-image" src={upload} alt="Penny Logo" />
+		<div style="display: flex; justify-content: center;">
+			<Button variant="raised" on:click={() => submissionStarted = true}>START SUBMISSION</Button>
+		</div>
+		<h2>Disclaimer</h2>
+		<span>Once you submit your content to Penny it will be reviewed and if approved you will be notified when it is published on Penny.</span>
+		<span>The best format for your content is portrait orientation and <span style="font-weight: bold;">1920 (height) x 1080 (width) pixels.</span></span>
+		<span>Maximum duration of video or sound based works is <span style="font-weight: bold;">1 minute length.</span></span>
+		<span style="font-weight: bold; font-style: italic;">Copyright remains with the creator of the content, Penny is simply a platform for displaying content to share with the local community.</span>
+		</div>	
+	{:else if !formFilled}
+		<div class="upload">
+			<h1>Fill in your details</h1>
 			<div class="field">
 				<Textfield
 					input$name="firstName"
@@ -101,35 +126,54 @@
 				input$id="email"
 				variant="outlined"
 				style="width: 100%;"
+				required
 				helperLine$style="width: 100%;"
 				bind:value={email}
 				label="Email"
 			/>
-			<input type="hidden" name="fileId" bind:value={fileId} />
-			<input type="hidden" name="fileType" bind:value={fileType} />
-			<div class="filepond">
-				<FilePond
-					bind:this={pond}
-					acceptedFileTypes={['image/*', 'video/*', 'audio/*']}
-					disabled={fileDisabled}
-					allowMultiple={false}
-					oninit={handleInit}
-					onaddfile={handleAddFile}
-				/>
-			</div>
+			<span>You must include at least your email to submit a contribution to the Pennys.</span>
 			<div style="display: flex; justify-content: flex-end;">
-				<Button variant="raised" on:click={reset}>Clear Values</Button>
-				<Button variant="raised" disabled={submitDisabled} on:submit={() => (saving = true)}
-					>Submit</Button
-				>
+				<Button variant="raised" on:click={reset}>Cancel Submission</Button>
+				<Button variant="raised" disabled={formSubmitDisabled} on:click={() => formFilled = true}>Next</Button>
 			</div>
-		</form>
-		<h2>Disclaimer</h2>
-		<span>Once you submit your content to Penny it will be reviewed and if approved you will be notified when it is published on Penny.</span>
-		<span>The best format for your content is portrait orientation and <span style="font-weight: bold;">1920 (height) x 1080 (width) pixels.</span></span>
-		<span>Maximum duration of video or sound based works is <span style="font-weight: bold;">1 minute length.</span></span>
-		<span style="font-weight: bold; font-style: italic;">Copyright remains with the creator of the content, Penny is simply a platform for displaying content to share with the local community.</span>
-	</div>
+		</div>
+	{:else if !uploadingFile}
+		<div class="upload">
+			<h1>Upload your file</h1>
+			<form action="?/save" method="POST" use:enhance={useForm}>
+				<div class="filepond">
+					<FilePond
+						bind:this={pond}
+						acceptedFileTypes={['image/*', 'video/*', 'audio/*']}
+						allowMultiple={false}
+						oninit={handleInit}
+						onaddfile={handleAddFile}
+					/>
+				</div>
+				<input type="hidden" name="fileId" bind:value={fileId} />
+				<input type="hidden" name="fileType" bind:value={fileType} />
+				<input type="hidden" name="firstName" bind:value={firstName} />
+				<input type="hidden" name="lastName" bind:value={lastName} />
+				<input type="hidden" name="email" bind:value={email} />
+				<span>Accepted file types: image, video, audio</span>
+				<div style="display: flex; justify-content: flex-end;">
+					<Button variant="raised" on:click={reset}>Cancel Submission</Button>
+					<Button variant="raised" disabled={fileSubmitDisabled}>Submit</Button
+					>
+				</div>
+			</form>
+		</div>
+	{:else}
+		<div class="upload">
+			<h1>Thank you for your submission</h1>
+			<span>Your content has been submitted and is now under review.</span>
+			<span>You will be notified when your content is published on Penny.</span>
+			<span>You will be redirected to the upload page in 10 seconds.</span>
+			<div style="display: flex; justify-content: flex-end;">
+				<Button variant="raised" on:click={reset}>Submit Another</Button>
+			</div>
+		</div>
+	{/if}
 </div>
 
 {#if saving === true}
@@ -147,18 +191,19 @@
 		flex-wrap: wrap;
 		flex-direction: row;
 		justify-content: center;
+		min-height: calc(100vh - 309px);
 		align-items: flex-start;
 	}
-	.questions {
+	.upload {
 		display: flex;
 		flex-direction: column;
-		width: 1000px;
+		width: 800px;
 		color: #f489a3;
 		padding: 2rem;
 		font-size: 1.6rem;
 	}
 	.upload-image {
-		height: 100vh;
+		height: 60vh;
 	}
 	.field {
 		display: flex;
@@ -176,7 +221,7 @@
 		font-size: 0.9rem;
 	}
 	@media screen and (max-width: 1224px) {
-		.questions {
+		.upload {
 			width: 96vw;
 		}
 	}

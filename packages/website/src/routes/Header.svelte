@@ -9,6 +9,7 @@
 		<li><a href="/about">About</a></li>
 		<li><a href="/upload">Upload Content</a></li>
 		<li><a href="/postcard">Send Postcard</a></li>
+		<li><a href="/status">Henge Status</a></li>
 		<li><a href="/dashboard">Data Dashboard</a></li>
 		<li><a href="/contact">Contact</a></li>
 	</ul>
@@ -32,6 +33,8 @@
 	}
 	ul {
 		display: flex;
+		flex-direction: row;
+		align-items: center;
 		list-style: none;
 		margin: 0;
 		padding: 0;
@@ -39,6 +42,9 @@
 		justify-content: flex-end;
 	}
 	li {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
 		margin: 0 10px;
 	}
 	a {

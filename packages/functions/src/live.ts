@@ -22,12 +22,15 @@ export const create: APIGatewayProxyHandlerV2 = async (event) => {
   }
 };
 
-export const list = ApiHandler(async (_evt) => {
+export const list: APIGatewayProxyHandlerV2 = async (event) => {
+  const limit = event?.queryStringParameters?.limit as string;
+  // Send a GET request to the list upload endpoint.
+
   console.log("Listing all statuses");
-  const data = await Live.list();
+  const data = await Live.list(limit);
 
   return {
     statusCode: 200,
     body: JSON.stringify(data),
   };
-});
+};
