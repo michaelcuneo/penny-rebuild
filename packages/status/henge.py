@@ -25,7 +25,7 @@ def publish_status(hengeData, weather):
 	for value in hengeData:
 		print(f'Publishing status for {hengeData[value]["name"]}')
 
-		table = dynamodb.Table('dev-penny-rebuild-Status')
+		table = dynamodb.Table('production-penny-rebuild-Status')
 
 		newUuid = uuid.uuid4().hex
 		currentTime = str(datetime.now())
@@ -51,6 +51,7 @@ def publish_status(hengeData, weather):
 def get_status(henge):
 	try:
 		with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+			s.settimeout(5.0)
 			s.connect((henge, 22))
 		status = "true"
 	except OSError as e:
