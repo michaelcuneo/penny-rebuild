@@ -17,8 +17,7 @@ export function TableStack({ stack }: StackContext) {
       id: "string",
       createdAt: "string",
       updatedAt: "string",
-      postcards: "string",
-      options: "string",
+      postcard: "string",
     },
     primaryIndex: { partitionKey: "id" },
   })
@@ -104,6 +103,11 @@ export function TableStack({ stack }: StackContext) {
       title: "string",
       createdAt: "string",
       updatedAt: "string",
+      description: "string",
+      location: "string",
+      latitude: "string",
+      longitude: "string",
+      hengeStatusId: "string",
     },
 
     primaryIndex: { partitionKey: "id" },
