@@ -123,8 +123,7 @@
 				// Reset the postcard and the recording state.
 				reset();
 
-			} else
-			if (_topic === BUTTON_2_TOPIC && message.toString() === "1") {
+			} else if (_topic === BUTTON_2_TOPIC && message.toString() === "1") {
 				if (!$recording && !$processing && !$saving) {
 
 					// Set 3 second delay
@@ -136,17 +135,16 @@
 						}
 					}, 1000);
 
+					// Set recording to true because 3 seconds have passed, we are now recording.
+					recording.set(true);
+
 					setTimeout(() => {
 						$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'START', { qos: 0, retain: false });
 					}, 3000);
 
-					// Set recording to true because 3 seconds have passed, we are now recording.
-					recording.set(true);
-
 				}
 		
 			} else if (_topic === BUTTON_2_TOPIC && message.toString() === "0") {
-
 				if ($recording && !$processing && !$saving) {
 
 					$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'STOP', { qos: 0, retain: false });
