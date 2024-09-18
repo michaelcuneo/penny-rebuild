@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import { enhance } from '$app/forms';
-	// import CircularProgress from '@smui/circular-progress';
+	import CircularProgress from '@smui/circular-progress';
 	import mqtt from 'mqtt';
 	import researchQr from '$lib/research-code.png';
   import uploadQr from '$lib/upload-code.svg';
@@ -77,9 +77,11 @@
   
 		$client.on('message', (_topic, message) => {
       if (_topic === BUTTON_1_TOPIC && message.toString() === "1") {
+				currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
         video.play();
       }
 			if (_topic === BUTTON_2_TOPIC && message.toString() === "1") {
+				currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
         video.play();
 			}
       if (_topic === BUTTON_3_TOPIC && message.toString() === "1") {
@@ -104,7 +106,6 @@
 	export let data: PageData;
 </script>
 
-<!--
 <div class="content poetsen-one-regular">
   {#if currentUpload.uploadType === 'video/mp4' || currentUpload.uploadType === 'video/webm' || currentUpload.uploadType === 'video/ogg' || currentUpload.uploadType === 'video/quicktime'}
     <video bind:this={video} src="https://{data.data.bucket}.s3.ap-southeast-2.amazonaws.com/{currentUpload?.uploadId}" width="100%">
@@ -132,8 +133,9 @@
 <form bind:this={form} action="?/save" method="POST" use:enhance={useForm}>
 	<input hidden name="contentId" bind:value={currentUpload.id} />
 </form>
--->
 
+
+<!--
 <div class="question poetsen-one-regular">
   <div class="question-text" transition:fade>
 		<h4>Coming Soon.</h4>
@@ -159,9 +161,9 @@
     </div>
   </div>
 </div>
+-->
 
 <style>
-	/*
   .content {
     display: flex;
     color: #f489a3;
@@ -189,7 +191,15 @@
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
   }
-	*/
+	h4 {
+		font-size: 3.2rem;
+		letter-spacing: 5px;
+		text-shadow:
+			-1px -1px 0px #313639,
+			2px 2px 0px #f489a355,
+			4px 4px 0px #00000055;
+	}
+	/*
   .question {
 		display: flex;
 		flex-direction: column;
@@ -201,14 +211,6 @@
 	}
 	.question-text {
 		width: 90vw;
-	}
-	h4 {
-		font-size: 3.2rem;
-		letter-spacing: 5px;
-		text-shadow:
-			-1px -1px 0px #313639,
-			2px 2px 0px #f489a355,
-			4px 4px 0px #00000055;
 	}
 	.qr-codes {
 		display: flex;
@@ -228,4 +230,5 @@
 		width: 300px;
 		height: 300px;
 	}
+	*/
 </style>
