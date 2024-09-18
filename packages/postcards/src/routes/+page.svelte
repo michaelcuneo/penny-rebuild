@@ -125,8 +125,7 @@
 
 			} else
 			if (_topic === BUTTON_2_TOPIC && message.toString() === "1") {
-
-				if (!$recording && !$processing) {
+				if (!$recording && !$processing && !$saving) {
 
 					// Set 3 second delay
 					timeLeftInterval = setInterval(() => {
@@ -148,7 +147,7 @@
 		
 			} else if (_topic === BUTTON_2_TOPIC && message.toString() === "0") {
 
-				if ($recording && !$processing) {
+				if ($recording && !$processing && !$saving) {
 
 					$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'STOP', { qos: 0, retain: false });
 					recording.set(false);
@@ -167,9 +166,9 @@
 						.then(() => whisperResponse = '');
 
 				} else {
-
-					createResponse();
-
+					if (!$saving) {
+						createResponse();
+					}
 				}
 			}
 		})
