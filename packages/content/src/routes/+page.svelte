@@ -99,7 +99,7 @@
     };
   }
 
-	setInterval(() => {
+	$: setInterval(() => {
   	currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
 	}, 60000);
 		
