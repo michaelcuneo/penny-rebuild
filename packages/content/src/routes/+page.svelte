@@ -118,7 +118,7 @@
     <input hidden name="currentUpload" bind:value={currentUpload.id} />
     <input hidden name="currentUploadLikes" bind:value={currentUpload.likes} />
   </form>
-  <div class="like-text">{currentUpload.likes} likes.</div>
+  <div class="like-text">{currentUpload.likes} LIKES</div>
 </div>
 
 {#if $saving === true}
@@ -133,7 +133,6 @@
 <form bind:this={form} action="?/save" method="POST" use:enhance={useForm}>
 	<input hidden name="contentId" bind:value={currentUpload.id} />
 </form>
-
 
 <!--
 <div class="question poetsen-one-regular">
@@ -166,17 +165,23 @@
 <style>
   .content {
     display: flex;
-    color: #f489a3;
+    color: white;
     font-size: 3.2rem;
     height: 100vh;
     justify-content: center;
     align-items: center;
   }
   .like-text {
+		display: flex;
     position: absolute;
-  	bottom: 6vh;
+  	bottom: 4vh;
     left: 8vw;
-    width: 60vw;
+    width: 30vw;
+		align-items: center;
+		justify-content: center;
+		padding: 1rem;
+		background-color: rgba(0, 0, 0, 0.5);
+		border-radius: 1rem;
     font-size: 4.5rem;
   }
   .processing-overlay {
