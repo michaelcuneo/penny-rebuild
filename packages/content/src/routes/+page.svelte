@@ -3,14 +3,11 @@
 	import { enhance } from '$app/forms';
 	import CircularProgress from '@smui/circular-progress';
 	import mqtt from 'mqtt';
-	import researchQr from '$lib/research-code.png';
-  import uploadQr from '$lib/upload-code.svg';
 	import type { ISubscriptionGrant, MqttClient } from 'mqtt';
   import { browser } from '$app/environment';
 	import { writable } from 'svelte/store';
   import { saving } from '$lib/stores';
 	import type { PageData } from './$types';
-  import type { SubmitFunction } from '@sveltejs/kit';
 
 	let dev = false;
   
@@ -23,6 +20,13 @@
   let form: HTMLFormElement;
   let video: HTMLVideoElement;
 
+	const createLike = async () => {
+		saving.set(true);
+		if (form) {
+			form.requestSubmit();
+		}
+	}
+
   $: currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
   $: accepted = false;
     
@@ -34,13 +38,6 @@
 	}
   
 	let client = writable<MqttClient | null>(null);
-
-	const createLike = async () => {
-		saving.set(true);
-		if (form) {
-			form.requestSubmit();
-		}
-	}
 
 	if (browser) {
 		let endpoint = dev ? 'ws://halide.michaelcuneo.com.au:8083' : 'ws://localhost:8083';
@@ -78,11 +75,12 @@
 		$client.on('message', (_topic, message) => {
       if (_topic === BUTTON_1_TOPIC && message.toString() === "1") {
 				currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
-        video.play();
+				if (currentUpload.uploadType === 'video/mp4' || currentUpload.uploadType === 'video/webm' || currentUpload.uploadType === 'video/ogg' || currentUpload.uploadType === 'video/quicktime') {
+					video.play();
+				}
       }
 			if (_topic === BUTTON_2_TOPIC && message.toString() === "1") {
 				currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
-        video.play();
 			}
       if (_topic === BUTTON_3_TOPIC && message.toString() === "1") {
         createLike();
@@ -90,16 +88,14 @@
 		})
 	};
 
-  const useForm: SubmitFunction = () => {
-    return async ({ result }) => {
-			if (result.type === 'error') {
-			}
-      if (result.type === 'success') {
-      }
-    };
-  }
+	const useForm	= async () => {};
 
-	$: setInterval(() => {
+	setTimeout(() => {
+		if (video)
+			video.play();
+	}, 1000);
+
+	$: setInterval(async () => {
   	currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
 	}, 60000);
 		
@@ -108,13 +104,13 @@
 
 <div class="content poetsen-one-regular">
   {#if currentUpload.uploadType === 'video/mp4' || currentUpload.uploadType === 'video/webm' || currentUpload.uploadType === 'video/ogg' || currentUpload.uploadType === 'video/quicktime'}
-    <video bind:this={video} src="https://{data.data.bucket}.s3.ap-southeast-2.amazonaws.com/{currentUpload?.uploadId}" width="100%">
+    <video bind:this={video} src={currentUpload.media.url} width="100%" autoplay muted loop controls={false}>
       <track kind="captions" />
     </video>
   {:else if currentUpload.uploadType === 'image/png' || currentUpload.uploadType === 'image/jpeg' || currentUpload.uploadType === 'image/gif' || currentUpload.uploadType === 'image/webp'}
-    <img src="https://{data.data.bucket}.s3.ap-southeast-2.amazonaws.com/{currentUpload?.uploadId}" alt={currentUpload.uploadType} width="320" />
+    <img src={currentUpload.media.url} alt={currentUpload.uploadType} width="100%" />
   {/if}
-  <form bind:this={form} action="?/save" method="POST" use:enhance>
+  <form bind:this={form} action="?/save" method="POST" use:enhance={useForm}>
     <input hidden name="currentUpload" bind:value={currentUpload.id} />
     <input hidden name="currentUploadLikes" bind:value={currentUpload.likes} />
   </form>
@@ -131,7 +127,7 @@
 {/if}
 
 <form bind:this={form} action="?/save" method="POST" use:enhance={useForm}>
-	<input hidden name="contentId" bind:value={currentUpload.id} />
+	<input hidden name="uploadId" bind:value={currentUpload.id} />
 </form>
 
 <!--
