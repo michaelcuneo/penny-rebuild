@@ -21,4 +21,4 @@ export function ConfigStack({ stack }: StackContext) {
     emailAppPass,
     jwtSecret
   };
-}
+};

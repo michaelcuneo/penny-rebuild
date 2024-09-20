@@ -21,4 +21,4 @@ export function StorageStack({ stack }: StackContext) {
   });
 
   return { bucket };
-}
+};

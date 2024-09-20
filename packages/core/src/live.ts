@@ -37,7 +37,7 @@ export async function create(hengeId: string) {
   }
 
   return data && data.Item ? data.Item : JSON.stringify(undefined);
-}
+};
 
 export async function list(limit: string) {
   const command = new ScanCommand({
@@ -48,4 +48,4 @@ export async function list(limit: string) {
   const data = await documentClient.send(command);
 
   return data && data.Items ? data.Items : JSON.stringify(undefined);
-}
+};

@@ -36,7 +36,7 @@ export async function create(postcardId: string, response: string) {
 
     return content && content.Item ? content.Item : JSON.stringify(undefined);
   }
-}
+};
 
 export async function list() {
   const command = new ScanCommand({
@@ -46,4 +46,4 @@ export async function list() {
   const data = await documentClient.send(command);
 
   return data && data.Items ? data.Items : JSON.stringify(undefined);
-}
+};

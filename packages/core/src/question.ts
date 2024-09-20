@@ -45,7 +45,7 @@ export async function create(q1: string, q2: string, q3: string, q4: string, q5:
     setTimeout(() => { }, 1000); // So we don't spam DynamoDB
   }
   return data && data.Item ? data.Item : JSON.stringify(undefined);
-}
+};
 
 export async function list() {
   const command = new ScanCommand({
@@ -55,4 +55,4 @@ export async function list() {
   const data = await documentClient.send(command);
 
   return data && data.Items ? data.Items : JSON.stringify(undefined);
-}
+};

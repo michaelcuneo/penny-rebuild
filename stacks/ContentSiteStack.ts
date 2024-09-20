@@ -20,4 +20,4 @@ export function ContentSiteStack({ stack }: StackContext) {
   stack.addOutputs({
     ContentsUrl: contentsite.url,
   });
-}
+};

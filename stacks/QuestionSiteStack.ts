@@ -18,4 +18,4 @@ export function QuestionSiteStack({ stack }: StackContext) {
   stack.addOutputs({
     QuestionsUrl: questionSite.url,
   });
-}
+};

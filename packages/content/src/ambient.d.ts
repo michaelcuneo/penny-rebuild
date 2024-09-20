@@ -7,4 +7,7 @@ type Upload = {
   uploadType: string;
   approved: binary;
   likes: number;
-}
+  media: {
+    url: string;
+  }
+};

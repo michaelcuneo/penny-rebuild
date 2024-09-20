@@ -20,4 +20,4 @@ export function AuthStack({ stack }: StackContext) {
   auth.attach(stack, { api });
 
   return { auth };
-}
+};

@@ -10,7 +10,7 @@ declare module 'sst/node/auth' {
 			userId: string;
 		};
 	}
-}
+};
 
 export type User = {
 	id: string;

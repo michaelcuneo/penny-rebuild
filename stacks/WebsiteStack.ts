@@ -28,4 +28,4 @@ export function WebsiteStack({ stack }: StackContext) {
   stack.addOutputs({
     WebsiteUrl: website.url
   });
-}
+};

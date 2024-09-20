@@ -20,7 +20,7 @@ type UserToken = {
   userId: string;
   iat: number;
   exp: number;
-}
+};
 
 type ContentType = {
   id: string;
@@ -29,7 +29,7 @@ type ContentType = {
   lastName: string;
   uploadId: string;
   uploadType: string;
-}
+};
 
 type PostcardType = {
   id: string;
@@ -52,4 +52,4 @@ declare module 'svelte-filepond' {
     removeFiles(): void;
     // Add other methods you use from FilePond here
   }
-}
+};

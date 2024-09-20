@@ -12,4 +12,4 @@ export function groupBy(list: any[], keyGetter: any) {
   });
   
   return map;
-}
+};

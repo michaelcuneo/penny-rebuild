@@ -7,4 +7,4 @@ export const email = (authUrl: string, projectName: string) => {
     </div>
   </div>
   `;
-}
+};

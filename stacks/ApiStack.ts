@@ -56,4 +56,4 @@ export function ApiStack({ stack }: StackContext) {
   });
 
   return { api };
-}
+};

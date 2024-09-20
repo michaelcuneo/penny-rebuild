@@ -47,4 +47,4 @@ export async function create(email: string) {
   } else {
     return JSON.stringify(undefined);
   }
-}
+};
