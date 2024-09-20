@@ -52,12 +52,14 @@
 	$: accepted = false;
 
 	const reset = () => {
+		clearInterval(timeLeftInterval);
 		currentQuestionId = 0;
 		recording.set(false);
 		processing.set(false);
 		saving.set(false);
 		whisperResponse = "";
 		accepted = false;
+		timeLeft = 3;
 		answers = [
 			'', // 0
 			'', // 1
@@ -109,11 +111,9 @@
 		})
 			.then((res) => res.json())
 			.then((data) => {
-
 				whisperResponse = data;
 				answers[currentQuestionId] = whisperResponse;
 				processing.set(false);
-
 			});
 	};
 
@@ -164,51 +164,37 @@
 
 		$client.on('message', (_topic, message) => {
 			if (_topic === BUTTON_1_TOPIC && message.toString() === '1') {
-
 				// Reset the survey and start again.
 				reset();
-
 			}
 			if (_topic === BUTTON_2_TOPIC && message.toString() === '1') {
-
-				if (!$recording && !$processing) {
+				if (accepted && !$recording && !$processing) {
 
 					// Set 3 second delay
 					timeLeftInterval = setInterval(() => {
 						if (timeLeft > 0) {
-							
 							timeLeft--;
-
 						}
 					}, 1000);
 
 					// Set recording to true because 3 seconds have passed, we are now recording.
 					recording.set(true);
 
-					// Set recording to false after 20 seconds.
 					setTimeout(() => {
 						$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'START', { qos: 0, retain: false });
 					}, 3000);
-
 				}
-
 			} else if (_topic === BUTTON_2_TOPIC && message.toString() === '0') {
-
-				if ($recording && !$processing) {
-
+				if (accepted && $recording && !$processing) {
 					$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'STOP', { qos: 0, retain: false });
 					recording.set(false);
 
 					startProcessing();
 				}
-
 			} else if (_topic === BUTTON_3_TOPIC && message.toString() === '1') {
-				if (!accepted && !submitReady) {
-
+				if (!accepted && !submitReady && !recording && !processing && !saving) {
 					accepted = true;
-
 				} else if (answers[currentQuestionId] === '' && !submitReady) {
-
 					recording.set(false);
 					processing.set(false);
 					whisperResponse = 'Please record an answer first.';
@@ -217,17 +203,13 @@
 						.then(() => (whisperResponse = ''));
 
 				} else if (answers[currentQuestionId] !== '' && !submitReady) {
-
 					// Set button 2 to false here so it can't be pressed twice to record twice.
 					currentQuestionId++;
 					whisperResponse = '';
 					recording.set(false);
 					processing.set(false);
-
 				} else if (submitReady) {
-
 					createResponse();
-
 				}
 			}
 		});

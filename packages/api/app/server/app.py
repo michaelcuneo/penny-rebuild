@@ -55,6 +55,13 @@ async def record():
   # LAPTOP
   # cleanTextPath = "/Users/mjc128/Documents/penny-rebuild/packages/api/cleanText.txt"
 
+  # Delete old transcriptions first.
+  with open(rawTextPath, 'w') as file:
+    file.write("")
+
+  with open(cleanTextPath, 'w') as file:
+    file.write("")
+
   model = WhisperModel("tiny.en", device="cpu", num_workers=4, cpu_threads=4, compute_type="int8")
   segments, info  = model.transcribe(audioPath, word_timestamps=False, beam_size=1, vad_filter=True, vad_parameters=dict(min_silence_duration_ms=500))
 
@@ -79,6 +86,7 @@ async def record():
   with open(cleanTextPath, 'w') as file:
     file.write(censored_text)
 
-  print(f"Clean Text: {combined_text}")
+  print(f"Clean Text: {censored_text}")
   
   return combined_text
+  
