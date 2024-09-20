@@ -90,14 +90,9 @@
 
 	const useForm	= async () => {};
 
-	setTimeout(() => {
-		if (video)
-			video.play();
-	}, 1000);
-
-	$: setInterval(async () => {
-  	currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
-	}, 60000);
+	setInterval(async () => {
+		currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
+	}, 60000)
 		
 	export let data: PageData;
 </script>
