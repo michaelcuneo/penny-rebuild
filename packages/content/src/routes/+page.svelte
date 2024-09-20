@@ -104,7 +104,7 @@
 
 <div class="content poetsen-one-regular">
   {#if currentUpload.uploadType === 'video/mp4' || currentUpload.uploadType === 'video/webm' || currentUpload.uploadType === 'video/ogg' || currentUpload.uploadType === 'video/quicktime'}
-    <video bind:this={video} src={currentUpload.media.url} width="100%" autoplay muted loop controls={false}>
+    <video bind:this={video} src={currentUpload.media.url} width="100%" autoplay loop controls={false}>
       <track kind="captions" />
     </video>
   {:else if currentUpload.uploadType === 'image/png' || currentUpload.uploadType === 'image/jpeg' || currentUpload.uploadType === 'image/gif' || currentUpload.uploadType === 'image/webp'}
