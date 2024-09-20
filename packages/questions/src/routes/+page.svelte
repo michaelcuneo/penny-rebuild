@@ -56,7 +56,7 @@
 		recording.set(false);
 		processing.set(false);
 		saving.set(false);
-		whisperResponse = '';
+		whisperResponse = "";
 		accepted = false;
 		answers = [
 			'', // 0
@@ -89,7 +89,9 @@
 			form.requestSubmit();
 		}
 
-		new Promise((resolve) => setTimeout(resolve, 10000)).then(() => reset());
+		setTimeout(() => {
+			reset()
+		}, 10000);
 	};
 
 	const startProcessing = async () => {
@@ -180,13 +182,13 @@
 						}
 					}, 1000);
 
+					// Set recording to true because 3 seconds have passed, we are now recording.
+					recording.set(true);
+
 					// Set recording to false after 20 seconds.
 					setTimeout(() => {
 						$client?.publish(MOSQUITTO_RECORDING_TOPIC, 'START', { qos: 0, retain: false });
 					}, 3000);
-
-					// Set recording to true because 3 seconds have passed, we are now recording.
-					recording.set(true);
 
 				}
 
