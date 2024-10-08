@@ -25,6 +25,23 @@ export const create: APIGatewayProxyHandlerV2 = async (event) => {
   };
 };
 
+export const update: APIGatewayProxyHandlerV2 = async (event) => {
+  const id = event?.queryStringParameters?.id as string;
+  const questionId = event?.queryStringParameters?.questionId as string;
+  const questionnaireId = event?.queryStringParameters?.questionnaireId as string;
+  const createdAt = event?.queryStringParameters?.createdAt as string;
+  const updatedAt = event?.queryStringParameters?.updatedAt as string;
+  const response = event?.queryStringParameters?.response as string;
+
+
+  await Question.update(id, questionId, createdAt, questionnaireId, updatedAt, response);
+
+  return {
+    statusCode: 200,
+    body: "Questionaire updated",
+  };
+}
+
 export const list = ApiHandler(async (_evt) => {
   const data = await Question.list();
 

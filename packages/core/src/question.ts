@@ -47,6 +47,22 @@ export async function create(q1: string, q2: string, q3: string, q4: string, q5:
   return data && data.Item ? data.Item : JSON.stringify(undefined);
 };
 
+export async function update(id: string, questionId: string, createdAt: string, questionnaireId: string, updatedAt: string, response: string) {
+  const params = {
+    TableName: Table.Question.tableName,
+    Item: {
+      id: id,
+      questionnaireId: questionnaireId,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      questionId: questionId,
+      response: response
+    }
+  };
+
+  await documentClient.send(new PutCommand(params));
+};
+
 export async function list() {
   const command = new ScanCommand({
     TableName: Table.Question.tableName
