@@ -16,6 +16,7 @@
 	const BUTTON_3_TOPIC = 'home/penny4/arduino/buttons-board/button-3';
   
   let accepted: boolean;
+	let selecting: boolean;
   let currentUpload: Upload;
   let form: HTMLFormElement;
   let video: HTMLVideoElement;
@@ -29,6 +30,7 @@
 
   $: currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
   $: accepted = false;
+	$: selecting = false;
     
 	const options = {
 	  keepalive: 1,
@@ -74,7 +76,13 @@
   
 		$client.on('message', (_topic, message) => {
       if (_topic === BUTTON_1_TOPIC && message.toString() === "1") {
-				currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
+				selecting = true;
+				
+				setInterval(async () => {
+					currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
+					selecting = false;
+				}, 5000)
+				
 				if (
 					currentUpload.uploadType === 'video/mp4' ||
 					currentUpload.uploadType === 'video/webm' ||
@@ -92,7 +100,13 @@
 				}
       }
 			if (_topic === BUTTON_2_TOPIC && message.toString() === "1") {
-				currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
+				selecting = true;
+				
+				setInterval(async () => {
+					currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
+					selecting = false;
+				}, 5000)
+
 				if (
 					currentUpload.uploadType === 'video/mp4' ||
 					currentUpload.uploadType === 'video/webm' ||
@@ -145,6 +159,15 @@
 </div>
 
 {#if $saving === true}
+  <div class="processing-overlay" transition:fade>
+		<h4>
+			'LIKE...'
+		</h4>
+    <CircularProgress style="height: 128px; width: 128px;" indeterminate />
+  </div>
+{/if}
+
+{#if selecting === true}
   <div class="processing-overlay" transition:fade>
 		<h4>
 			'LIKE...'
