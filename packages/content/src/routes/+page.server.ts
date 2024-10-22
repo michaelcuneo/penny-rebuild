@@ -17,8 +17,10 @@ export const load = (async () => {
     upload.media = media;
   }
 
+  const approvedEntries = uploads.filter((upload: { approved: boolean }) => upload.approved === true);
+
   // Group uploads by email
-  const groupedUploads = groupBy(uploads, (upload: { uploadType: string }) => upload.uploadType);
+  const groupedUploads = groupBy(approvedEntries, (approvedEntries: { uploadType: string }) => approvedEntries.uploadType);
   const groupedEntries = Array.from(groupedUploads.values());
 
   const data = {
