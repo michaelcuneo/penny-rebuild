@@ -9,7 +9,7 @@
   import { saving } from '$lib/stores';
 	import type { PageData } from './$types';
 
-	let dev = false;
+	let dev = true;
   
 	const BUTTON_1_TOPIC = 'home/penny4/arduino/buttons-board/button-1';
 	const BUTTON_2_TOPIC = 'home/penny4/arduino/buttons-board/button-2';
@@ -78,7 +78,7 @@
       if (_topic === BUTTON_1_TOPIC && message.toString() === "1") {
 				selecting = true;
 				
-				setInterval(async () => {
+				setTimeout(async () => {
 					currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
 					selecting = false;
 				}, 5000)
@@ -102,7 +102,7 @@
 			if (_topic === BUTTON_2_TOPIC && message.toString() === "1") {
 				selecting = true;
 				
-				setInterval(async () => {
+				setTimeout(async () => {
 					currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
 					selecting = false;
 				}, 5000)
