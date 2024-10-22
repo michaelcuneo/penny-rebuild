@@ -1,14 +1,18 @@
-import { redirect } from '@sveltejs/kit';
+// import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 import { Bucket } from 'sst/node/bucket';
-import { API_URL } from '$env/static/private';
+// import { API_URL } from '$env/static/private';
 import { groupBy } from '$lib/utils/helper';
 
 // Send user to Auth if the user is not logged in.
 export const load = (async ({ locals }) => {
+  /*
   if (!locals.session) {
     throw redirect(303, '/auth/login');
   }
+  */
+
+  let API_URL = 'https://1cwj4ysj5h.execute-api.ap-southeast-2.amazonaws.com/';
 
   // Send a GET request to the list upload endpoint.
   const listUploads = await fetch(`${API_URL}/upload/list`, {
@@ -17,6 +21,14 @@ export const load = (async ({ locals }) => {
   });
 
   const uploads = await listUploads.json();
+
+  // Get the presigned URL for each upload
+  for (const upload of uploads) {
+    // Fetch the user using the email
+    const mediaResponse = await fetch(`${API_URL}/presignedurl/${upload.uploadId}`);
+    const media = await mediaResponse.json();
+    upload.media = media.url;
+  }
 
   // Send a GET request to the list postcard endpoint.
   const listPostcards = await fetch(`${API_URL}/postcard/list`, {
@@ -33,15 +45,17 @@ export const load = (async ({ locals }) => {
 
   const surveys = await listSurveys.json();
 
-  const groupedSurveys = groupBy(surveys, (survey: { questionId: string }) => survey.questionId);
+  const groupedSurveys = groupBy(surveys, (survey: { questionnaireId: string }) => survey.questionnaireId);
   const groupedEntries = Array.from(groupedSurveys.values());
 
   const data = {
     uploads: uploads,
     postcards: postcards,
     surveys: groupedEntries,
-    bucket: Bucket.public.bucketName
+    bucket: Bucket.public.bucketName,
   };
+
+  console.log(postcards);
 
   return { data };
 }) satisfies PageServerLoad;

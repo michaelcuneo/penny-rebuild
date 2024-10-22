@@ -55,23 +55,24 @@
 
 <div class="admin">
   <h1>Penny Administration</h1>
-  <TabBar tabs={['Content', 'Postcards', 'Surveys']} let:tab bind:active>
+  <TabBar tabs={['Submissions', 'Postcards', 'Surveys']} let:tab bind:active>
     <!-- Note: the `tab` property is required! -->
     <Tab {tab}>
       <Label>{tab}</Label>
     </Tab>
   </TabBar>
   <div class="admin-content">
-  {#if active === 'Content'}
-    <DataTable table$aria-label="People list" style="max-width: 100%;">
+  {#if active === 'Submissions'}
+    <DataTable table$aria-label="Submissions" style="max-width: 100%;">
       <Head>
         <Row>
           <Cell>Name</Cell>
           <Cell>Email</Cell>
-          <Cell numeric>Content ID</Cell>
+          <Cell>Created</Cell>
           <Cell>Content Type</Cell>
           <Cell>Approved</Cell>
           <Cell>Likes</Cell>
+          <Cell numeric>Content ID</Cell>
         </Row>
       </Head>
       <Body>
@@ -80,36 +81,41 @@
           <Row on:click={() => openContentDialog(object)}>
             <Cell>{object.firstName} {object.lastName}</Cell>
             <Cell>{object.email}</Cell>
-            <Cell numeric>{object.uploadId}</Cell>
+            <Cell>{object.createdAt}</Cell>
             <Cell>{object.uploadType}</Cell>
             <Cell>{object.approved}</Cell>
             <Cell>{object.likes}</Cell>
+            <Cell numeric>{object.uploadId}</Cell>
           </Row>
         {/each}
         {/if}
       </Body>
     </DataTable>
   {:else if active === 'Postcards'}
-    <DataTable table$aria-label="People list" style="max-width: 100%;">
+    <DataTable table$aria-label="Postcard Responses" style="max-width: 100vw">
       <Head>
         <Row>
+          <Cell>Postcard ID</Cell>
           <Cell>Question</Cell>
           <Cell>Response</Cell>
+          <Cell>Created</Cell>
         </Row>
       </Head>
       <Body>
         {#if data.data.postcards.length > 0}
           {#each data.data.postcards as object}
             <Row on:click={() => openPostcardDialog(object)}>
+              <Cell>{object.postcardId}</Cell>
               <Cell>{getPostcard(object.postcardId)}</Cell>
               <Cell>{object.response}</Cell>
+              <Cell>{object.createdAt}</Cell>
             </Row>
           {/each}
         {/if}
       </Body>
     </DataTable>
   {:else if active === 'Surveys'}
-    <DataTable table$aria-label="People list" style="max-width: 100%;">
+    <DataTable table$aria-label="Survey Responses" style="max-width: 100%;">
       <Head>
         <Row>
           <Cell>Survey ID</Cell>
@@ -141,11 +147,15 @@
       <p>{currentContent.firstName} {currentContent.lastName}</p>
       <p>{currentContent.email}</p>
       {#if currentContent.uploadType === 'video/mp4' || currentContent.uploadType === 'video/webm' || currentContent.uploadType === 'video/ogg' || currentContent.uploadType === 'video/quicktime'}
-        <video src="https://{data.data.bucket}.s3.ap-southeast-2.amazonaws.com/{currentContent?.uploadId}" width="320" controls controlsList="nodownload" aria-placeholder="Video">
+        <video src={currentContent.media} width="320" controls controlsList="nodownload" aria-placeholder="Video">
           <track kind="captions" />
         </video>
       {:else if currentContent.uploadType === 'image/png' || currentContent.uploadType === 'image/jpeg' || currentContent.uploadType === 'image/gif' || currentContent.uploadType === 'image/webp'}
-        <img src="https://{data.data.bucket}.s3.ap-southeast-2.amazonaws.com/{currentContent?.uploadId}" alt={currentContent.uploadType} width="320" />
+        <img src={currentContent.media} alt={currentContent.uploadType} width="320" />
+      {:else if currentContent.uploadType === 'audio/mpeg' || currentContent.uploadType === 'audio/ogg' || currentContent.uploadType === 'audio/wav' || currentContent.uploadType === 'audio/webm' || currentContent.uploadType === 'audio/flac' || currentContent.uploadType === 'audio/aac' || currentContent.uploadType === 'audio/x-m4r'}
+        <audio src={currentContent.media} controls controlsList="nodownload" aria-placeholder="Audio">
+          <track kind="captions" />
+        </audio>
       {:else}
         <p>Content not able to be parsed, bad format</p>
       {/if}

@@ -2,9 +2,9 @@
 	import { fade } from 'svelte/transition';
 	import landing from '$lib/landing.svg';
 
-	$: console.log(data);
+	// $: console.log(data);
 
-	export let data;
+	// export let data;
 </script>
 
 <div class="page" in:fade>

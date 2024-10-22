@@ -5,7 +5,8 @@ import { groupBy } from '$lib/utils/helper';
 // Send user to Auth if the user is not logged in.
 export const load = (async () => {
   // Send a GET request to the list upload endpoint.
-  const listStatus = await fetch(`${API_URL}/live/list?limit=4`, {
+
+  /*const listStatus = await fetch(`${API_URL}/live/list?limit=4`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });
@@ -24,4 +25,5 @@ export const load = (async () => {
   };
 
   return { data };
+  */
 }) satisfies PageServerLoad;

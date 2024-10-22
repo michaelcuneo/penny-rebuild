@@ -36,7 +36,6 @@
 	$: currentQuestionId = 0;
 	$: currentQuestion = questions[currentQuestionId];
 	$: answers = [
-		'', // 0
 		'', // 1
 		'', // 2
 		'', // 3
@@ -47,7 +46,8 @@
 		'', // 8
 		'', // 9
 		'', // 10
-		'' // 11
+		'', // 11
+		'' // 12
 	];
 	$: accepted = false;
 
@@ -61,7 +61,6 @@
 		accepted = false;
 		timeLeft = 3;
 		answers = [
-			'', // 0
 			'', // 1
 			'', // 2
 			'', // 3
@@ -71,8 +70,9 @@
 			'', // 7
 			'', // 8
 			'', // 9
-			'', // 10
-			'' // 11
+			'', // 19
+			'', // 11
+			'' // 12
 		];
 	};
 
@@ -342,6 +342,7 @@
 	<input hidden name="q9" value={answers[8]} />
 	<input hidden name="q10" value={answers[9]} />
 	<input hidden name="q11" value={answers[10]} />
+	<input hidden name="q12" value={answers[11]} />
 </form>
 
 <style>

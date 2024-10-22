@@ -30,14 +30,12 @@ export function ApiStack({ stack }: StackContext) {
       }
     },
     routes: {
-      "GET /": "packages/functions/src/main.handler",
       "GET /presignedurl/{uploadId}": "packages/functions/src/presignedurl.handler",
       "POST /user/create": "packages/functions/src/userCreate.handler",
       "GET /user/getUserByEmail/{email}": "packages/functions/src/userByEmail.handler",
       "POST /question/create": "packages/functions/src/question.create",
       "PUT /question/update": "packages/functions/src/question.update",
       "GET /question/list": "packages/functions/src/question.list",
-      "GET /questionbackup/list": "packages/functions/src/questionbackup.list",
       "POST /postcard/create": "packages/functions/src/postcard.create",
       "GET /postcard/list": "packages/functions/src/postcard.list",
       "POST /upload/create": "packages/functions/src/upload.create",

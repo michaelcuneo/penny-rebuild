@@ -8,10 +8,10 @@ const client = new DynamoDBClient();
 const documentClient = DynamoDBDocumentClient.from(client);
 
 // Add the Question to the DynamoDB Database.
-export async function create(q1: string, q2: string, q3: string, q4: string, q5: string, q6: string, q7: string, q8: string, q9: string, q10: string, q11: string) {
+export async function create(q1: string, q2: string, q3: string, q4: string, q5: string, q6: string, q7: string, q8: string, q9: string, q10: string, q11: string, q12: string) {
   let data: any = {};
 
-  const answers = [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11];
+  const answers = [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12];
   const questionSetID = crypto.randomUUID();
 
   for (let i = 0; i < answers.length; i++) {
@@ -24,7 +24,7 @@ export async function create(q1: string, q2: string, q3: string, q4: string, q5:
         questionnaireId: questionSetID,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-        questionId: i,
+        questionId: i + 1,
         response: answers[i]
       }
     };

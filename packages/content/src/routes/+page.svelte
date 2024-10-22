@@ -75,12 +75,39 @@
 		$client.on('message', (_topic, message) => {
       if (_topic === BUTTON_1_TOPIC && message.toString() === "1") {
 				currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
-				if (currentUpload.uploadType === 'video/mp4' || currentUpload.uploadType === 'video/webm' || currentUpload.uploadType === 'video/ogg' || currentUpload.uploadType === 'video/quicktime') {
+				if (
+					currentUpload.uploadType === 'video/mp4' ||
+					currentUpload.uploadType === 'video/webm' ||
+					currentUpload.uploadType === 'video/ogg' ||
+					currentUpload.uploadType === 'video/quicktime' ||
+					currentUpload.uploadType === 'audio/mpeg' ||
+					currentUpload.uploadType === 'audio/ogg' ||
+					currentUpload.uploadType === 'audio/wav' ||
+					currentUpload.uploadType === 'audio/webm' ||
+					currentUpload.uploadType === 'audio/flac' ||
+					currentUpload.uploadType === 'audio/aac' ||
+					currentUpload.uploadType === 'audio/x-m4r')
+				{
 					video.play();
 				}
       }
 			if (_topic === BUTTON_2_TOPIC && message.toString() === "1") {
 				currentUpload = data?.data.uploads[Math.floor(Math.random() * data?.data.uploads.length)][0];
+				if (
+					currentUpload.uploadType === 'video/mp4' ||
+					currentUpload.uploadType === 'video/webm' ||
+					currentUpload.uploadType === 'video/ogg' ||
+					currentUpload.uploadType === 'video/quicktime' ||
+					currentUpload.uploadType === 'audio/mpeg' ||
+					currentUpload.uploadType === 'audio/ogg' ||
+					currentUpload.uploadType === 'audio/wav' ||
+					currentUpload.uploadType === 'audio/webm' ||
+					currentUpload.uploadType === 'audio/flac' ||
+					currentUpload.uploadType === 'audio/aac' ||
+					currentUpload.uploadType === 'audio/x-m4r')
+				{
+					video.play();
+				}
 			}
       if (_topic === BUTTON_3_TOPIC && message.toString() === "1") {
         createLike();
@@ -104,6 +131,11 @@
     </video>
   {:else if currentUpload.uploadType === 'image/png' || currentUpload.uploadType === 'image/jpeg' || currentUpload.uploadType === 'image/gif' || currentUpload.uploadType === 'image/webp'}
     <img src={currentUpload.media.url} alt={currentUpload.uploadType} width="100%" />
+	{:else if currentUpload.uploadType === 'audio/mpeg' || currentUpload.uploadType === 'audio/ogg' || currentUpload.uploadType === 'audio/wav' || currentUpload.uploadType === 'audio/webm' || currentUpload.uploadType === 'audio/flac' || currentUpload.uploadType === 'audio/aac' || currentUpload.uploadType === 'audio/x-m4r'}
+    <audio controls controlsList="nodownload" aria-placeholder="Audio">
+			<source src={currentUpload.media.url} type={currentUpload.uploadType} />
+      <track kind="captions" />
+    </audio>
   {/if}
   <form bind:this={form} action="?/save" method="POST" use:enhance={useForm}>
     <input hidden name="currentUpload" bind:value={currentUpload.id} />

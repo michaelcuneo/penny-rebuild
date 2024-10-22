@@ -21,6 +21,7 @@
 		[],
 		null,
 		[],
+		[],
 	] as string[] | number[] | null[] | undefined[];
 
 	let strippedMultiselect = '';

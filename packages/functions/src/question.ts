@@ -16,8 +16,9 @@ export const create: APIGatewayProxyHandlerV2 = async (event) => {
   const q9 = event?.queryStringParameters?.q9 as string;
   const q10 = event?.queryStringParameters?.q10 as string;
   const q11 = event?.queryStringParameters?.q11 as string;
+  const q12 = event?.queryStringParameters?.q12 as string;
 
-  await Question.create(q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11);
+  await Question.create(q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12);
 
   return {
     statusCode: 200,

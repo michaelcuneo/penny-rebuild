@@ -23,10 +23,11 @@ export const actions = {
     const q9 = formData.get('q9')?.toString();
     const q10 = formData.get('q10')?.toString();
     const q11 = formData.get('q11')?.toString();
+    const q12 = formData.get('q12')?.toString();
 
     // Send a POST request to the create upload endpoint
     const createUploadResponse = await fetch(
-      `${API_URL}/question/create?q1=${q1}&q2=${q2}&q3=${q3}&q4=${q4}&q5=${q5}&q6=${q6}&q7=${q7}&q8=${q8}&q9=${q9}&q10=${q10}&q11=${q11}`, {
+      `${API_URL}/question/create?q1=${q1}&q2=${q2}&q3=${q3}&q4=${q4}&q5=${q5}&q6=${q6}&q7=${q7}&q8=${q8}&q9=${q9}&q10=${q10}&q11=${q11}&q12=${q12}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });

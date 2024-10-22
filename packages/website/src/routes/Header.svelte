@@ -10,7 +10,7 @@
 		<li><a href="/upload">Upload Content</a></li>
 		<li><a href="/postcard">Send Postcard</a></li>
 		<li><a href="/status">Henge Status</a></li>
-		<li><a href="/dashboard">Data Dashboard</a></li>
+		<li><a href="https://data.penny.soci.org.au">Data Dashboard</a></li>
 		<li><a href="/contact">Contact</a></li>
 	</ul>
 </header>

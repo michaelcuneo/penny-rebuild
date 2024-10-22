@@ -29,6 +29,7 @@ type ContentType = {
   lastName: string;
   uploadId: string;
   uploadType: string;
+  media: string;
 };
 
 type PostcardType = {
