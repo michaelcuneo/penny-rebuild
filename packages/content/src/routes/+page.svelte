@@ -170,7 +170,7 @@
 {#if selecting === true}
   <div class="processing-overlay" transition:fade>
 		<h4>
-			'LIKE...'
+			'Selecting new media...'
 		</h4>
     <CircularProgress style="height: 128px; width: 128px;" indeterminate />
   </div>
