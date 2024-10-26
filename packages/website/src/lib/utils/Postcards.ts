@@ -8,7 +8,7 @@ export const postcards = [
     postCard: "I think women and girls would feel safer in public places if ...",
   },
   {
-    id: "9000fb59-1ae4-48db-882c-5952e2ca2ed4	",
+    id: "9000fb59-1ae4-48db-882c-5952e2ca2ed4",
     postCard: "When I feel safe in a public place I will ...",
   },
   {
@@ -32,7 +32,7 @@ export const postcards = [
     postCard: "Things that make me feel safer in public include ...",
   },
   {
-    id: "36acd9a7-8042-49a1-a829-1e22341079b5	",
+    id: "36acd9a7-8042-49a1-a829-1e22341079b5",
     postCard: "I think women and girls feel safe in public places when ..."
   }
 ];

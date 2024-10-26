@@ -47,13 +47,17 @@
 
 	const handleAddFile = async (err: string, fileItem: any) => {
 		saving = true;
+
 		const file = fileItem.file as File;
+
+		const myRenamedFile = new File([file], fileId);
+
 		const upload = await fetch (data.url, {
 			method: 'PUT',
-			body: file,
+			body: myRenamedFile,
 			headers: {
-				'Content-Type': file.type,
-				'Content-Disposition': `attachment; filename=${file.name}`
+				'Content-Type': myRenamedFile.type,
+				'Content-Disposition': `attachment; filename=${myRenamedFile.name}`
 			}
 		})
 

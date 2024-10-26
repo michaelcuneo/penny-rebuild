@@ -38,17 +38,20 @@ type PostcardType = {
   response: string;
 };
 
+type QuestionResponseType = QuestionType[];
+
 type QuestionType = {
   id: string;
-  question: string;
+  questionId: string;
+  questionnaireId: string;
   options: string[];
-  answer: string;
-};
+  response: string;
+}
 
 declare module 'jsonwebtoken';
 declare module 'nodemailer';
 declare module 'svelte-filepond' {
-  export function registerPlugin(...plugins: any[]): void;
+  export function registerPlugin(...plugins: unknown[]): void;
   export default class FilePond {
     removeFiles(): void;
     // Add other methods you use from FilePond here

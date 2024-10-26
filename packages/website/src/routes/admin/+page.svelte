@@ -6,6 +6,7 @@
   import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
   import TabBar from '@smui/tab-bar';
   import { postcards } from '$lib/utils/Postcards.js';
+  import { questions } from '$lib/utils/Questions.js';
 
   let form: HTMLFormElement;
 
@@ -13,7 +14,7 @@
   let contentType = '';
   let currentContent: ContentType | null;
   let currentPostcard: PostcardType | null;
-  let currentSurvey: QuestionType | null;
+  let currentSurvey: QuestionResponseType | null;
 
   $: currentContent = null;
   $: currentPostcard = null;
@@ -21,11 +22,24 @@
 
   const getPostcard = (id: string) => {
     const postcard = postcards.filter((postcard) => postcard.id === id);
+
     if (postcard[0]?.postCard) {
       return postcard[0].postCard;
     }
     
     return 'Postcard not found';
+  }
+  
+  const getQuestion = (id: string) => {
+    // Make sure the damn ID is a string.
+    id = id.toString();
+    const question = questions.filter((question) => question.id === id);
+
+    if (question[0]?.question) {
+      return question[0].question;
+    }
+    
+    return 'Question not found';
   }
 
   const openContentDialog = async (object: ContentType) => {
@@ -42,14 +56,18 @@
     dialogOpen = true;
   }
 
-  const openSurveyDialog = async (object: QuestionType) => {
+  const openSurveyDialog = async (object: any) => {
     // Open the dialog
-    currentSurvey = object;
+    // Sort the object by questionId
+    object = object.sort((a: any, b: any) => a.questionId - b.questionId);
+    console.log(object);
+    // Open the dialog
+    currentSurvey = object
     contentType = 'Survey';
     dialogOpen = true;
   }
 
-  let active = 'Content';
+  let active = 'Submissions';
   export let data;
 </script>
 
@@ -118,14 +136,14 @@
     <DataTable table$aria-label="Survey Responses" style="max-width: 100%;">
       <Head>
         <Row>
-          <Cell>Survey ID</Cell>
+          <Cell>Questionnaire ID</Cell>
         </Row>
       </Head>
       <Body>
         {#if data.data.surveys.length > 0}
           {#each data.data.surveys as object, i}
-            <Row>
-              <Cell>{object[i].id}</Cell>
+            <Row on:click={() => openSurveyDialog(object)}>
+              <Cell>{object[0].questionnaireId}</Cell>
             </Row>
           {/each}
         {/if}
@@ -140,6 +158,7 @@
   bind:open={dialogOpen}
   aria-labelledby="dialog-title"
   aria-describedby="dialog-content"
+  fullscreen
 >
   <Content id="dialog-content">
     {#if currentContent && contentType === 'Content'}
@@ -167,8 +186,28 @@
     {/if}
     {#if currentSurvey && contentType === 'Survey'}
       <h4>Survey Admin</h4>
-      <p>{currentSurvey.id}</p>
-      <p>Reading Surveys coming in a future update</p>
+      <DataTable table$aria-label="Survey Responses" style="width: 100%;">
+        <Head>
+          <Row>
+            <Cell>Questionnaire ID</Cell>
+            <Cell>Question</Cell>
+            <Cell>Response</Cell>
+          </Row>
+        </Head>
+        <Body>
+          {#each currentSurvey as object}
+              <Row on:click={() => openSurveyDialog(object)}>
+                <Cell>{object.questionnaireId}</Cell>
+                <Cell>{getQuestion(object.questionId)}</Cell>
+                {#if object.response !== ""}
+                  <Cell>{object.response}</Cell>
+                {:else}
+                  <Cell>No Response</Cell>
+                {/if}
+              </Row>
+          {/each}
+        </Body>
+      </DataTable>  
     {/if}
   </Content>
   <Actions>

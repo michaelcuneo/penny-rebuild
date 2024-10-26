@@ -42,8 +42,6 @@ export function ApiStack({ stack }: StackContext) {
       "GET /upload/list": "packages/functions/src/upload.list",
       "GET /upload/media": "packages/functions/src/upload.media",
       "PUT /upload/update": "packages/functions/src/upload.update",
-      "POST /live/create": "packages/functions/src/live.create",
-      "GET /live/list": "packages/functions/src/live.list",
     },
   });
 
