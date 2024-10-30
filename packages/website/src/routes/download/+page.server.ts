@@ -23,6 +23,8 @@ export const actions = {
     // Check if the GIF exists
     const check = await fetch(url);
 
+    console.log(check.url);
+
     if (!check.ok) {
       return { success: false, error: "This code does not exist!" };
     } else {

@@ -6,11 +6,13 @@ import { groupBy } from '$lib/utils/helper';
 
 // Send user to Auth if the user is not logged in.
 export const load = (async ({ locals }) => {
+  /*
   if (!locals.session) {
     throw redirect(303, '/auth/login');
   }
+  */
 
-  // const API_URL = 'https://1cwj4ysj5h.execute-api.ap-southeast-2.amazonaws.com/';
+  const API_URL = 'https://1cwj4ysj5h.execute-api.ap-southeast-2.amazonaws.com/';
 
   // Send a GET request to the list upload endpoint.
   const listUploads = await fetch(`${API_URL}/upload/list`, {
@@ -65,7 +67,7 @@ export const actions = {
    * @returns {Promise<Object>} - An object with success and error properties.
   */
   async save({ request }: { request: Request }) {
-    // const API_URL = 'https://1cwj4ysj5h.execute-api.ap-southeast-2.amazonaws.com/';
+    const API_URL = 'https://1cwj4ysj5h.execute-api.ap-southeast-2.amazonaws.com/';
 
     // Extract the form data from the request
     const formData = await request.formData();

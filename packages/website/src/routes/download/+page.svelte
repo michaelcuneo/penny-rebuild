@@ -4,9 +4,10 @@
 	import { fade } from 'svelte/transition';
 	import Textfield from '@smui/textfield';
 	import Button from '@smui/button';
+	import Share from '$lib/Share.svelte';
 
-	let code = '';
-  let downloading = false;
+	let code: string = '';
+  let downloading: boolean = false;
 
 	const reset = () => {
 		code = '';
@@ -53,7 +54,10 @@
         <p>Your animation has been downloaded.</p>
         <img src={form.url} alt={form.url} />
         <h2>Share your animation on the socials</h2>
-        <span style="font-weight: bold; font-style: italic;">Copyright remains with the creator of the content, Penny is simply a platform for displaying content to share with the local community.</span>    
+				<span>
+					<Share class="facebook" url={form.url} quote="Here is my Penny FlipDot" />
+				</span>
+	      <span style="font-weight: bold; font-style: italic;">Copyright remains with the creator of the content, Penny is simply a platform for displaying content to share with the local community.</span>    
       </div>
     {/if}
     {#if form?.success === false}
