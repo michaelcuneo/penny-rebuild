@@ -4,7 +4,8 @@
 	import { fade } from 'svelte/transition';
 	import Textfield from '@smui/textfield';
 	import Button from '@smui/button';
-	import Share from '$lib/Share.svelte';
+	import FacebookShare from '$lib/FacebookShare.svelte';
+	import XShare from '$lib/XShare.svelte';
 
 	let code: string = '';
   let downloading: boolean = false;
@@ -54,9 +55,10 @@
         <p>Your animation has been downloaded.</p>
         <img src={form.url} alt={form.url} />
         <h2>Share your animation on the socials</h2>
-				<span>
-					<Share class="facebook" url={form.url} quote="Here is my Penny FlipDot" />
-				</span>
+				<div>
+					<FacebookShare url={form.url} quote="Flipdot Animation" ariaLabel="Facebook Share" />
+					<XShare url={form.url} ariaLabel="X Share" text="I captured my FlipDot animation at Penny Penrith" hashtags="PennyPenrith" via="PennyPenrith" related="PennyPenrith" />
+				</div>
 	      <span style="font-weight: bold; font-style: italic;">Copyright remains with the creator of the content, Penny is simply a platform for displaying content to share with the local community.</span>    
       </div>
     {/if}

@@ -1,7 +1,8 @@
-<script>
+<script lang="ts">
 	import Header from './Header.svelte';
 	import Footer from './Footer.svelte';
 	import BurgerMenu from '$lib/BurgerMenu.svelte';
+	import { onMount }from 'svelte';
 
 	import 'sanitize.css';
 	import './styles.css';
