@@ -3,15 +3,27 @@ import { TableStack } from "./TableStack";
 import { ConfigStack } from "./ConfigStack";
 
 export function ApiStack({ stack }: StackContext) {
-  const { emailService, emailHost, emailPort, emailUser, emailAppPass } = use(ConfigStack);
-  const { usersTable, uploadsTable, questionTable, postcardTable, statusTable } = use(TableStack);
+  const { emailService, emailHost, emailPort, emailUser, emailAppPass } =
+    use(ConfigStack);
+  const {
+    usersTable,
+    uploadsTable,
+    questionTable,
+    postcardTable,
+    statusTable,
+  } = use(TableStack);
 
   const api = new Api(stack, "api", {
     cors: {
       allowCredentials: true,
-      allowHeaders: ['content-type'],
-      allowMethods: ['ANY'],
-      allowOrigins: [`http://localhost:3000`, `https://penny.soci.org.au`, 'http://localhost:3001', 'http://localhost:4172'],
+      allowHeaders: ["content-type"],
+      allowMethods: ["ANY"],
+      allowOrigins: [
+        `http://localhost:3000`,
+        `https://penny.soci.org.au`,
+        "http://localhost:3001",
+        "http://localhost:4172",
+      ],
     },
     defaults: {
       function: {
@@ -25,14 +37,16 @@ export function ApiStack({ stack }: StackContext) {
           emailHost,
           emailPort,
           emailUser,
-          emailAppPass
-        ]
-      }
+          emailAppPass,
+        ],
+      },
     },
     routes: {
-      "GET /presignedurl/{uploadId}": "packages/functions/src/presignedurl.handler",
+      "GET /presignedurl/{uploadId}":
+        "packages/functions/src/presignedurl.handler",
       "POST /user/create": "packages/functions/src/userCreate.handler",
-      "GET /user/getUserByEmail/{email}": "packages/functions/src/userByEmail.handler",
+      "GET /user/getUserByEmail/{email}":
+        "packages/functions/src/userByEmail.handler",
       "POST /question/create": "packages/functions/src/question.create",
       "PUT /question/update": "packages/functions/src/question.update",
       "GET /question/list": "packages/functions/src/question.list",
@@ -54,4 +68,4 @@ export function ApiStack({ stack }: StackContext) {
   });
 
   return { api };
-};
+}

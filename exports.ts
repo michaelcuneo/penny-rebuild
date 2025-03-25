@@ -5,7 +5,8 @@ export const postcards = [
   },
   {
     id: "91ed701c-6b29-468f-bce5-db5d424e7384",
-    postCard: "I think women and girls would feel safer in public places if ...",
+    postCard:
+      "I think women and girls would feel safer in public places if ...",
   },
   {
     id: "9000fb59-1ae4-48db-882c-5952e2ca2ed4	",
@@ -17,7 +18,8 @@ export const postcards = [
   },
   {
     id: "43199411-1d38-4dd4-9f31-444b18caae03",
-    postCard: "When I feel safe in public places and spaces I'm more likely to ...",
+    postCard:
+      "When I feel safe in public places and spaces I'm more likely to ...",
   },
   {
     id: "54bd238e-dd9f-462e-984b-9c4b45e37621",
@@ -33,8 +35,8 @@ export const postcards = [
   },
   {
     id: "36acd9a7-8042-49a1-a829-1e22341079b5	",
-    postCard: "I think women and girls feel safe in public places when ..."
-  }
+    postCard: "I think women and girls feel safe in public places when ...",
+  },
 ];
 
 export const questions = [
@@ -50,17 +52,18 @@ export const questions = [
   {
     id: "2",
     question: "Which of these best describes you?",
-    options: ["Man", "Woman", "Non-binary", "Prefer not to say", "Decline to answer"],
+    options: [
+      "Man",
+      "Woman",
+      "Non-binary",
+      "Prefer not to say",
+      "Decline to answer",
+    ],
   },
   {
     id: "3",
     question: "What is your age?",
-    options: [
-      "16-24 years",
-      "25-54 years",
-      "55-64 years",
-      "65 years and over"
-    ],
+    options: ["16-24 years", "25-54 years", "55-64 years", "65 years and over"],
   },
   {
     id: "4",
@@ -90,9 +93,7 @@ export const questions = [
   {
     id: "6",
     question: "My favourite thing to do here is ...",
-    options: [
-      '',
-    ],
+    options: [""],
   },
   {
     id: "7",
@@ -109,9 +110,7 @@ export const questions = [
   {
     id: "8",
     question: "I'd spend more time here if ...",
-    options: [
-      '',
-    ],
+    options: [""],
   },
   {
     id: "9",
@@ -128,9 +127,7 @@ export const questions = [
   {
     id: "10",
     question: "What do you see and hear right now ...",
-    options: [
-      "",
-    ],
+    options: [""],
   },
   {
     id: "11",
@@ -146,8 +143,6 @@ export const questions = [
   {
     id: "12",
     question: "If safety was a colour it would be ...",
-    options: [
-      "",
-    ],
-  }
+    options: [""],
+  },
 ];

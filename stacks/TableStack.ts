@@ -2,17 +2,17 @@ import { StackContext, Table } from "sst/constructs";
 
 export function TableStack({ stack }: StackContext) {
   // Define users table
-  const usersTable = new Table(stack, 'Users', {
+  const usersTable = new Table(stack, "Users", {
     fields: {
       id: "string",
       createdAt: "string",
       updatedAt: "string",
-      email: "string"
+      email: "string",
     },
-    primaryIndex: { partitionKey: 'email' }
+    primaryIndex: { partitionKey: "email" },
   });
 
-  const postCardsTable = new Table(stack, 'PostCards', {
+  const postCardsTable = new Table(stack, "PostCards", {
     fields: {
       id: "string",
       createdAt: "string",
@@ -88,5 +88,11 @@ export function TableStack({ stack }: StackContext) {
     primaryIndex: { partitionKey: "id", sortKey: "hengeId" },
   });
 
-  return { usersTable, postcardTable, questionTable, uploadsTable, statusTable };
-};
+  return {
+    usersTable,
+    postcardTable,
+    questionTable,
+    uploadsTable,
+    statusTable,
+  };
+}

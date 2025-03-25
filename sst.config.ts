@@ -14,7 +14,7 @@ export default {
     return {
       name: "penny-rebuild",
       region: "ap-southeast-2",
-      profile: "work", // WORK (on halide) OR DEFAULT (on laptop)
+      profile: "default", // WORK (on halide) OR DEFAULT (on laptop)
     };
   },
   stacks(app) {
@@ -28,5 +28,5 @@ export default {
       .stack(QuestionSiteStack)
       .stack(PostcardSiteStack)
       .stack(WebsiteStack);
-  }
+  },
 } satisfies SSTConfig;

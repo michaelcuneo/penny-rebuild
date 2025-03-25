@@ -18,4 +18,4 @@ export function PostcardSiteStack({ stack }: StackContext) {
   stack.addOutputs({
     PostcardsUrl: postcardsite.url,
   });
-};
+}

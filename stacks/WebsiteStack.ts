@@ -9,11 +9,28 @@ export function WebsiteStack({ stack }: StackContext) {
   const { bucket } = use(StorageStack);
   const { api } = use(ApiStack);
   const { auth } = use(AuthStack);
-  const { emailService, emailHost, emailPort, emailUser, emailAppPass, jwtSecret } = use(ConfigStack);
+  const {
+    emailService,
+    emailHost,
+    emailPort,
+    emailUser,
+    emailAppPass,
+    jwtSecret,
+  } = use(ConfigStack);
   const { usersTable } = use(TableStack);
 
   const website = new SvelteKitSite(stack, "Website", {
-    bind: [auth, usersTable, emailService, emailHost, emailPort, emailUser, emailAppPass, jwtSecret, bucket],
+    bind: [
+      auth,
+      usersTable,
+      emailService,
+      emailHost,
+      emailPort,
+      emailUser,
+      emailAppPass,
+      jwtSecret,
+      bucket,
+    ],
     path: "packages/website",
     edge: false, // Set to false because we don't need this to be international.
     environment: {
@@ -21,11 +38,11 @@ export function WebsiteStack({ stack }: StackContext) {
     },
     customDomain: {
       domainName: "penny.soci.org.au",
-      hostedZone: "soci.org.au"
-    }
+      hostedZone: "soci.org.au",
+    },
   });
 
   stack.addOutputs({
-    WebsiteUrl: website.url
+    WebsiteUrl: website.url,
   });
-};
+}

@@ -4,7 +4,7 @@
 
 <div class="page" in:fade>
   <div class="wrapper">
-    <h1>Welcome to Penny.</h1>
+    <h1>Welcome to Nellies.</h1>
     <p>
       Penny aims to capture and display content and data to better understand perceptions of safety in Penrith.
     </p>
