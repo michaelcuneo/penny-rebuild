@@ -67,7 +67,6 @@ export function TableStack({ stack }: StackContext) {
       uploadId: "string",
       uploadType: "string",
       approved: "binary",
-      likes: "number",
     },
     primaryIndex: { partitionKey: "id" },
   });

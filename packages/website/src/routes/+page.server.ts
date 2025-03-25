@@ -1,6 +1,6 @@
 import type { PageServerLoad } from './$types';
-import { API_URL } from '$env/static/private';
-import { groupBy } from '$lib/utils/helper';
+// import { API_URL } from '$env/static/private';
+// import { groupBy } from '$lib/utils/helper';
 
 // Send user to Auth if the user is not logged in.
 export const load = (async () => {
