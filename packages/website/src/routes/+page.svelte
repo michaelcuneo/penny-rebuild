@@ -1,6 +1,6 @@
 <script>
 	import { fade } from 'svelte/transition';
-	import landing from '$lib/landing.svg';
+	// import landing from '$lib/landing.svg';
 
 	// $: console.log(data);
 
@@ -9,12 +9,15 @@
 
 <div class="page" in:fade>
 	<div class="landing">
+		<p>Landing Artwork Placeholder</p>
+		<!--
 		<img width="100%" src={landing} alt="Stay, Connect, Reflect" />
+		-->
 	</div>
 </div>
 
 <style>
-  .page {
+	.page {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -22,6 +25,9 @@
 		width: 100vw;
 	}
 	.landing {
-		width: 800px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
 	}
 </style>

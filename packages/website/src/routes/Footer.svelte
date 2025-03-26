@@ -17,9 +17,9 @@
 		-->
 	</div>
 	<ul>
-		<li><a href="https://fastlab.soci.org.au">&copy; The University of Newcastle, 2025</a></li> |
-		<li><a href="/privacy">Privacy</a></li> |
-		<li><a href="/terms">Terms</a></li> | 
+		<li><a href="https://www.newcastle.edu.au">&copy; The University of Newcastle, 2025</a></li> |
+		<!--<li><a href="/privacy">Privacy</a></li> |
+		<li><a href="/terms">Terms</a></li> | -->
 		<li><a href="/admin">Admin</a></li>
 	</ul>
 </footer>

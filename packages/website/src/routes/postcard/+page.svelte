@@ -33,9 +33,14 @@
 </script>
 
 <div class="postcard poetsen-one-regular" in:fade>
+  <!--
   <img class="invite-image" src={invite} alt="Penny Logo" />
+  -->
+  <p class="postcard-image">Postcard Artwork Placeholder</p>
   <div class="postcard-area">
+    <!--
     <img class="postcard-image" src={Penny} alt="Penny Logo" />
+    -->
     <div class="postcard-input">
       <form action="?/save" method="POST" on:submit={() => saving = true} use:enhance={useForm}>
         <div class="postcard-text">
@@ -93,6 +98,7 @@
   }
   .postcard-image {
     display: flex;
+    align-items: center;
     flex-direction: column;
     position: absolute;
     margin-right: 40px;

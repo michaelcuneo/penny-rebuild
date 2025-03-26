@@ -1,14 +1,11 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import Tab, { Label } from '@smui/tab';
 	import Dialog, { Content, Actions } from '@smui/dialog';
-	import Button, { Icon } from '@smui/button';
+	import Button from '@smui/button';
 	import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
 	import TabBar from '@smui/tab-bar';
 	import { postcards } from '$lib/utils/Postcards.js';
 	import { questions } from '$lib/utils/Questions.js';
-
-	let form: HTMLFormElement;
 
 	let dialogOpen = false;
 	let contentType = '';
