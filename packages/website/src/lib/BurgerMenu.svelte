@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { fade, fly } from 'svelte/transition';
-	import Hoverable from './Hoverable.svelte';
+	import Hoverable from '$lib/Hoverable.svelte';
 
-	let menuVisible = false;
+	let menuVisible = $state(false);
 
-	function handleClick() {
+	const handleClick = () => {
 		menuVisible = !menuVisible;
 		let el: HTMLElement | null = document.getElementById('svelte');
 		el?.classList.toggle('fixed-position', menuVisible);
-	}
+	};
 </script>
 
 {#if menuVisible}
@@ -16,14 +16,14 @@
 		role="button"
 		tabindex="0"
 		transition:fade={{ duration: 500 }}
-		on:click={handleClick}
-		on:keydown={handleClick}
-	/>
+		onclick={handleClick}
+		onkeydown={handleClick}
+	></menu-overlay>
 {/if}
 
 {#if menuVisible}
 	<main-menu transition:fly={{ x: 200, duration: 500 }}>
-		<close-button role="button" tabindex="0" on:click={handleClick} on:keydown={handleClick}>
+		<close-button role="button" tabindex="0" onclick={handleClick} onkeydown={handleClick}>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				width="36.77"
@@ -52,101 +52,113 @@
 		</close-button>
 		<hr />
 		<menu-links>
-			<a data-sveltekit-preload-data href="/" on:click={handleClick}>
-				<Hoverable let:hovering={active}>
-					<animated-link class:active>
-						{#if active}
-							<item>
-								Home
-								<sub>Back to the start.</sub>
-							</item>
-							<greaterthan>&gt;</greaterthan>
-						{:else}
-							<item> Home </item>
-						{/if}
-					</animated-link>
-				</Hoverable>
+			<a data-sveltekit-preload-data href="/" onclick={handleClick}>
+				<Hoverable >
+					{#snippet children({ hovering: active }: { hovering: boolean, active: boolean })}
+										<animated-link class:active>
+							{#if active}
+								<item>
+									Home
+									<sub>Back to the start.</sub>
+								</item>
+								<greaterthan>&gt;</greaterthan>
+							{:else}
+								<item> Home </item>
+							{/if}
+						</animated-link>
+														{/snippet}
+								</Hoverable>
 			</a>
-			<a data-sveltekit-preload-data href="/about" on:click={handleClick}>
-				<Hoverable let:hovering={active}>
-					<animated-link class:active>
-						{#if active}
-							<item>
-								About
-								<sub>What we do</sub>
-							</item>
-							<greaterthan>&gt;</greaterthan>
-						{:else}
-							<item> About </item>
-						{/if}
-					</animated-link>
-				</Hoverable>
+			<a data-sveltekit-preload-data href="/about" onclick={handleClick}>
+				<Hoverable >
+					{#snippet children({ hovering: active }: { hovering: boolean, active: boolean })}
+										<animated-link class:active>
+							{#if active}
+								<item>
+									About
+									<sub>What we do</sub>
+								</item>
+								<greaterthan>&gt;</greaterthan>
+							{:else}
+								<item> About </item>
+							{/if}
+						</animated-link>
+														{/snippet}
+								</Hoverable>
 			</a>
-			<a data-sveltekit-preload-data href="/upload" on:click={handleClick}>
-				<Hoverable let:hovering={active}>
-					<animated-link class:active>
-						{#if active}
-							<item>
-								Upload Content
-								<sub>Upload content to Penny</sub>
-							</item>
-							<greaterthan>&gt;</greaterthan>
-						{:else}
-							<item> Upload Content </item>
-						{/if}
-					</animated-link>
-				</Hoverable>
+			<a data-sveltekit-preload-data href="/upload" onclick={handleClick}>
+				<Hoverable >
+					{#snippet children({ hovering: active }: { hovering: boolean, active: boolean })}
+										<animated-link class:active>
+							{#if active}
+								<item>
+									Upload Content
+									<sub>Upload content to Penny</sub>
+								</item>
+								<greaterthan>&gt;</greaterthan>
+							{:else}
+								<item> Upload Content </item>
+							{/if}
+						</animated-link>
+														{/snippet}
+								</Hoverable>
 			</a>
-			<a data-sveltekit-preload-data href="/postcard" on:click={handleClick}>
-				<Hoverable let:hovering={active}>
-					<animated-link class:active>
-						{#if active}
-							<item
-								>Send Postcard
-								<sub>Send a postcard to Penny.</sub>
-							</item>
-							<greaterthan>&gt;</greaterthan>
-						{:else}
-							<item> Send Postcard </item>
-						{/if}
-					</animated-link>
-				</Hoverable>
+			<a data-sveltekit-preload-data href="/postcard" onclick={handleClick}>
+				<Hoverable >
+					{#snippet children({ hovering: active }: { hovering: boolean, active: boolean })}
+										<animated-link class:active>
+							{#if active}
+								<item
+									>Send Postcard
+									<sub>Send a postcard to Penny.</sub>
+								</item>
+								<greaterthan>&gt;</greaterthan>
+							{:else}
+								<item> Send Postcard </item>
+							{/if}
+						</animated-link>
+														{/snippet}
+								</Hoverable>
 			</a>
-			<a data-sveltekit-preload-data href="/dashboard" on:click={handleClick}>
-				<Hoverable let:hovering={active}>
-					<animated-link class:active>
-						{#if active}
-							<item>
-								Data Dashboard
-								<sub>Look at the dashboard.</sub>
-							</item>
-							<greaterthan>&gt;</greaterthan>
-						{:else}
-							<item> Data Dashboard </item>
-						{/if}
-					</animated-link>
-				</Hoverable>
+			<a data-sveltekit-preload-data href="/dashboard" onclick={handleClick}>
+				<Hoverable >
+					{#snippet children({ hovering: active }: { hovering: boolean, active: boolean })}
+										<animated-link class:active>
+							{#if active}
+								<item>
+									Data Dashboard
+									<sub>Look at the dashboard.</sub>
+								</item>
+								<greaterthan>&gt;</greaterthan>
+							{:else}
+								<item> Data Dashboard </item>
+							{/if}
+						</animated-link>
+														{/snippet}
+								</Hoverable>
 			</a>
-			<a data-sveltekit-preload-data href="/contact" on:click={handleClick}>
-				<Hoverable let:hovering={active}>
-					<animated-link class:active>
-						{#if active}
-							<item>
-								Contact
-								<sub>Contact FASTlab.</sub>
-							</item>
-							<greaterthan>&gt;</greaterthan>
-						{:else}
-							<item> Contact </item>
-						{/if}
-					</animated-link>
-				</Hoverable>
+			<a data-sveltekit-preload-data href="/contact" onclick={handleClick}>
+				<Hoverable >
+					{#snippet children({ hovering: active }: { hovering: boolean, active: boolean })}
+										<animated-link class:active>
+							{#if active}
+								<item>
+									Contact
+									<sub>Contact FASTlab.</sub>
+								</item>
+								<greaterthan>&gt;</greaterthan>
+							{:else}
+								<item> Contact </item>
+							{/if}
+						</animated-link>
+														{/snippet}
+								</Hoverable>
 			</a>
 		</menu-links>
 	</main-menu>
 {/if}
 
-<menu-button role="button" tabindex="0" on:click={handleClick} on:keydown={handleClick}>
+<menu-button role="button" tabindex="0" onclick={handleClick} onkeydown={handleClick}>
 	<svg width="56px" height="56px" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
 		<path d="M4 18L20 18" stroke="white" stroke-width="2" stroke-linecap="round"/>
 		<path d="M4 12L20 12" stroke="white" stroke-width="2" stroke-linecap="round"/>

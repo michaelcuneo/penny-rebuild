@@ -1,4 +1,4 @@
-export function groupBy(list: any[], keyGetter: any) {
+export function groupBy<T>(list: T[], keyGetter: (item: T) => string | number) {
   const map = new Map();
 
   list.forEach((item) => {

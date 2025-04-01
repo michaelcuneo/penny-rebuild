@@ -1,8 +1,6 @@
 import type { Actions } from './$types';
 import { Api } from 'sst/node/api';
 
-console.log(Api);
-
 export const actions = {
 	async save({ request }: { request: Request }) {
 		const url = Api.api.url;

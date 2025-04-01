@@ -7,24 +7,22 @@
 	import Button from '@smui/button';
 	import { questions } from '$lib/utils/Questions';
 
-	let disabled = false;
+	let answers = $state([
+		null,
+		null,
+		null,
+		[],
+		[],
+		null,
+		[],
+		null,
+		[],
+		null,
+		[],
+		[],
+	] as string[] | number[] | null[] | undefined[]);
 
-	let answers = [
-		null,
-		null,
-		null,
-		[],
-		[],
-		null,
-		[],
-		null,
-		[],
-		null,
-		[],
-		[],
-	] as string[] | number[] | null[] | undefined[];
-
-	let strippedMultiselect = '';
+	let strippedMultiselect = $state('');
 
 	const stripStrings = () => {
 		if ((answers[3] as string)?.length > 1) {
@@ -34,7 +32,7 @@
 		}
 	}
 
-	$: disabled = answers.some((answer) => !answer);
+	let disabled = $derived(answers.some((answer) => !answer));
 </script>
 
 <div class="page" in:fade>
@@ -67,18 +65,22 @@
 			</div>
 			<div class="question">
 				<h3>{questions[3].question}</h3>
-				<SegmentedButton on:change={stripStrings} segments={questions[3].options} let:segment bind:selected={answers[3]}>
-					<Segment type="button" {segment}>
-						<Label>{segment}</Label>
-					</Segment>
+				<SegmentedButton on:change={stripStrings} segments={questions[3].options}  bind:selected={answers[3]}>
+					{#snippet children({ segment }: { segment: string })}
+						<Segment type="button" {segment}>
+							<Label>{segment}</Label>
+						</Segment>
+					{/snippet}
 				</SegmentedButton>
 			</div>
 			<div class="question">
 				<h3>{questions[4].question}</h3>
-				<SegmentedButton segments={questions[4].options} let:segment singleSelect bind:selected={answers[4]}>
-					<Segment type="button" {segment}>
-						<Label>{segment}</Label>
-					</Segment>
+				<SegmentedButton segments={questions[4].options}  singleSelect bind:selected={answers[4]}>
+					{#snippet children({ segment }: { segment: string })}
+						<Segment type="button" {segment}>
+							<Label>{segment}</Label>
+						</Segment>
+					{/snippet}
 				</SegmentedButton>
 			</div>
 			<div class="question">
@@ -87,10 +89,12 @@
 			</div>
 			<div class="question">
 				<h3>{questions[6].question}</h3>
-				<SegmentedButton segments={questions[6].options} let:segment singleSelect bind:selected={answers[6]}>
-					<Segment type="button" {segment}>
-						<Label>{segment}</Label>
-					</Segment>
+				<SegmentedButton segments={questions[6].options}  singleSelect bind:selected={answers[6]}>
+					{#snippet children({ segment }: { segment: string })}
+						<Segment type="button" {segment}>
+							<Label>{segment}</Label>
+						</Segment>
+					{/snippet}
 				</SegmentedButton>
 			</div>
 			<div class="question">
@@ -99,10 +103,12 @@
 			</div>
 			<div class="question">
 				<h3>{questions[8].question}</h3>
-				<SegmentedButton segments={questions[8].options} let:segment singleSelect bind:selected={answers[8]}>
-					<Segment type="button" {segment}>
-						<Label>{segment}</Label>
-					</Segment>
+				<SegmentedButton segments={questions[8].options}  singleSelect bind:selected={answers[8]}>
+					{#snippet children({ segment }: { segment: string })}
+						<Segment type="button" {segment}>
+							<Label>{segment}</Label>
+						</Segment>
+					{/snippet}
 				</SegmentedButton>
 			</div>
 			<div class="question">
@@ -111,10 +117,12 @@
 			</div>
 			<div class="question">
 				<h3>{questions[10].question}</h3>
-				<SegmentedButton segments={questions[10].options} let:segment singleSelect bind:selected={answers[10]}>
-					<Segment type="button" {segment}>
-						<Label>{segment}</Label>
-					</Segment>
+				<SegmentedButton segments={questions[10].options}  singleSelect bind:selected={answers[10]}>
+					{#snippet children({ segment }: { segment: string })}
+						<Segment type="button" {segment}>
+							<Label>{segment}</Label>
+						</Segment>
+					{/snippet}
 				</SegmentedButton>
 			</div>
 			<div class="question">

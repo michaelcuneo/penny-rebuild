@@ -28,18 +28,15 @@
 		%sveltekit.head%
 	</head>
 
-	<!--
-<script>
-	window.fbAsyncInit = function() {
-		FB.init({
-			appId            : '1705537896897059',
-			xfbml            : true,
-			version          : 'v21.0'
-		});
-	};
-</script>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
--->
+	<script>
+		window.fbAsyncInit = function () {
+			FB.init({
+				appId: '1705537896897059',
+				xfbml: true,
+				version: 'v21.0'
+			});
+		};
+	</script>
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>

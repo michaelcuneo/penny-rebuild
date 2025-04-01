@@ -7,14 +7,14 @@
 	import FacebookShare from '$lib/FacebookShare.svelte';
 	import XShare from '$lib/XShare.svelte';
 
-	let code: string = '';
-  let downloading: boolean = false;
+	let code: string = $state('');
+  let downloading: boolean = $state(false);
 
 	const reset = () => {
 		code = '';
 	};
 
-	$: submitDisabled = code.length < 6 || code.length === 0;
+	let submitDisabled = $derived(code.length < 6 || code.length === 0);
 
   const useForm = () => {
     return async ({ result, update, formElement, action, controller, submitter }: any) => {
@@ -26,7 +26,7 @@
     };
   }
 
-	export let form;
+	let { form } = $props();
 </script>
 
 <div class="page" in:fade>

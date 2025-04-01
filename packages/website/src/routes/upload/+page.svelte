@@ -9,17 +9,15 @@
 	import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 	import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 
-	let firstName: string = '';
-	let lastName: string = '';
-	let email: string = '';
-	let fileId: string = '';
-	let fileType: string = '';
-	let formSubmitDisabled: boolean;
-	let fileSubmitDisabled: boolean;
-	let saving: boolean = false;
-	let submissionStarted: boolean = false;
-	let uploadingFile: boolean = false;
-	let formFilled: boolean = false;
+	let firstName: string = $state('');
+	let lastName: string = $state('');
+	let email: string = $state('');
+	let fileId: string = $state('');
+	let fileType: string = $state('');
+	let saving: boolean = $state(false);
+	let submissionStarted: boolean = $state(false);
+	let uploadingFile: boolean = $state(false);
+	let formFilled: boolean = $state(false);
 
 	const reset = () => {
 		firstName = '';
@@ -34,12 +32,12 @@
 		formSubmitDisabled = false;
 		fileSubmitDisabled = false;
 
-		pond.removeFiles();
+		pond?.removeFiles();
 	};
 
 	registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
-	let pond: FilePond;
+	let pond: FilePond | undefined = $state();
 
 	const handleInit = () => {
 		fileId = data.id;
@@ -86,9 +84,9 @@
 		};
 	};
 
-	$: formSubmitDisabled = email === '';
-	$: fileSubmitDisabled = fileType === '' || fileId === '';
-	export let data;
+	let formSubmitDisabled = $derived(email === '');
+	let fileSubmitDisabled = $derived(fileType === '' || fileId === '');
+	let { data } = $props();
 </script>
 
 <div class="page" in:fade>

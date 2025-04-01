@@ -27,7 +27,7 @@
       The aim of the research is to capture data, content, narratives and stories related to perceptions of safety in public spaces.
     </p>
     <h1>
-      Do I have to identify as female or LGBTI to get involved <span data-icon="?" />
+      Do I have to identify as female or LGBTI to get involved <span data-icon="?"></span>
     </h1>
     <p>
       No we want to hear from anyone who wishes to participate.

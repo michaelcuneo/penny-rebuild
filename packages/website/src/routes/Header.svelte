@@ -1,5 +1,5 @@
 <script>
-	import penny from '$lib/PennyLogo.svg';
+	// import penny from '$lib/PennyLogo.svg';
 </script>
 
 <header>
@@ -56,7 +56,7 @@
 		font-weight: 600;
 		font-style: italic;
 		-webkit-text-stroke: #313639 1px;
-    -webkit-text-fill-color: #e8cc6c;
+		-webkit-text-fill-color: #e8cc6c;
 	}
 	/* Mobiles and Tablets ----------- */
 	@media only screen and (max-width: 1224px) {
