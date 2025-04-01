@@ -1,5 +1,10 @@
 <script lang="ts">
-	let hovering: boolean;
+	interface Props {
+		children?: import('svelte').Snippet<[any]>;
+	}
+
+	let { children }: Props = $props();
+	let hovering: boolean = $state(false);
 
 	function enter() {
 		hovering = true;
@@ -10,8 +15,8 @@
 	}
 </script>
 
-<div on:mouseenter={enter} on:mouseleave={leave} role="presentation" aria-roledescription="hover">
-	<slot {hovering}></slot>
+<div onmouseenter={enter} onmouseleave={leave} role="presentation" aria-roledescription="hover">
+	{@render children?.({ hovering, })}
 </div>
 
 <style>

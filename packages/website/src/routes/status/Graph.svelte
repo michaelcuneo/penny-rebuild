@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { run } from 'svelte/legacy';
+
   import { browser } from '$app/environment';
   import { Chart, registerables } from 'chart.js';
   import { onMount } from 'svelte';
@@ -8,11 +10,11 @@
 
   Chart.register(...registerables);
 
-  let onlineLineChartElement: HTMLCanvasElement;
-  let temperatureLineChartElement: HTMLCanvasElement;
-  let cloudLineChartElement: HTMLCanvasElement;
-  let voltageLineChartElement: HTMLCanvasElement;
-  let uvLineChartElement: HTMLCanvasElement;
+  let onlineLineChartElement: HTMLCanvasElement = $state();
+  let temperatureLineChartElement: HTMLCanvasElement = $state();
+  let cloudLineChartElement: HTMLCanvasElement = $state();
+  let voltageLineChartElement: HTMLCanvasElement = $state();
+  let uvLineChartElement: HTMLCanvasElement = $state();
 
   onMount(() => {
     const onlineData = {
@@ -161,11 +163,17 @@
     }
   });
 
-  $: data.sort((a, b) => {
-    return b.createdAt < a.createdAt ? 1 : -1;
-  });
 
-  export let data: PageData['data']['status'];
+  interface Props {
+    data: PageData['data']['status'];
+  }
+
+  let { data }: Props = $props();
+  run(() => {
+    data.sort((a, b) => {
+      return b.createdAt < a.createdAt ? 1 : -1;
+    });
+  });
 </script>
 
 <main class="main-container">
@@ -174,35 +182,35 @@
       <Cell>
         <Paper>
           <section>
-            <canvas bind:this={onlineLineChartElement} />
+            <canvas bind:this={onlineLineChartElement}></canvas>
           </section>
         </Paper>
       </Cell>
       <Cell>
         <Paper>
           <section>
-            <canvas bind:this={temperatureLineChartElement} />
+            <canvas bind:this={temperatureLineChartElement}></canvas>
           </section>
         </Paper>
       </Cell>
       <Cell>
         <Paper>
           <section>
-            <canvas bind:this={cloudLineChartElement} />
+            <canvas bind:this={cloudLineChartElement}></canvas>
           </section>
         </Paper>
       </Cell>
       <Cell>
         <Paper>
           <section>
-            <canvas bind:this={voltageLineChartElement} />
+            <canvas bind:this={voltageLineChartElement}></canvas>
           </section>
         </Paper>
       </Cell>
       <Cell>
         <Paper>
           <section>
-            <canvas bind:this={uvLineChartElement} />
+            <canvas bind:this={uvLineChartElement}></canvas>
           </section>
         </Paper>
       </Cell>

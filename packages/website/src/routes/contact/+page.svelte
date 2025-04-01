@@ -7,10 +7,10 @@
 	import HelperText from '@smui/textfield/helper-text';
 	import Button from '@smui/button';
 
-	let firstName: string = '';
-	let lastName: string = '';
-	let email: string = '';
-	let message: string = '';
+	let firstName: string = $state('');
+	let lastName: string = $state('');
+	let email: string = $state('');
+	let message: string = $state('');
 </script>
 
 <div class="contact" in:fade>
@@ -32,16 +32,28 @@
 						bind:value={firstName}
 						label="Given Name"
 					>
-						<Icon class="material-icons" slot="leadingIcon">person</Icon>
-						<HelperText slot="helper">Given Name</HelperText>
+						{#snippet leadingIcon()}
+												<Icon class="material-icons" >person</Icon>
+											{/snippet}
+						{#snippet helper()}
+												<HelperText >Given Name</HelperText>
+											{/snippet}
 					</Textfield>
 					<Textfield variant="outlined" input$name="lastName" bind:value={lastName} label="Surname">
-						<Icon class="material-icons" slot="leadingIcon">person</Icon>
-						<HelperText slot="helper">Surname</HelperText>
+						{#snippet leadingIcon()}
+												<Icon class="material-icons" >person</Icon>
+											{/snippet}
+						{#snippet helper()}
+												<HelperText >Surname</HelperText>
+											{/snippet}
 					</Textfield>
 					<Textfield variant="outlined" input$name="email" bind:value={email} label="Email Address">
-						<Icon class="material-icons" slot="leadingIcon">email</Icon>
-						<HelperText slot="helper">Contact Email</HelperText>
+						{#snippet leadingIcon()}
+												<Icon class="material-icons" >email</Icon>
+											{/snippet}
+						{#snippet helper()}
+												<HelperText >Contact Email</HelperText>
+											{/snippet}
 					</Textfield>
 					<Textfield
 						textarea
@@ -51,7 +63,9 @@
 						label="Message"
 						required
 					>
-						<HelperText slot="helper">Enquiry</HelperText>
+						{#snippet helper()}
+												<HelperText >Enquiry</HelperText>
+											{/snippet}
 					</Textfield>
 					<Button variant="raised">Submit</Button>
 				</form>

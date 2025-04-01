@@ -4,22 +4,20 @@
 	import { fade } from 'svelte/transition';
 	import Textfield from '@smui/textfield';
 	import Button from '@smui/button';
-	import upload from '$lib/upload.svg';
+	// import upload from '$lib/upload.svg';
 	import FilePond, { registerPlugin } from 'svelte-filepond';
 	import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
 	import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 
-	let firstName: string = '';
-	let lastName: string = '';
-	let email: string = '';
-	let fileId: string = '';
-	let fileType: string = '';
-	let formSubmitDisabled: boolean;
-	let fileSubmitDisabled: boolean;
-	let saving: boolean = false;
-	let submissionStarted: boolean = false;
-	let uploadingFile: boolean = false;
-	let formFilled: boolean = false;
+	let firstName: string = $state('');
+	let lastName: string = $state('');
+	let email: string = $state('');
+	let fileId: string = $state('');
+	let fileType: string = $state('');
+	let saving: boolean = $state(false);
+	let submissionStarted: boolean = $state(false);
+	let uploadingFile: boolean = $state(false);
+	let formFilled: boolean = $state(false);
 
 	const reset = () => {
 		firstName = '';
@@ -34,12 +32,12 @@
 		formSubmitDisabled = false;
 		fileSubmitDisabled = false;
 
-		pond.removeFiles();
+		pond?.removeFiles();
 	};
 
 	registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
-	let pond: FilePond;
+	let pond: FilePond | undefined = $state();
 
 	const handleInit = () => {
 		fileId = data.id;
@@ -52,14 +50,14 @@
 
 		const myRenamedFile = new File([file], fileId);
 
-		const upload = await fetch (data.url, {
+		const upload = await fetch(data.url, {
 			method: 'PUT',
 			body: myRenamedFile,
 			headers: {
 				'Content-Type': myRenamedFile.type,
 				'Content-Disposition': `attachment; filename=${myRenamedFile.name}`
 			}
-		})
+		});
 
 		if (upload.ok) {
 			fileType = fileItem.file.type;
@@ -72,36 +70,57 @@
 		}
 	};
 
-  const useForm = () => {
+	const handleRemoveFile = async (err: string, fileItem: any) => {};
+
+	const useForm = () => {
 		uploadingFile = true;
-    return async ({ result, update }: any) => {
-      if (result.type === 'success') {
+		return async ({ result, update }: any) => {
+			if (result.type === 'success') {
 				setTimeout(() => {
 					reset();
 				}, 10000);
-      }
-      update();
-    };
-  }
+			}
+			update();
+		};
+	};
 
-	$: formSubmitDisabled = email === '';
-	$: fileSubmitDisabled = fileType === '' || fileId === '';
-	export let data;
+	let formSubmitDisabled = $derived(email === '');
+	let fileSubmitDisabled = $derived(fileType === '' || fileId === '');
+	let { data } = $props();
 </script>
 
 <div class="page" in:fade>
 	{#if !submissionStarted}
-	<div class="upload">
+		<div class="upload">
+			<!--
 		<img class="upload-image" src={upload} alt="Penny Logo" />
-		<div style="display: flex; justify-content: center;">
-			<Button variant="raised" on:click={() => submissionStarted = true}>START SUBMISSION</Button>
+		-->
+			<p>Upload Artwork Placeholder</p>
+			<div style="display: flex; justify-content: center;">
+				<Button variant="raised" on:click={() => (submissionStarted = true)}
+					>START SUBMISSION</Button
+				>
+			</div>
+			<h2>Disclaimer</h2>
+			<span
+				>Once you submit your content to Penny it will be reviewed and if approved you will be
+				notified when it is published on Penny.</span
+			>
+			<span
+				>The best format for your content is portrait orientation and <span
+					style="font-weight: bold;">1920 (height) x 1080 (width) pixels.</span
+				></span
+			>
+			<span
+				>Maximum duration of video or sound based works is <span style="font-weight: bold;"
+					>1 minute length.</span
+				></span
+			>
+			<span style="font-weight: bold; font-style: italic;"
+				>Copyright remains with the creator of the content, Penny is simply a platform for
+				displaying content to share with the local community.</span
+			>
 		</div>
-		<h2>Disclaimer</h2>
-		<span>Once you submit your content to Penny it will be reviewed and if approved you will be notified when it is published on Penny.</span>
-		<span>The best format for your content is portrait orientation and <span style="font-weight: bold;">1920 (height) x 1080 (width) pixels.</span></span>
-		<span>Maximum duration of video or sound based works is <span style="font-weight: bold;">1 minute length.</span></span>
-		<span style="font-weight: bold; font-style: italic;">Copyright remains with the creator of the content, Penny is simply a platform for displaying content to share with the local community.</span>
-		</div>	
 	{:else if !formFilled}
 		<div class="upload">
 			<h1>Fill in your details</h1>
@@ -138,7 +157,9 @@
 			<span>You must include at least your email to submit a contribution to the Pennys.</span>
 			<div style="display: flex; justify-content: flex-end;">
 				<Button variant="raised" on:click={reset}>Cancel Submission</Button>
-				<Button variant="raised" disabled={formSubmitDisabled} on:click={() => formFilled = true}>Next</Button>
+				<Button variant="raised" disabled={formSubmitDisabled} on:click={() => (formFilled = true)}
+					>Next</Button
+				>
 			</div>
 		</div>
 	{:else if !uploadingFile}
@@ -152,6 +173,8 @@
 						allowMultiple={false}
 						oninit={handleInit}
 						onaddfile={handleAddFile}
+						onremovefile={handleRemoveFile}
+						credits={false}
 					/>
 				</div>
 				<input type="hidden" name="fileId" bind:value={fileId} />
@@ -162,8 +185,7 @@
 				<span>Accepted file types: image, video, audio</span>
 				<div style="display: flex; justify-content: flex-end;">
 					<Button variant="raised" on:click={reset}>Cancel Submission</Button>
-					<Button variant="raised" disabled={fileSubmitDisabled}>Submit</Button
-					>
+					<Button variant="raised" disabled={fileSubmitDisabled}>Submit</Button>
 				</div>
 			</form>
 		</div>
@@ -181,12 +203,10 @@
 </div>
 
 {#if saving === true}
-  <div class="processing-overlay" transition:fade>
-		<h4>
-			'Saving...'
-		</h4>
-    <CircularProgress style="height: 64px; width: 64px;" indeterminate />
-  </div>
+	<div class="processing-overlay" transition:fade>
+		<h4>'Saving...'</h4>
+		<CircularProgress style="height: 64px; width: 64px;" indeterminate />
+	</div>
 {/if}
 
 <style>
@@ -202,13 +222,14 @@
 		display: flex;
 		flex-direction: column;
 		width: 800px;
-		color: #f489a3;
+		color: #313639;
 		padding: 2rem;
-		font-size: 1.6rem;
 	}
+	/*
 	.upload-image {
 		height: 60vh;
 	}
+	*/
 	.field {
 		display: flex;
 		justify-content: space-between;

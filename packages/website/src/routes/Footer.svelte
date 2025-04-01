@@ -1,23 +1,26 @@
 <script>
-	import { Icon, Label } from '@smui/common';
-	import Fab from '@smui/fab';
+	// import { Icon, Label } from '@smui/common';
+	// import Fab from '@smui/fab';
 	import foot from '$lib/logos_penrith.jpg';
 </script>
 
 <footer>
 	<div class="container">
-		<img src={foot} alt="Penrith Logos"/>
+		<img src={foot} alt="Penrith Logos" />
+		<!--
 		<ul>
 			<li><Fab extended color="primary"><Label>Henge 1 Questionnaire</Label><Icon class="material-icons">check_circle</Icon></Fab></li>
 			<li><Fab extended color="primary"><Label>Henge 2 Flipdots</Label><Icon class="material-icons">check_circle</Icon></Fab></li>
 			<li><Fab extended color="primary"><Label>Henge 3 Postcards</Label><Icon class="material-icons">check_circle</Icon></Fab></li>
 			<li><Fab extended color="primary"><Label>Henge 4 Content</Label><Icon class="material-icons">check_circle</Icon></Fab></li>
 		</ul>
+		-->
 	</div>
 	<ul>
-		<li><a href="https://fastlab.soci.org.au">&copy; FASTlab, 2024</a></li> |
-		<li><a href="/privacy">Privacy</a></li> |
-		<li><a href="/terms">Terms</a></li> | 
+		<li><a href="https://www.newcastle.edu.au">&copy; The University of Newcastle, 2025</a></li>
+		|
+		<!--<li><a href="/privacy">Privacy</a></li> |
+		<li><a href="/terms">Terms</a></li> | -->
 		<li><a href="/admin">Admin</a></li>
 	</ul>
 </footer>
@@ -28,7 +31,7 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-    margin-top: auto;
+		margin-top: auto;
 		font-size: 0.8rem;
 		background-color: #313639;
 		color: white;

@@ -1,24 +1,21 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import Tab, { Label } from '@smui/tab';
 	import Dialog, { Content, Actions } from '@smui/dialog';
-	import Button, { Icon } from '@smui/button';
+	import Button from '@smui/button';
 	import DataTable, { Head, Body, Row, Cell } from '@smui/data-table';
 	import TabBar from '@smui/tab-bar';
 	import { postcards } from '$lib/utils/Postcards.js';
 	import { questions } from '$lib/utils/Questions.js';
 
-	let form: HTMLFormElement;
+	let dialogOpen = $state(false);
+	let contentType = $state('');
+	let currentContent: ContentType | null = $state(null);
+	let currentPostcard: PostcardType | null = $state(null);
+	let currentSurvey: QuestionResponseType | null = $state(null);
 
-	let dialogOpen = false;
-	let contentType = '';
-	let currentContent: ContentType | null;
-	let currentPostcard: PostcardType | null;
-	let currentSurvey: QuestionResponseType | null;
-
-	$: currentContent = null;
-	$: currentPostcard = null;
-	$: currentSurvey = null;
+	
+	
+	
 
 	const getPostcard = (id: string) => {
 		const postcard = postcards.filter((postcard) => postcard.id === id);
@@ -67,18 +64,20 @@
 		dialogOpen = true;
 	};
 
-	let active = 'Submissions';
-	export let data;
+	let active = $state('Submissions');
+	let { data } = $props();
 </script>
 
 <div class="admin">
 	<h1>Penny Administration</h1>
-	<TabBar tabs={['Submissions', 'Postcards', 'Surveys']} let:tab bind:active>
-		<!-- Note: the `tab` property is required! -->
-		<Tab {tab}>
-			<Label>{tab}</Label>
-		</Tab>
-	</TabBar>
+	<TabBar tabs={['Submissions', 'Postcards', 'Surveys']}  bind:active>
+		{#snippet children({ tab })}
+				<!-- Note: the `tab` property is required! -->
+			<Tab {tab}>
+				<Label>{tab}</Label>
+			</Tab>
+					{/snippet}
+		</TabBar>
 	<div class="admin-content">
 		{#if active === 'Submissions'}
 			<DataTable table$aria-label="Submissions" style="max-width: 100%;">

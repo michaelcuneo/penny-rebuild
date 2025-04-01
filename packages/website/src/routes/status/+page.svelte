@@ -1,11 +1,13 @@
 <script lang="ts">
+  import { run } from 'svelte/legacy';
+
 	import Graph from './Graph.svelte';
   import Tab, { Label } from '@smui/tab';
   import TabBar from '@smui/tab-bar';
 	import type { PageData } from '../$types';
 	import { onMount } from 'svelte';
 
-  let active: string = 'Henge 1';
+  let active: string = $state('Henge 1');
 
   onMount(() => {
     data = {
@@ -44,18 +46,26 @@
     console.log(period);
   };
   
-  $: console.log(data);
 
-  export let data: PageData;
+  interface Props {
+    data: PageData;
+  }
+
+  let { data = $bindable() }: Props = $props();
+  run(() => {
+    console.log(data);
+  });
 </script>
 
 <main class="container">
-  <TabBar tabs={['Henge 1', 'Henge 2', 'Henge 3', 'Henge 4']} let:tab bind:active>
-    <!-- Note: the `tab` property is required! -->
-    <Tab {tab}>
-      <Label>{tab}</Label>
-    </Tab>
-  </TabBar>
+  <TabBar tabs={['Henge 1', 'Henge 2', 'Henge 3', 'Henge 4']}  bind:active>
+    {#snippet children({ tab })}
+        <!-- Note: the `tab` property is required! -->
+      <Tab {tab}>
+        <Label>{tab}</Label>
+      </Tab>
+          {/snippet}
+    </TabBar>
   {#if active === "Henge 1"}
     <Graph data={data.data.status[0]}/>
   {/if}

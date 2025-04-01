@@ -1,14 +1,16 @@
 <script lang="ts">
-  export let text;
-  export let url;
-  export let hashtags;
-  export let via;
-  export let related;
-  export let ariaLabel;
+  let {
+    text,
+    url,
+    hashtags,
+    via,
+    related,
+    ariaLabel
+  } = $props();
 	
-  let href;
+  let href = $derived(encodeURI(`https://x.com/intent/tweet/?text=${text}&hashtags=${hashtags}&via=${via}&related=${related}&url=${url}`));
 
-  $: href = encodeURI(`https://x.com/intent/tweet/?text=${text}&hashtags=${hashtags}&via=${via}&related=${related}&url=${url}`);
+  
 </script>
 
 <a class="ssbc-button--x ssbc-button__icon--fill ssbc-button__icon--outline" aria-label={ariaLabel} {href}>

@@ -1,32 +1,41 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import Button from '@smui/button';
 	import Textfield from '@smui/textfield';
 	import CircularProgress from '@smui/circular-progress';
 	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
 
-	let dirty: boolean;
-	let invalid: boolean;
-	let focused: boolean;
-	let value: string = '';
-	let submitted = false;
-	let disabled = true;
+	let dirty: boolean = $state();
+	let invalid: boolean = $state();
+	let focused: boolean = $state();
+	let value: string = $state('');
+	let submitted = $state(false);
+	let disabled = $state(true);
 
 	const onSubmit = () => {
 		submitted = true;
 	};
 
-	$: !form?.success && setTimeout(() => { 
-		dirty = false;
-		invalid = false;
-		focused = false;
-		submitted = false;
-	}, 5000);
 
-	$: disabled = submitted || !value;
 
-	/** @type {import('./$types').ActionData} */
-	export let form: ActionData;
+	
+	interface Props {
+		/** @type {import('./$types').ActionData} */
+		form: ActionData;
+	}
+
+	let { form }: Props = $props();
+	run(() => {
+		!form?.success && setTimeout(() => { 
+			dirty = false;
+			invalid = false;
+			focused = false;
+			submitted = false;
+		}, 5000);
+	});
+	let disabled = $derived(submitted || !value);
 </script>
 
 <div class="wrapper">

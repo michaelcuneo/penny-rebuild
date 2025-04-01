@@ -1,6 +1,6 @@
 <script lang="ts">
   import { enhance } from '$app/forms';
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import CircularProgress from '@smui/circular-progress';
 	import { fade } from 'svelte/transition';
 	import Penny from '$lib/Penny.svg';
@@ -10,15 +10,15 @@
   import invite from '$lib/Invite_graphic.svg';
   import type { SubmitFunction } from '@sveltejs/kit';
 
-  let saving: boolean = false;
+  let saving: boolean = $state(false);
 
-  let postcard = postcards[Math.floor(Math.random() * postcards.length)];
+  let postcard = $state(postcards[Math.floor(Math.random() * postcards.length)]);
 
   const changePostcard = () => {
     postcard = postcards[Math.floor(Math.random() * postcards.length)];
   };
 
-  let response = '';
+  let response = $state('');
 
 	const useForm: SubmitFunction = ({ formData, formElement, action, controller, submitter}) => {
     return async ({ result }) => {
@@ -33,11 +33,16 @@
 </script>
 
 <div class="postcard poetsen-one-regular" in:fade>
+  <!--
   <img class="invite-image" src={invite} alt="Penny Logo" />
+  -->
+  <p class="postcard-image">Postcard Artwork Placeholder</p>
   <div class="postcard-area">
+    <!--
     <img class="postcard-image" src={Penny} alt="Penny Logo" />
+    -->
     <div class="postcard-input">
-      <form action="?/save" method="POST" on:submit={() => saving = true} use:enhance={useForm}>
+      <form action="?/save" method="POST" onsubmit={() => saving = true} use:enhance={useForm}>
         <div class="postcard-text">
           {postcard.postCard}
         </div>
@@ -93,6 +98,7 @@
   }
   .postcard-image {
     display: flex;
+    align-items: center;
     flex-direction: column;
     position: absolute;
     margin-right: 40px;

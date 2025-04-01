@@ -4,12 +4,12 @@
 
 <div class="page" in:fade>
   <div class="wrapper">
-    <h1>Welcome to Penny.</h1>
+    <h1>Welcome to Nellies.</h1>
     <p>
-      Penny aims to capture and display content and data to better understand perceptions of safety in Penrith.
+      Nellies aims to capture and display content and data to better understand perceptions of safety in Penrith.
     </p>
     <p>
-      Penny has been designed by a team of clever and passionate academics, social workers, industrial designers, data specialists, planners and artists as part of the NSW government Safer Spaces for Women and Girls, Smart City Innovation Challenge.
+      Nellies has been designed by a team of clever and passionate academics, social workers, industrial designers, data specialists, planners and artists as part of the NSW government Safer Spaces for Women and Girls, Smart City Innovation Challenge.
     </p>
     <p>
       Women, girls and gender diverse communities have the right to feel safe, free and autonomous in our cities, however sadly this is not currently the reality for most.
@@ -27,7 +27,7 @@
       The aim of the research is to capture data, content, narratives and stories related to perceptions of safety in public spaces.
     </p>
     <h1>
-      Do I have to identify as female or LGBTI to get involved <span data-icon="?" />
+      Do I have to identify as female or LGBTI to get involved <span data-icon="?"></span>
     </h1>
     <p>
       No we want to hear from anyone who wishes to participate.

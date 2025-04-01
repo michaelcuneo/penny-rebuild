@@ -5,20 +5,20 @@ html {
 body {
 	display: flex;
 	flex-direction: column;
-		min-height: 100vh;
-		width: 100%;
+	min-height: 100vh;
+	width: 100%;
 	padding: 0;
 	margin: 0;
 	font-family: 'Montserrat', sans-serif;
 	font-weight: 500;
 	font-style: normal;
-	background: #f2d5db;
+	background: #e4d6ab;
 	color: #313639;
 	scrollbar-width: none;
 	-ms-overflow-style: none;
-		-webkit-user-drag: none;
-	}
-	
+	-webkit-user-drag: none;
+}
+
 ::-webkit-scrollbar {
 	display: none;
 }
