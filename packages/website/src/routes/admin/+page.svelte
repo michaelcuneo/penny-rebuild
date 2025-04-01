@@ -211,8 +211,8 @@
 		<Content id="dialog-content">
 			{#if currentContent && contentType === 'Content'}
 				<h4>Content Admin</h4>
-				<p>{currentContent.firstName} {currentContent.lastName}</p>
-				<p>{currentContent.email}</p>
+				<p class="cell">{currentContent.firstName} {currentContent.lastName}</p>
+				<p class="cell">{currentContent.email}</p>
 				{#if currentContent.uploadType === 'video/mp4' || currentContent.uploadType === 'video/webm' || currentContent.uploadType === 'video/ogg' || currentContent.uploadType === 'video/quicktime'}
 					<video
 						src={currentContent.media}
@@ -248,20 +248,34 @@
 				<DataTable table$aria-label="Survey Responses" style="width: 100%;">
 					<Head>
 						<Row>
-							<Cell>Questionnaire ID</Cell>
-							<Cell>Question</Cell>
-							<Cell>Response</Cell>
+							<Cell>
+								<span class="cell">Questionnaire ID</span>
+							</Cell>
+							<Cell>
+								<span class="cell">Question</span>
+							</Cell>
+							<Cell>
+								<span class="cell">Response</span>
+							</Cell>
 						</Row>
 					</Head>
 					<Body>
 						{#each currentSurvey as object}
 							<Row on:click={() => openSurveyDialog(object)}>
-								<Cell>{object.questionnaireId}</Cell>
-								<Cell>{getQuestion(object.questionId)}</Cell>
+								<Cell>
+									<span class="cell">{object.questionnaireId}</span>
+								</Cell>
+								<Cell>
+									<span class="cell">{getQuestion(object.questionId)}</span>
+								</Cell>
 								{#if object.response !== ''}
-									<Cell>{object.response}</Cell>
+									<Cell>
+										<span class="cell">{object.response}</span>
+									</Cell>
 								{:else}
-									<Cell>No Response</Cell>
+									<Cell>
+										<span class="cell">No Response</span>
+									</Cell>
 								{/if}
 							</Row>
 						{/each}
