@@ -7,9 +7,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 const id = uuidv4();
 
-console.log("Bucket name: ", Bucket.public.bucketName);
-console.log("API name: ", Api.api.url);
-
 export const load: PageServerLoad = async () => {
   const command = new PutObjectCommand({
     ACL: "public-read",

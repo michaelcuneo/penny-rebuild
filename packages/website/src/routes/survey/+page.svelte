@@ -142,7 +142,7 @@
 			<input hidden name="q11" value={answers[10]} />
 			<div style="display: flex; justify-content: flex-end;">
 				<Button variant="raised">Clear Values</Button>
-				<Button variant="raised" disabled={disabled} on:submit={() => (disabled = true)}>Submit</Button>
+				<Button variant="raised" disabled={disabled} onsubmit={() => (disabled = true)}>Submit</Button>
 			</div>
 		</div>
 	</form>

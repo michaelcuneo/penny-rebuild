@@ -97,8 +97,7 @@
 		-->
 			<p>Upload Artwork Placeholder</p>
 			<div style="display: flex; justify-content: center;">
-				<Button variant="raised" on:click={() => (submissionStarted = true)}
-					>START SUBMISSION</Button
+				<Button variant="raised" onclick={() => (submissionStarted = true)}>START SUBMISSION</Button
 				>
 			</div>
 			<h2>Disclaimer</h2>
@@ -156,8 +155,8 @@
 			/>
 			<span>You must include at least your email to submit a contribution to the Pennys.</span>
 			<div style="display: flex; justify-content: flex-end;">
-				<Button variant="raised" on:click={reset}>Cancel Submission</Button>
-				<Button variant="raised" disabled={formSubmitDisabled} on:click={() => (formFilled = true)}
+				<Button variant="raised" onclick={reset}>Cancel Submission</Button>
+				<Button variant="raised" disabled={formSubmitDisabled} onclick={() => (formFilled = true)}
 					>Next</Button
 				>
 			</div>
@@ -184,7 +183,7 @@
 				<input type="hidden" name="email" bind:value={email} />
 				<span>Accepted file types: image, video, audio</span>
 				<div style="display: flex; justify-content: flex-end;">
-					<Button variant="raised" on:click={reset}>Cancel Submission</Button>
+					<Button variant="raised" onclick={reset}>Cancel Submission</Button>
 					<Button variant="raised" disabled={fileSubmitDisabled}>Submit</Button>
 				</div>
 			</form>
@@ -196,7 +195,7 @@
 			<span>You will be notified when your content is published on Penny.</span>
 			<span>You will be redirected to the upload page in 10 seconds.</span>
 			<div style="display: flex; justify-content: flex-end;">
-				<Button variant="raised" on:click={reset}>Submit Another</Button>
+				<Button variant="raised" onclick={reset}>Submit Another</Button>
 			</div>
 		</div>
 	{/if}
