@@ -1,17 +1,20 @@
 import type { Actions, PageServerLoad } from './$types';
-import { API_URL } from '$env/static/private';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Bucket } from 'sst/node/bucket';
+import { Api } from 'sst/node/api';
 import { v4 as uuidv4 } from 'uuid';
 
 const id = uuidv4();
+
+console.log("Bucket name: ", Bucket.public.bucketName);
+console.log("API name: ", Api.api.url);
 
 export const load: PageServerLoad = async () => {
   const command = new PutObjectCommand({
     ACL: "public-read",
     Key: id,
-    Bucket: Bucket.public.bucketName,
+    Bucket: Bucket.public.bucketName
   })
 
   const url = await getSignedUrl(new S3Client({}), command);
@@ -20,13 +23,6 @@ export const load: PageServerLoad = async () => {
 }
 
 export const actions = {
-  /**
-   * Asynchronously handles the 'magicLinks' action.
-   * 
-   * @param {Object} param - An object containing the request.
-   * @param {Request} param.request - The request object.
-   * @returns {Promise<Object>} - An object with success and error properties.
-  */
   async save({ request }: { request: Request }) {
     // Extract the form data from the request
     const formData = await request.formData();
@@ -38,7 +34,7 @@ export const actions = {
     const fileType = formData.get('fileType')?.toString();
 
     // Send a POST request to the create upload endpoint
-    const createUploadResponse = await fetch(`${API_URL}/upload/create?email=${email}&firstName=${firstName}&lastName=${lastName}&uploadId=${id}&uploadType=${fileType}`, {
+    const createUploadResponse = await fetch(`${Api.api.url}/upload/create?email=${email}&firstName=${firstName}&lastName=${lastName}&uploadId=${id}&uploadType=${fileType}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });

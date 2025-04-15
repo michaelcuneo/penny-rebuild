@@ -1,5 +1,5 @@
 import type { Actions } from './$types';
-import { API_URL } from '$env/static/private';
+import { Api } from 'sst/node/api';
 
 export const actions = {
   /**
@@ -18,7 +18,7 @@ export const actions = {
     const response = formData.get('response')?.toString();
 
     // Send a POST request to the create upload endpoint
-    const createPostcardResponse = await fetch(`${API_URL}/postcard/create?postcardId=${postcardId}&response=${response}`, {
+    const createPostcardResponse = await fetch(`${Api.api.url}/postcard/create?postcardId=${postcardId}&response=${response}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });

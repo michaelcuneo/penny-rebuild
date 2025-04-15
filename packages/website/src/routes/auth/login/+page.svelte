@@ -7,9 +7,9 @@
 	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
 
-	let dirty: boolean = $state();
-	let invalid: boolean = $state();
-	let focused: boolean = $state();
+	let dirty: boolean = $state(false);
+	let invalid: boolean = $state(false);
+	let focused: boolean = $state(false);
 	let value: string = $state('');
 	let submitted = $state(false);
 	let disabled = $state(true);
@@ -18,9 +18,6 @@
 		submitted = true;
 	};
 
-
-
-	
 	interface Props {
 		/** @type {import('./$types').ActionData} */
 		form: ActionData;
@@ -28,14 +25,14 @@
 
 	let { form }: Props = $props();
 	run(() => {
-		!form?.success && setTimeout(() => { 
-			dirty = false;
-			invalid = false;
-			focused = false;
-			submitted = false;
-		}, 5000);
+		!form?.success &&
+			setTimeout(() => {
+				dirty = false;
+				invalid = false;
+				focused = false;
+				submitted = false;
+			}, 5000);
 	});
-	let disabled = $derived(submitted || !value);
 </script>
 
 <div class="wrapper">
@@ -58,7 +55,7 @@
 			/>
 		</p>
 		<p>
-			<Button variant="raised" disabled={disabled}>Log in</Button>
+			<Button variant="raised" {disabled}>Log in</Button>
 		</p>
 	</form>
 </div>
