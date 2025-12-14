@@ -12,17 +12,17 @@ import { WebsiteStack } from "./stacks/WebsiteStack";
 export default {
   config(_input) {
     return {
-      name: "penny-rebuild",
+      name: "nelly",
       region: "ap-southeast-2",
-      profile: "default", // WORK (on halide) OR DEFAULT (on laptop)
+      profile: "work", // WORK (on halide) OR DEFAULT (on laptop)
     };
   },
   stacks(app) {
     app
       .stack(ConfigStack)
       .stack(TableStack)
-      .stack(ApiStack)
       .stack(StorageStack)
+      .stack(ApiStack)
       .stack(AuthStack)
       .stack(ContentSiteStack)
       .stack(QuestionSiteStack)

@@ -1,6 +1,7 @@
 import { StackContext, Api, use } from "sst/constructs";
 import { TableStack } from "./TableStack";
 import { ConfigStack } from "./ConfigStack";
+import { StorageStack } from "./StorageStack";
 
 export function ApiStack({ stack }: StackContext) {
   const { emailService, emailHost, emailPort, emailUser, emailAppPass } =
@@ -12,6 +13,7 @@ export function ApiStack({ stack }: StackContext) {
     postcardTable,
     statusTable,
   } = use(TableStack);
+  const { bucket } = use(StorageStack);
 
   const api = new Api(stack, "api", {
     cors: {
@@ -20,9 +22,7 @@ export function ApiStack({ stack }: StackContext) {
       allowMethods: ["ANY"],
       allowOrigins: [
         `http://localhost:3000`,
-        `https://penny.soci.org.au`,
-        "http://localhost:3001",
-        "http://localhost:4172",
+        `https://nelly.hciss.org.au`,
       ],
     },
     defaults: {
@@ -34,6 +34,7 @@ export function ApiStack({ stack }: StackContext) {
           postcardTable,
           statusTable,
           emailService,
+          bucket,
           emailHost,
           emailPort,
           emailUser,

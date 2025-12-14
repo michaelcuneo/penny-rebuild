@@ -1,4 +1,3 @@
-import { UrlSubscription } from "aws-cdk-lib/aws-sns-subscriptions";
 import { Bucket, StackContext } from "sst/constructs";
 
 export function StorageStack({ stack }: StackContext) {

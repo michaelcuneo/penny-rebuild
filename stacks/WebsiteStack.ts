@@ -22,6 +22,7 @@ export function WebsiteStack({ stack }: StackContext) {
   const website = new SvelteKitSite(stack, "Website", {
     bind: [
       auth,
+      api,
       usersTable,
       emailService,
       emailHost,
@@ -37,8 +38,8 @@ export function WebsiteStack({ stack }: StackContext) {
       API_URL: api.url,
     },
     customDomain: {
-      domainName: "penny.soci.org.au",
-      hostedZone: "soci.org.au",
+      domainName: "nelly.hciss.org.au",
+      hostedZone: "hciss.org.au",
     },
   });
 

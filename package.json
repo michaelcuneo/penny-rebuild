@@ -16,7 +16,7 @@
     "@types/jsonwebtoken": "^9.0.6",
     "aws-cdk-lib": "2.142.1",
     "constructs": "10.3.0",
-    "sst": "2.43.3",
+    "sst": "3.13.19",
     "svelte-share-buttons-component": "^3.0.0",
     "typescript": "^5.4.5"
   },

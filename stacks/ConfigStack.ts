@@ -2,7 +2,7 @@ import { Config, StackContext } from "sst/constructs";
 
 export function ConfigStack({ stack }: StackContext) {
   const projectName = new Config.Parameter(stack, "PROJECT_NAME", {
-    value: "FASTlab Penny",
+    value: "Nelly Henges",
   });
 
   const emailService = new Config.Secret(stack, "EMAIL_SERVICE");
